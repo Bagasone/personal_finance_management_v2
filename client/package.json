@@ -30,5 +30,10 @@
     "globals": "^17.6.0",
     "msw": "^2.14.6",
     "vite": "^8.0.12"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

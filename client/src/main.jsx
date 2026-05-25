@@ -1,8 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import AuthProvider from "./context/AuthContext.jsx";
+import { RouterProvider } from "react-router";
 
 import "./index.css";
-import App from "./App.jsx";
+import router from "./router.jsx";
 
 async function enableMocking() {
   if (import.meta.env.MODE !== "development") return;
@@ -13,7 +15,9 @@ async function enableMocking() {
 enableMocking().then(() => {
   createRoot(document.getElementById("root")).render(
     <StrictMode>
-      <App />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </StrictMode>,
   );
 });

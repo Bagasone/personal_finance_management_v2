@@ -24,3 +24,13 @@ export const INCOME_SOURCES = Object.freeze({
   FREELANCE: "freelance",
   OTHER: "other",
 });
+
+export const MENU_ITEMS = [
+  { to: "/", label: "Dashboard", end: true },
+  { to: "/expenses", label: "Expenses" },
+  { to: "/incomes", label: "Incomes" },
+  { to: "/debts", label: "Debts" },
+  { to: "/budgets", label: "Budgets" },
+];
+
+export const KEY_AUTH = "auth";

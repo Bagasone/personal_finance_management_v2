@@ -62,7 +62,10 @@ const handlers = [
       return responseError("VALIDATION_ERROR", "Invalid payment payload", errors);
 
     const { ok, data } = addPayment(id, payment);
-    if (ok) return responseSuccess("CREATED", `Created payment with id ${data.id}`, data);
+    const paymentId = data.payments[data.payments.length - 1].id;
+
+    if (ok)
+      return responseSuccess("CREATED", `Created payment with id ${paymentId}`, data);
   }),
 ];
 

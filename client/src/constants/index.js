@@ -34,3 +34,6 @@ export const MENU_ITEMS = [
 ];
 
 export const KEY_AUTH = "auth";
+
+export const PROFILE_IMAGE =
+  "https://cdn.jsdelivr.net/gh/alohe/avatars@master/png/toon_1.png";

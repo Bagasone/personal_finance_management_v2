@@ -8,7 +8,7 @@ import {
   deleteIncome,
   filterMonthIncome,
   findByIdIncome,
-} from "../../../repositories/incomceRepo";
+} from "../../../repositories/incomeRepo";
 import { validateIncome } from "../../../utils/validation";
 
 const handlers = [

@@ -33,8 +33,10 @@ const updateDebt = (id, { totalAmount, description, type, dueDate }) => {
 
   const index = debts.findIndex((dbt) => dbt.id === id);
   const totalPaid = debts[index].payments.reduce((acc, curr) => acc + curr.amount, 0);
+
   debts[index].remainingAmount = Number(totalAmount) - totalPaid;
   debts[index] = { ...debts[index], ...data };
+
   return { ok: true, data };
 };
 
@@ -47,21 +49,22 @@ const deleteDebt = (id) => {
 
 const addPayment = (id, { amount, date, note }) => {
   const data = {
+    id: generateId("pay"),
     amount: Number(amount),
     date,
     note: note ?? null,
   };
+
   const index = debts.findIndex((dbt) => dbt.id === id);
   debts[index].payments.push(data);
 
-  const totalPayment = debts[index].payments.reduce((acc, curr) => acc + curr.amount, 0);
+  const remainingAmount =
+    debts[index].totalAmount -
+    debts[index].payments.reduce((acc, curr) => acc + curr.amount, 0);
+
   const debt = {
-    id: generateId("pay"),
-    status:
-      debts[index].totalAmount - totalPayment === 0
-        ? PAYMENT_STATUS.PAID_OFF
-        : PAYMENT_STATUS.ACTIVE,
-    remainingAmount: debts[index].totalAmount - totalPayment,
+    status: remainingAmount === 0 ? PAYMENT_STATUS.PAID_OFF : PAYMENT_STATUS.ACTIVE,
+    remainingAmount,
   };
   debts[index] = { ...debts[index], ...debt };
 

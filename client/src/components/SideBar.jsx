@@ -34,6 +34,7 @@ const SideBar = () => {
         type="button"
         to={"/login"}
         onClick={logout}
+        aria-label="Logout"
         className="mt-4 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600">
         Logout
       </button>

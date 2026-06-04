@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import INCOME_KEYS from "../constants/queryKey";
+import INCOME_KEYS from "../constants";
 import incomeService from "../services";
 
 const useIncomes = (filters) => {

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import EXPENSE_KEYS from "../constants/queryKey";
+import EXPENSE_KEYS from "../constants";
 import expenseService from "../services";
 
 const useExpenses = (filters) => {

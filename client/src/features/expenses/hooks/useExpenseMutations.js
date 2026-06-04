@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import EXPENSE_KEYS from "../constants/queryKey";
-import BUDGET_KEYS from "../../budget/constants/queryKey";
+import EXPENSE_KEYS from "../constants/";
+import BUDGET_KEYS from "../../budget/constants";
 import expenseService from "../services";
 
 const useExpenseMutations = (filters) => {

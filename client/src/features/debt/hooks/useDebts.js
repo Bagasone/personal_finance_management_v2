@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import DEBT_KEYS from "../constants/queryKey";
+import DEBT_KEYS from "../constants";
 import debtService from "../services";
 
 const useDebts = () => {

@@ -1,32 +1,33 @@
 import { http } from "msw";
 import { responseSuccess, responseError } from "../../../utils/response";
+import { validateIncome } from "../../../utils/validation";
 
 import {
-  getIncomes,
   addIncome,
   updateIncome,
   deleteIncome,
-  filterMonthIncome,
+  filterIncome,
   findByIdIncome,
 } from "../../../repositories/incomeRepo";
-import { validateIncome } from "../../../utils/validation";
 
 const handlers = [
   http.get("/api/incomes", ({ request }) => {
     const url = new URL(request.url);
-    const query = url.searchParams.get("month");
+    const queries = Object.fromEntries(url.searchParams);
 
-    if (query) {
-      const filtered = filterMonthIncome(query);
+    if (queries.month) {
+      const incomes = filterIncome(queries);
 
-      if (filtered.length === 0)
-        return responseError("NOT_FOUND", `Income in ${query} doesn't exist`);
+      if (incomes.length === 0)
+        return responseError(
+          "NOT_FOUND",
+          `Income with filter ${queries.source || queries.month} doesn't exist`,
+        );
 
-      return responseSuccess("OK", `Income in ${query}`, filtered);
+      return responseSuccess("OK", `Income in ${queries.month}`, incomes);
     }
 
-    const incomes = getIncomes();
-    return responseSuccess("OK", "All income data", incomes);
+    return responseError("BAD_REQUEST", "Required month for get incomes");
   }),
 
   http.post("/api/incomes", async ({ request }) => {
@@ -37,7 +38,6 @@ const handlers = [
       return responseError("VALIDATION_ERROR", "Invalid income payload", errors);
 
     const { ok, data } = addIncome(income);
-
     if (ok) return responseSuccess("CREATED", `Create income with id: ${data.id}`, data);
   }),
   http.put("/api/incomes/:id", async ({ params, request }) => {
@@ -52,7 +52,6 @@ const handlers = [
       return responseError("VALIDATION_ERROR", "Invalid income payload", errors);
 
     const { ok, data } = updateIncome(id, income);
-
     if (ok) return responseSuccess("OK", `Update income with id: ${id}`, data);
   }),
   http.delete("/api/incomes/:id", async ({ params }) => {
@@ -62,7 +61,6 @@ const handlers = [
     if (!isExist) return responseError("NOT_FOUND", `Income with id ${id} doesn't exist`);
 
     const { ok, data } = deleteIncome(id);
-
     if (ok) return responseSuccess("OK", `Delete income with id: ${id}`, data);
   }),
 ];

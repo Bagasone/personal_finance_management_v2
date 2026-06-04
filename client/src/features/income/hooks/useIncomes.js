@@ -6,6 +6,7 @@ const useIncomes = (filters) => {
   return useQuery({
     queryKey: INCOME_KEYS.filtered(filters),
     queryFn: () => incomeService.getAll(filters),
+    select: (res) => res.data,
   });
 };
 

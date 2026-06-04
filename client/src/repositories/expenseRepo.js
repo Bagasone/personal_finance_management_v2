@@ -2,8 +2,6 @@ import { expenses } from "../lib/msw/db";
 import { getFullDate } from "../utils/date";
 import { generateId } from "../utils/generateId";
 
-const getExpenses = () => expenses;
-
 const addExpense = ({ amount, description, categoryId, date }) => {
   const data = {
     id: generateId("exp"),
@@ -39,19 +37,17 @@ const deleteExpense = (id) => {
   return { ok: true, data };
 };
 
-const filterMonthExpense = (date) => {
-  return expenses.filter((exp) => exp.date.startsWith(date));
+const filterExpense = ({ month, categoryId }) => {
+  return expenses
+    .filter((exp) => exp.date.startsWith(month))
+    .filter((exp) => {
+      if (categoryId !== "null") return exp.categoryId === categoryId;
+      return true;
+    });
 };
 
 const findByIdExpense = (id) => {
   return expenses.find((exp) => exp.id === id);
 };
 
-export {
-  getExpenses,
-  addExpense,
-  updateExpense,
-  deleteExpense,
-  filterMonthExpense,
-  findByIdExpense,
-};
+export { addExpense, updateExpense, deleteExpense, filterExpense, findByIdExpense };

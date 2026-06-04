@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import useBudgets from "../features/budget/hooks/useBudgets";
 
 const filterInitialState = {
   month: new Date().toISOString().slice(0, 7),
@@ -16,7 +17,9 @@ const filterReducer = (state, action) => {
 };
 
 const BudgetPage = () => {
-  const [filter, dispatch] = useReducer(filterReducer, filterInitialState);
+  const [filters, dispatch] = useReducer(filterReducer, filterInitialState);
+  const { data } = useBudgets(filters);
+  console.log(data);
 
   return (
     <div>

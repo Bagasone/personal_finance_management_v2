@@ -1,31 +1,29 @@
 import { http } from "msw";
 import { responseSuccess, responseError } from "../../../utils/response";
+import { validateBudget } from "../../../utils/validation";
 
 import {
   addBudget,
   deleteBudget,
-  filterMonthBudget,
+  filterBudget,
   findByIdBudget,
-  getBudgets,
   updateBudget,
 } from "../../../repositories/budgetRepo";
-import { validateBudget } from "../../../utils/validation";
 
 const handlers = [
   http.get("/api/budgets", ({ request }) => {
     const url = new URL(request.url);
-    const query = url.searchParams.get("month");
+    const queries = Object.fromEntries(url.searchParams);
 
-    if (query) {
-      const filtered = filterMonthBudget(query);
-      if (filtered.length === 0)
-        return responseError("NOT_FOUND", `Budget in ${query} doesn't exist`, null);
+    if (queries.month) {
+      const budgets = filterBudget(queries);
+      if (budgets.length === 0)
+        return responseError("NOT_FOUND", `Budget in ${queries.month} doesn't exist`);
 
-      return responseSuccess("OK", `Budget in ${query}`, filtered);
+      return responseSuccess("OK", `Budget in ${queries.month}`, budgets);
     }
 
-    const budgets = getBudgets();
-    return responseSuccess("OK", "All budget data", budgets);
+    return responseError("BAD_REQUEST", "Required month for get budgets");
   }),
   http.post("/api/budgets", async ({ request }) => {
     const budget = await request.json();
@@ -42,8 +40,7 @@ const handlers = [
     const budget = await request.json();
 
     const isExist = findByIdBudget(id);
-    if (!isExist)
-      return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`, null);
+    if (!isExist) return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`);
 
     const { valid, errors } = validateBudget(budget);
     if (!valid)
@@ -56,8 +53,7 @@ const handlers = [
     const { id } = params;
 
     const isExist = findByIdBudget(id);
-    if (!isExist)
-      return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`, null);
+    if (!isExist) return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`);
 
     const { ok, data } = deleteBudget(id);
     if (ok) return responseSuccess("OK", `Delete budget with id ${id}`, data);

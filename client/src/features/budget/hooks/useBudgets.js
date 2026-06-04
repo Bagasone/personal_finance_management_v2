@@ -6,6 +6,7 @@ const useBudgets = (filters) => {
   return useQuery({
     queryKey: BUDGET_KEYS.filtered(filters),
     queryFn: ()=> budgetService.getAll(filters),
+    select: (res) => res.data,
   });
 };
 

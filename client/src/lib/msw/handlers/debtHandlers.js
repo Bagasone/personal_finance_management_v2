@@ -1,5 +1,6 @@
 import { http } from "msw";
 import { responseSuccess, responseError } from "../../../utils/response";
+import { validateDebt, validatePayment } from "../../../utils/validation";
 
 import {
   getDebts,
@@ -9,7 +10,6 @@ import {
   addPayment,
   findByIdDebt,
 } from "../../../repositories/debtRepo";
-import { validateDebt, validatePayment } from "../../../utils/validation";
 
 const handlers = [
   http.get("/api/debts", () => {
@@ -30,8 +30,7 @@ const handlers = [
     const debt = await request.json();
 
     const isExist = findByIdDebt(id);
-    if (!isExist)
-      return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`, null);
+    if (!isExist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
 
     const { valid, errors } = validateDebt(debt);
     if (!valid) return responseError("VALIDATION_ERROR", "Invalid debt payload", errors);
@@ -43,8 +42,7 @@ const handlers = [
     const { id } = params;
 
     const isExist = findByIdDebt(id);
-    if (!isExist)
-      return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`, null);
+    if (!isExist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
 
     const { ok, data } = deleteDebt(id);
     if (ok) return responseSuccess("OK", `Delete debt with id ${id}`, data);
@@ -54,8 +52,7 @@ const handlers = [
     const payment = await request.json();
 
     const isExist = findByIdDebt(id);
-    if (!isExist)
-      return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`, null);
+    if (!isExist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
 
     const { valid, errors } = validatePayment(payment);
     if (!valid)

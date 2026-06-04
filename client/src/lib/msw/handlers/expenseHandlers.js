@@ -1,32 +1,33 @@
 import { http } from "msw";
 import { responseSuccess, responseError } from "../../../utils/response";
+import { validateExpense } from "../../../utils/validation";
 
 import {
-  getExpenses,
   addExpense,
-  filterMonthExpense,
+  filterExpense,
   findByIdExpense,
   updateExpense,
   deleteExpense,
 } from "../../../repositories/expenseRepo";
-import { validateExpense } from "../../../utils/validation";
 
 const handlers = [
   http.get("/api/expenses", ({ request }) => {
     const url = new URL(request.url);
-    const query = url.searchParams.get("month");
+    const queries = Object.fromEntries(url.searchParams);
 
-    if (query) {
-      const filtered = filterMonthExpense(query);
+    if (queries.month) {
+      const expenses = filterExpense(queries);
 
-      if (filtered.length === 0)
-        return responseError("NOT_FOUND", `Expense in ${query} doesn't exist`);
+      if (expenses.length === 0)
+        return responseError(
+          "NOT_FOUND",
+          `Expense with filter ${queries.categoryId || queries.month} doesn't exist`,
+        );
 
-      return responseSuccess("OK", `Expense in ${query}`, filtered);
+      return responseSuccess("OK", `Expense in ${queries.month}`, expenses);
     }
 
-    const expenses = getExpenses();
-    return responseSuccess("OK", "All expense data", expenses);
+    return responseError("BAD_REQUEST", "Required month for get expenses");
   }),
   http.post("/api/expenses", async ({ request }) => {
     const expense = await request.json();

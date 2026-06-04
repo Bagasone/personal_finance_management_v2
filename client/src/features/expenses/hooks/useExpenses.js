@@ -6,6 +6,7 @@ const useExpenses = (filters) => {
   return useQuery({
     queryKey: EXPENSE_KEYS.filtered(filters),
     queryFn: () => expenseService.getAll(filters),
+    select: (res) => res.data,
   });
 };
 

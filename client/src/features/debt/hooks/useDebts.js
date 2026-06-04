@@ -6,6 +6,7 @@ const useDebts = () => {
   return useQuery({
     queryKey: DEBT_KEYS.all(),
     queryFn: () => debtService.getAll(),
+    select: (res) => res.data,
   });
 };
 

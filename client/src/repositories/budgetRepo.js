@@ -2,8 +2,6 @@ import { budgets } from "../lib/msw/db";
 import { generateId } from "../utils/generateId";
 import { getFullDate } from "../utils/date";
 
-const getBudgets = () => budgets;
-
 const addBudget = ({ limit, categoryId, month }) => {
   const data = {
     id: generateId("bud"),
@@ -37,7 +35,7 @@ const deleteBudget = (id) => {
   return { ok: true, data };
 };
 
-const filterMonthBudget = (month) => {
+const filterBudget = ({ month }) => {
   return budgets.filter((bud) => bud.month.startsWith(month));
 };
 
@@ -45,11 +43,4 @@ const findByIdBudget = (id) => {
   return budgets.find((bud) => bud.id === id);
 };
 
-export {
-  getBudgets,
-  addBudget,
-  updateBudget,
-  deleteBudget,
-  filterMonthBudget,
-  findByIdBudget,
-};
+export { addBudget, updateBudget, deleteBudget, filterBudget, findByIdBudget };

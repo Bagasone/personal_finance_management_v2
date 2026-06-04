@@ -39,8 +39,15 @@ const deleteIncome = (id) => {
   return { ok: true, data };
 };
 
-const filterMonthIncome = (date) => {
-  return incomes.filter((inc) => inc.date.startsWith(date));
+const filterIncome = ({ month, source }) => {
+  return incomes
+    .filter((inc) => inc.date.startsWith(month))
+    .filter((inc) => {
+      if (source !== "null") {
+        return inc.source === source;
+      }
+      return true;
+    });
 };
 
 const findByIdIncome = (id) => {
@@ -49,7 +56,7 @@ const findByIdIncome = (id) => {
 
 export {
   getIncomes,
-  filterMonthIncome,
+  filterIncome,
   addIncome,
   updateIncome,
   deleteIncome,

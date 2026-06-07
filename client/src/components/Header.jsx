@@ -7,8 +7,8 @@ const Header = () => {
   const pathname = location.pathname.replace(/^\/|\/$/g, "");
 
   return (
-    <header className="flex items-center justify px-4 py-3">
-      <div className="flex items-center justify-between w-full gap-4 px-3">
+    <header className="flex items-center justify py-3">
+      <div className="flex items-center justify-between w-full gap-4">
         <h1 className="text-2xl font-bold capitalize">
           {pathname ? pathname : "dashboard"}
         </h1>

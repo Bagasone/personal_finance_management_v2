@@ -27,7 +27,7 @@ const ExpensePage = () => {
 
   return (
     <div>
-      <h1>Expense Page</h1>
+      <p>This is the Expense Page</p>
       <button onClick={() => dispatch({ type: "SET_CATEGORY", payload: "cat_food" })}>
         Set category to Food
       </button>

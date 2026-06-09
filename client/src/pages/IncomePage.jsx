@@ -26,7 +26,7 @@ const IncomePage = () => {
 
   return (
     <div>
-      <h1>Income Page</h1>
+      <p>This is the Income Page</p>
       <button onClick={() => dispatch({ type: "SET_SOURCE", payload: "freelance" })}>
         Set Source to Freelance
       </button>

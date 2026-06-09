@@ -1,7 +1,7 @@
 const DebtPage = () => {
   return (
     <div>
-      <h1>Debt Page</h1>
+      <p>This is the Debt Page</p>
     </div>
   );
 };

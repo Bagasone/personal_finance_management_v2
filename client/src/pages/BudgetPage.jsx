@@ -23,7 +23,7 @@ const BudgetPage = () => {
 
   return (
     <div>
-      <h1>Budget Page</h1>
+      <p>This is the Budget Page</p>
     </div>
   );
 };

@@ -1,6 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
 @import "tailwindcss";
 
 @theme {
+  /* Colors */
+  --color-background: #fafafa;
+  --color-foreground: #1a1a22;
+  --color-sidebar: #1a1a22;
+
+  --color-expense-50: #fef2f3;
+  --color-expense-100: #fde3e5;
+  --color-expense-200: #fdcbcf;
+  --color-expense-300: #faa7ae;
+  --color-expense-400: #f5747f;
+  --color-expense-500: #eb4856;
+  --color-expense-600: #d82a39;
+  --color-expense-700: #bf212f;
+  --color-expense-800: #961e29;
+  --color-expense-900: #7d1f27;
+  --color-expense-950: #440b10;
+
+  --color-income-50: #eefbf4;
+  --color-income-100: #d6f5e2;
+  --color-income-200: #b0eac9;
+  --color-income-300: #7cd9aa;
+  --color-income-400: #47c087;
+  --color-income-500: #27b376;
+  --color-income-600: #168557;
+  --color-income-700: #126a48;
+  --color-income-800: #11543a;
+  --color-income-900: #0f4531;
+  --color-income-950: #07271c;
+
+  --color-budget-50: #f0f7fe;
+  --color-budget-100: #deedfb;
+  --color-budget-200: #c4e1f9;
+  --color-budget-300: #9bcef5;
+  --color-budget-400: #6cb3ee;
+  --color-budget-500: #4a95e7;
+  --color-budget-600: #3579db;
+  --color-budget-700: #2c64c9;
+  --color-budget-800: #264b96;
+  --color-budget-900: #274781;
+  --color-budget-950: #1c2d4f;
+
+  --color-debt-50: #fff7eb;
+  --color-debt-100: #fde8c8;
+  --color-debt-200: #fbce8c;
+  --color-debt-300: #f9a73e;
+  --color-debt-400: #f89327;
+  --color-debt-500: #f26f0e;
+  --color-debt-600: #d64d09;
+  --color-debt-700: #b2310b;
+  --color-debt-800: #902610;
+  --color-debt-900: #772010;
+  --color-debt-950: #440d04;
+
   --color-black-50: #fafafa;
   --color-black-100: #f5f5f5;
   --color-black-200: #e6e6e6;
@@ -12,4 +67,18 @@
   --color-black-800: #292929;
   --color-black-900: #1a1a1a;
   --color-black-950: #000000;
+
+  /* Fonts */
+  --font-head: "Jakart Plus Sans", sans-serif;
+  --font-display: "Geist", sans-serif;
+}
+
+body {
+  font-family: var(--font-display);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-head);
 }

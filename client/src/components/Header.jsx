@@ -1,6 +1,5 @@
 import { useLocation } from "react-router";
 import Navbar from "./Navbar";
-import { LucideLocate } from "lucide-react";
 
 const Header = () => {
   const location = useLocation();

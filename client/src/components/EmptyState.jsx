@@ -1,0 +1,17 @@
+const EmptyState = ({ message, actionLabel, onAction, children }) => {
+  return (
+    <div className="flex flex-col justify-center items-center gap-1">
+      {children}
+      <p className="text-lg">{message}</p>
+      {actionLabel && (
+        <button
+          className="border px-3 py-1 rounded-sm text-sm"
+          onClick={onAction}>
+          {actionLabel}
+        </button>
+      )}
+    </div>
+  );
+};
+
+export default EmptyState;

@@ -21,6 +21,7 @@ const filterReducer = (state, action) => {
 
 const IncomePage = () => {
   const [filters, dispatch] = useReducer(filterReducer, filterInitialState);
+
   const { data } = useIncomes(filters);
   console.log(data);
 

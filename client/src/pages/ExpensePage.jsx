@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import useExpenses from "../features/expenses/hooks/useExpenses";
 
 const filterInitialState = {
@@ -26,7 +26,7 @@ const ExpensePage = () => {
   console.log(data);
 
   return (
-    <div>
+    <div className="flex flex-col justify-center gap-3">
       <p>This is the Expense Page</p>
       <button onClick={() => dispatch({ type: "SET_CATEGORY", payload: "cat_food" })}>
         Set category to Food

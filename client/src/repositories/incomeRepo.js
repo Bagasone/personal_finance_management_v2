@@ -43,7 +43,7 @@ const filterIncome = ({ month, source }) => {
   return incomes
     .filter((inc) => inc.date.startsWith(month))
     .filter((inc) => {
-      if (source !== "null") {
+      if (source !== "") {
         return inc.source === source;
       }
       return true;

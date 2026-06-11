@@ -1,9 +1,13 @@
 import { useReducer, useState } from "react";
 import useExpenses from "../features/expenses/hooks/useExpenses";
+import useExpenseMutations from "../features/expenses/hooks/useExpenseMutations";
+
+import ExpenseFilters from "../features/expenses/components/ExpenseFilters";
+import ExpenseList from "../features/expenses/components/ExpenseList";
 
 const filterInitialState = {
   month: new Date().toISOString().slice(0, 7),
-  categoryId: null,
+  categoryId: "",
 };
 
 const filterReducer = (state, action) => {
@@ -21,16 +25,35 @@ const filterReducer = (state, action) => {
 
 const ExpensePage = () => {
   const [filters, dispatch] = useReducer(filterReducer, filterInitialState);
+  const [selectedExpense, setSelectedExpense] = useState(null);
 
   const { data } = useExpenses(filters);
-  console.log(data);
+  const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
+
+  const handleEdit = (item) => {
+    setSelectedExpense(item);
+  };
+
+  const handleDelete = (id) => {
+    deleteExpense.mutate(id);
+  };
 
   return (
-    <div className="flex flex-col justify-center gap-3">
-      <p>This is the Expense Page</p>
-      <button onClick={() => dispatch({ type: "SET_CATEGORY", payload: "cat_food" })}>
-        Set category to Food
-      </button>
+    <div className="grid grid-cols-12 justify-center gap-3">
+      <div className="col-span-8 flex flex-col justify-center items-start gap-1">
+        <ExpenseFilters
+          filters={filters}
+          dispatch={dispatch}
+        />
+        <ExpenseList
+          data={data}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </div>
+      <div className="col-span-4 flex flex-col justify-center items-start gap-1">
+        Expense Form
+      </div>
     </div>
   );
 };

@@ -1,34 +1,18 @@
 import { NavLink } from "react-router";
 import { useAuth } from "../context/AuthContext";
 
-import { MENU_ITEMS } from "../constants";
 import {
-  LayoutDashboard,
-  BanknoteArrowDown,
-  BanknoteArrowUp,
-  HandCoins,
-  PiggyBank,
-  LogOut,
-} from "lucide-react";
-
-const labelIcon = (label) => {
-  switch (label) {
-    case "Dashboard":
-      return <LayoutDashboard />;
-    case "Expenses":
-      return <BanknoteArrowDown />;
-    case "Incomes":
-      return <BanknoteArrowUp />;
-    case "Debts":
-      return <HandCoins />;
-    case "Budgets":
-      return <PiggyBank />;
-  }
-};
+  TbChartPie,
+  TbMoneybagEdit,
+  TbCashBanknoteMove,
+  TbCashBanknoteMoveBack,
+  TbBuildingBank,
+  TbLogout,
+} from "react-icons/tb";
 
 const linkClass = ({ isActive }) =>
   [
-    "rounded-lg px-3 py-2 text-base font-bold transition-colors",
+    "rounded-lg p-2  text-base font-bold capitalize transition-colors",
     isActive
       ? "bg-black-100 text-black-900"
       : "text-slate-400 hover:bg-black-400 hover:text-black-700",
@@ -46,15 +30,32 @@ const SideBar = () => {
       <nav
         className="flex flex-1 flex-col justify-center gap-5"
         aria-label="Main navigation">
-        {MENU_ITEMS.map(({ to, label, end }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={end}
-            className={linkClass}>
-            {labelIcon(label)}
-          </NavLink>
-        ))}
+        <NavLink
+          to="/"
+          end={true}
+          className={linkClass}>
+          <TbChartPie className="size-7" />
+        </NavLink>
+        <NavLink
+          to="/expenses"
+          className={linkClass}>
+          <TbCashBanknoteMove className="size-7" />
+        </NavLink>
+        <NavLink
+          to="/incomes"
+          className={linkClass}>
+          <TbCashBanknoteMoveBack className="size-7" />
+        </NavLink>
+        <NavLink
+          to="/budgets"
+          className={linkClass}>
+          <TbMoneybagEdit className="size-7" />
+        </NavLink>
+        <NavLink
+          to="/debts"
+          className={linkClass}>
+          <TbBuildingBank className="size-7" />
+        </NavLink>
       </nav>
 
       <button
@@ -62,8 +63,8 @@ const SideBar = () => {
         to={"/login"}
         onClick={logout}
         aria-label="Logout"
-        className="mt-4 rounded-lg px-3 py-2 bg-black-100 text-black-900 text-sm font-bold transition-colors cursor-pointer hover:bg-rose-500 hover:text-black-200">
-        <LogOut />
+        className="mt-4 rounded-lg px-3 py-2 text-sm font-bold transition-colors cursor-pointer text-slate-400 hover:bg-black-100 hover:text-rose-500">
+        <TbLogout className="size-8" />
       </button>
     </aside>
   );

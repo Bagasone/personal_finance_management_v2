@@ -1,11 +1,16 @@
 import { EXPENSE_CATEGORIES } from "../../../constants";
+import { CATEGORY_ICONS } from "../../../constants/icons";
 
 const ExpenseItem = ({ item, onEdit, onDelete }) => {
   const categoryName =
     EXPENSE_CATEGORIES.find((cat) => cat.id === item.categoryId)?.name ?? "Unknown";
+  const Icon = CATEGORY_ICONS[item.categoryId];
 
   return (
     <li className="flex items-center gap-3 border rounded-sm px-3 py-1">
+      <span className="border rounded-sm px-2 py-1">
+        <Icon />
+      </span>
       <span className="border rounded-sm px-2 py-1">{item.description}</span>
       <span className="border rounded-sm px-2 py-1">{item.amount}</span>
       <span className="border rounded-sm px-2 py-1">{categoryName}</span>

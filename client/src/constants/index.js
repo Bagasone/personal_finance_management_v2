@@ -1,12 +1,12 @@
 export const EXPENSE_CATEGORIES = [
-  { id: "cat_food", name: "Food & Drink" },
-  { id: "cat_transport", name: "Transport" },
-  { id: "cat_housing", name: "Housing" },
-  { id: "cat_health", name: "Health" },
-  { id: "cat_entertainment", name: "Entertainment" },
-  { id: "cat_shopping", name: "Shopping" },
-  { id: "cat_education", name: "Education" },
-  { id: "cat_other", name: "Other" },
+  { id: "food", label: "Food & Drink" },
+  { id: "transport", label: "Transport" },
+  { id: "housing", label: "Housing" },
+  { id: "health", label: "Health" },
+  { id: "entertainment", label: "Entertainment" },
+  { id: "shopping", label: "Shopping" },
+  { id: "education", label: "Education" },
+  { id: "other", label: "Other" },
 ];
 
 export const DEBT_TYPES = Object.freeze({
@@ -24,14 +24,6 @@ export const INCOME_SOURCES = Object.freeze({
   FREELANCE: "freelance",
   OTHER: "other",
 });
-
-export const MENU_ITEMS = [
-  { to: "/", label: "Dashboard", end: true },
-  { to: "/expenses", label: "Expenses" },
-  { to: "/incomes", label: "Incomes" },
-  { to: "/debts", label: "Debts" },
-  { to: "/budgets", label: "Budgets" },
-];
 
 export const KEY_AUTH = "auth";
 

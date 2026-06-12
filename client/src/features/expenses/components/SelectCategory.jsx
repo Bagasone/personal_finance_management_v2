@@ -13,7 +13,7 @@ const SelectCategory = ({ value, onChange }) => {
         <Option
           key={cat.id}
           value={cat.id}
-          label={cat.name}
+          label={cat.label}
         />
       ))}
     </select>

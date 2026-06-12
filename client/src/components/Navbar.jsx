@@ -1,5 +1,6 @@
 import { PROFILE_IMAGE } from "../constants";
-import { LayoutDashboard, Bell, Globe } from "lucide-react";
+
+import { LuSettings, LuLayoutDashboard, LuGlobe } from "react-icons/lu";
 
 const Navbar = () => {
   return (
@@ -15,7 +16,7 @@ const Navbar = () => {
           className="rounded-md bg-white p-2 text-black-900 shadow-sm"
           title="Default theme"
           aria-label="Default theme">
-          <LayoutDashboard />
+          <LuLayoutDashboard className="size-6" />
         </button>
       </div>
 
@@ -24,7 +25,7 @@ const Navbar = () => {
         className="rounded-lg p-2 text-black-900 shadow-sm"
         title="Settings"
         aria-label="Settings">
-        <Bell />
+        <LuSettings className="size-6" />
       </button>
 
       <button
@@ -33,7 +34,7 @@ const Navbar = () => {
         title="Language"
         aria-label="Language">
         <span className="flex items-center gap-1.5">
-          <Globe />
+          <LuGlobe className="size-6" />
           EN
         </span>
       </button>

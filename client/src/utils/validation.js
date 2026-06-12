@@ -1,7 +1,7 @@
 import { EXPENSE_CATEGORIES, INCOME_SOURCES, DEBT_TYPES } from "../constants";
 
 const CATEGORIES_ID = EXPENSE_CATEGORIES.map((cat) => cat.id);
-const SOURCE_STATUS = Object.keys(INCOME_SOURCES);
+const SOURCE_STATUS = INCOME_SOURCES.map((src) => src.id);
 const DEBT_STATUS = Object.keys(DEBT_TYPES);
 
 const validateDescription = (value, field = "description") => {
@@ -98,7 +98,7 @@ export const validateExpense = ({ amount, description, categoryId, date }) => {
   return { valid: true };
 };
 
-export const validateIncome = ({ amount, description, source, date }) => {
+export const validateIncome = ({ amount, description, sourceId, date }) => {
   const errors = {};
 
   const err1 = validatePositiveNumber(amount, "amount");
@@ -107,8 +107,8 @@ export const validateIncome = ({ amount, description, source, date }) => {
   const err2 = validateDescription(description, "description");
   if (err2) errors.description = err2;
 
-  const err3 = validateSource(source, "source");
-  if (err3) errors.source = err3;
+  const err3 = validateSource(sourceId, "source");
+  if (err3) errors.sourceId = err3;
 
   const err4 = validateDate(date, "date");
   if (err4) errors.date = err4;

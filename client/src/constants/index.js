@@ -9,20 +9,24 @@ export const EXPENSE_CATEGORIES = [
   { id: "other", label: "Other" },
 ];
 
-export const DEBT_TYPES = Object.freeze({
-  OWE: "owe",
-  OWED: "owed",
-});
+export const INCOME_SOURCES = [
+  { id: "salary", label: "Salary" },
+  { id: "freelance", label: "Freelance" },
+  { id: "revenue", label: "Revenue" },
+  { id: "bonus", label: "Bonus" },
+  { id: "dividend", label: "Dividend" },
+  { id: "interest", label: "Interest" },
+  { id: "other", label: "Other" },
+];
 
 export const PAYMENT_STATUS = Object.freeze({
   ACTIVE: "active",
   PAID_OFF: "paid_off",
 });
 
-export const INCOME_SOURCES = Object.freeze({
-  SALARY: "salary",
-  FREELANCE: "freelance",
-  OTHER: "other",
+export const DEBT_TYPES = Object.freeze({
+  OWE: "owe",
+  OWED: "owed",
 });
 
 export const KEY_AUTH = "auth";

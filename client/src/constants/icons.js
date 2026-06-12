@@ -9,9 +9,15 @@ import {
   IoReceiptOutline,
 } from "react-icons/io5";
 
-export const MENU_ICONS = {
-  
-}
+import {
+  TbCashBanknote,
+  TbCashBanknotePlus,
+  TbTax,
+  TbMoneybagPlus,
+  TbPigMoney,
+  TbSeedling,
+  TbCreditCard,
+} from "react-icons/tb";
 
 export const CATEGORY_ICONS = {
   food: IoFastFoodOutline,
@@ -24,7 +30,12 @@ export const CATEGORY_ICONS = {
   other: IoReceiptOutline,
 };
 
-
 export const SOURCE_ICONS = {
-
-}
+  salary: TbCashBanknote,
+  freelance: TbCashBanknotePlus,
+  revenue: TbTax,
+  bonus: TbMoneybagPlus,
+  dividend: TbPigMoney,
+  interest: TbSeedling,
+  other: TbCreditCard,
+};

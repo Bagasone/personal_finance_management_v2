@@ -4,11 +4,11 @@ import { generateId } from "../utils/generateId";
 
 const getIncomes = () => incomes;
 
-const addIncome = ({ amount, source, description, date }) => {
+const addIncome = ({ amount, sourceId, description, date }) => {
   const data = {
     id: generateId("inc"),
     amount: Number(amount),
-    source,
+    sourceId,
     description,
     date,
     createdAt: getFullDate(),
@@ -18,11 +18,11 @@ const addIncome = ({ amount, source, description, date }) => {
   return { ok: true, data };
 };
 
-const updateIncome = (id, { amount, description, source, date }) => {
+const updateIncome = (id, { amount, description, sourceId, date }) => {
   const data = {
     amount: Number(amount),
     description,
-    source,
+    sourceId,
     date,
   };
 
@@ -39,12 +39,12 @@ const deleteIncome = (id) => {
   return { ok: true, data };
 };
 
-const filterIncome = ({ month, source }) => {
+const filterIncome = ({ month, sourceId }) => {
   return incomes
     .filter((inc) => inc.date.startsWith(month))
     .filter((inc) => {
-      if (source !== "") {
-        return inc.source === source;
+      if (sourceId !== "") {
+        return inc.sourceId === sourceId;
       }
       return true;
     });

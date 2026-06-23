@@ -21,14 +21,8 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "SET_DESCRIPTION":
-      return { ...state, description: action.payload };
-    case "SET_AMOUNT":
-      return { ...state, amount: action.payload };
-    case "SET_CATEGORY":
-      return { ...state, categoryId: action.payload };
-    case "SET_DATE":
-      return { ...state, date: action.payload };
+    case "SET_FIELD":
+      return { ...state, [action.field]: action.payload };
     case "PREFILL": {
       const { description, amount, categoryId, date } = action.payload;
       return {
@@ -82,7 +76,11 @@ const ExpenseForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           value={form.description}
           error={form.errors.description}
           onChange={(e) =>
-            dispatch({ type: "SET_DESCRIPTION", payload: e.target.value })
+            dispatch({
+              type: "SET_FIELD",
+              field: "description",
+              payload: e.target.value,
+            })
           }
         />
         <Input
@@ -92,7 +90,11 @@ const ExpenseForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           value={form.amount}
           error={form.errors.amount}
           onChange={(e) =>
-            dispatch({ type: "SET_AMOUNT", payload: e.target.value })
+            dispatch({
+              type: "SET_FIELD",
+              field: "amount",
+              payload: e.target.value,
+            })
           }
         />
         <Select
@@ -101,7 +103,11 @@ const ExpenseForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           value={form.categoryId}
           error={form.errors.categoryId}
           onChange={(e) =>
-            dispatch({ type: "SET_CATEGORY", payload: e.target.value })
+            dispatch({
+              type: "SET_FIELD",
+              field: "categoryId",
+              payload: e.target.value,
+            })
           }
           options={EXPENSE_CATEGORIES}
         >
@@ -114,7 +120,11 @@ const ExpenseForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           value={form.date}
           error={form.errors.date}
           onChange={(e) =>
-            dispatch({ type: "SET_DATE", payload: e.target.value })
+            dispatch({
+              type: "SET_FIELD",
+              field: "date",
+              payload: e.target.value,
+            })
           }
         />
         <Button

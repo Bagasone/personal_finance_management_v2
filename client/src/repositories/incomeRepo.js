@@ -2,8 +2,6 @@ import { incomes } from "../lib/msw/db";
 import { getFullDate } from "../utils/date";
 import { generateId } from "../utils/generateId";
 
-const getIncomes = () => incomes;
-
 const addIncome = ({ amount, sourceId, description, date }) => {
   const data = {
     id: generateId("inc"),
@@ -43,10 +41,8 @@ const filterIncome = ({ month, sourceId }) => {
   return incomes
     .filter((inc) => inc.date.startsWith(month))
     .filter((inc) => {
-      if (sourceId !== "") {
-        return inc.sourceId === sourceId;
-      }
-      return true;
+      if (sourceId !== "") return inc.sourceId === sourceId;
+      else return true;
     });
 };
 
@@ -54,11 +50,4 @@ const findByIdIncome = (id) => {
   return incomes.find((inc) => inc.id === id);
 };
 
-export {
-  getIncomes,
-  filterIncome,
-  addIncome,
-  updateIncome,
-  deleteIncome,
-  findByIdIncome,
-};
+export { filterIncome, addIncome, updateIncome, deleteIncome, findByIdIncome };

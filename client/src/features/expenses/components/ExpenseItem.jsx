@@ -1,6 +1,5 @@
 import { EXPENSE_CATEGORIES } from "../../../constants";
 import { CATEGORY_ICONS } from "../../../constants/icons";
-import {} from "react-icons";
 
 import Button from "../../../components/Button";
 

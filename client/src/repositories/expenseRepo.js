@@ -42,7 +42,7 @@ const filterExpense = ({ month, categoryId }) => {
     .filter((exp) => exp.date.startsWith(month))
     .filter((exp) => {
       if (categoryId !== "") return exp.categoryId === categoryId;
-      return true;
+      else return true;
     });
 };
 

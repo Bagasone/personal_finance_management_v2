@@ -43,10 +43,7 @@ const useExpenseMutations = (filters) => {
       return { previous };
     },
     onError: (_err, _id, context) => {
-      queryClient.setQueryData(
-        EXPENSE_KEYS.filtered(filters),
-        context.previous,
-      );
+      queryClient.setQueryData(EXPENSE_KEYS.filtered(filters), context.previous);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: EXPENSE_KEYS.all() });

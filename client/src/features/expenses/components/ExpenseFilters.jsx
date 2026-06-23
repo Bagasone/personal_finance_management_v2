@@ -1,26 +1,35 @@
-import MonthPicker from "../../../pages/MonthPicker";
-import SelectCategory from "./SelectCategory";
+import { EXPENSE_CATEGORIES } from "../../../constants";
+
+import Input from "../../../components/Input";
+import Select from "../../../components/Select";
+import Option from "../../../components/Option";
+import Button from "../../../components/Button";
 
 const ExpenseFilters = ({ filters, dispatch }) => {
   return (
-    <div className="flex justify-center items-start gap-5">
-      <div className="border px-3 py-1 rounded-sm text-sm cursor-pointer">
-        <MonthPicker
-          value={filters.month}
-          onChange={(e) => dispatch({ type: "SET_MONTH", payload: e.target.value })}
+    <div
+      aria-label="Expense filters"
+      className="flex justify-center items-start gap-5">
+      <Input
+        type="month"
+        id="filterCategory"
+        value={filters.month}
+        onChange={(e) => dispatch({ type: "SET_MONTH", payload: e.target.value })}
+      />
+      <Select
+        id="filterCategoryId"
+        value={filters.categoryId}
+        options={EXPENSE_CATEGORIES}
+        onChange={(e) => dispatch({ type: "SET_CATEGORY", payload: e.target.value })}>
+        <Option
+          label="All Category"
+          value=""
         />
-      </div>
-      <div className="border px-3 py-1 rounded-sm text-sm cursor-pointer">
-        <SelectCategory
-          value={filters.categoryId}
-          onChange={(e) => dispatch({ type: "SET_CATEGORY", payload: e.target.value })}
-        />
-      </div>
-      <button
+      </Select>
+      <Button
+        label="Reset"
         onClick={() => dispatch({ type: "RESET" })}
-        className="border px-3 py-1 rounded-sm text-sm cursor-pointer">
-        Reset
-      </button>
+      />
     </div>
   );
 };

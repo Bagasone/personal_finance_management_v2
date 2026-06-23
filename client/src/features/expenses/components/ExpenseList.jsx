@@ -1,11 +1,21 @@
-import EmptyState from "../../../components/EmptyState";
 import ExpenseItem from "./ExpenseItem";
+import EmptyState from "../../../components/EmptyState";
 
 const ExpenseList = ({ data, onEdit, onDelete }) => {
-  if (!data) return <EmptyState message="There is No Expenses" />;
+  if (!data) return <EmptyState message="There is No Expense For this Month" />;
 
   return (
     <ul className="flex flex-col justify-center items-start gap-3">
+      <h2 className="text-xl font-bold">Expense List</h2>
+      <div
+        aria-label="list header"
+        className="grid grid-cols-12 w-full">
+        <div className="col-span-3">Description</div>
+        <div className="col-span-2">Amount</div>
+        <div className="col-span-2">Category</div>
+        <div className="col-span-2">Date</div>
+        <div className="col-span-3">Actions</div>
+      </div>
       {data.map((item) => (
         <ExpenseItem
           key={item.id}

@@ -1,7 +1,7 @@
-import Header from "../components/Header";
-import SideBar from "../components/SideBar";
-import Footer from "../components/Footer";
-import Main from "../components/Main";
+import Header from "../components/layouts/Header";
+import SideBar from "../components/layouts/SideBar";
+import Footer from "../components/layouts/Footer";
+import Main from "../components/layouts/Main";
 
 const AppLayout = () => {
   return (

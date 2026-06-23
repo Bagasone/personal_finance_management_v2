@@ -90,7 +90,7 @@ const ExpensePage = () => {
       <div className="col-span-8 flex flex-col justify-start items-start gap-1">
         <ExpenseFilters filters={filters} dispatch={dispatch} />
         <ExpenseList data={data} onEdit={handleEdit} onDelete={handleDelete} />
-        <ExpenseSummary data={data} />
+        <ExpenseSummary data={data} categoryId={filters.categoryId} />
       </div>
       <div className="col-span-4 flex flex-col justify-center items-start gap-1">
         <ExpenseForm

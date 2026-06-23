@@ -1,6 +1,6 @@
 const EmptyState = ({ message, actionLabel, onAction, children }) => {
   return (
-    <div className="flex flex-col justify-center items-center gap-1">
+    <div className="flex flex-col justify-center items-center gap-1 w-full h-full">
       {children}
       <p className="text-lg">{message}</p>
       {actionLabel && (

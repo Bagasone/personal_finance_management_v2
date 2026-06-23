@@ -35,15 +35,18 @@ const useExpenseMutations = (filters) => {
       await queryClient.cancelQueries({ queryKey: EXPENSE_KEYS.all() });
 
       const previous = queryClient.getQueryData(EXPENSE_KEYS.filtered(filters));
-      queryClient.setQueryData(EXPENSE_KEYS.filtered(filters), (oldData) =>
-        oldData.filter((e) => e.id !== id),
-      );
+      queryClient.setQueryData(EXPENSE_KEYS.filtered(filters), (oldData) => ({
+        ...oldData,
+        data: oldData.data.filter((item) => item.id !== id),
+      }));
 
       return { previous };
     },
-    onError: (err, id, context) => {
-      console.error(err);
-      queryClient.setQueryData(EXPENSE_KEYS.filtered(filters), context.previous);
+    onError: (_err, _id, context) => {
+      queryClient.setQueryData(
+        EXPENSE_KEYS.filtered(filters),
+        context.previous,
+      );
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: EXPENSE_KEYS.all() });

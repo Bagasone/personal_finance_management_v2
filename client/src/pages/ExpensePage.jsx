@@ -12,8 +12,10 @@ import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
 import Toast from "../components/Toast";
 
+import { getYearMonthDate } from "../utils/date";
+
 const filterInitialState = {
-  month: new Date().toISOString().slice(0, 7),
+  month: getYearMonthDate(),
   categoryId: "",
 };
 
@@ -36,7 +38,8 @@ const ExpensePage = () => {
   const [serverError, setServerError] = useState(null);
 
   const { data, isLoading, isFetching, isError } = useExpenses(filters);
-  const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
+  const { createExpense, updateExpense, deleteExpense } =
+    useExpenseMutations(filters);
 
   const { toast, showToast, closeToast } = useToast();
 
@@ -50,14 +53,17 @@ const ExpensePage = () => {
 
   const handleDelete = (id) => {
     deleteExpense.mutate(id, {
-      onSuccess: () => showToast("Expense deleted", "success"),
+      onSuccess: () => {
+        setSelectedExpense(null);
+        showToast("Expense deleted", "success");
+      },
       onError: () => showToast("Failed to deleted expense", "error"),
     });
   };
 
   const handleSubmit = (expense) => {
     setServerError(null);
-    if (selectedExpense) {
+    if (selectedExpense)
       updateExpense.mutate(
         { id: selectedExpense.id, data: expense },
         {
@@ -68,12 +74,11 @@ const ExpensePage = () => {
           onError: (err) => setServerError(err.message),
         },
       );
-    } else {
+    else
       createExpense.mutate(expense, {
         onSuccess: () => showToast("Expense added", "success"),
         onError: (err) => setServerError(err.message),
       });
-    }
   };
 
   if (isLoading) return <ExpenseSkeleton />;
@@ -83,15 +88,8 @@ const ExpensePage = () => {
     <div className="grid grid-cols-12 justify-center gap-5">
       {isFetching && !isLoading && <Spinner />}
       <div className="col-span-8 flex flex-col justify-start items-start gap-1">
-        <ExpenseFilters
-          filters={filters}
-          dispatch={dispatch}
-        />
-        <ExpenseList
-          data={data}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
+        <ExpenseFilters filters={filters} dispatch={dispatch} />
+        <ExpenseList data={data} onEdit={handleEdit} onDelete={handleDelete} />
         <ExpenseSummary data={data} />
       </div>
       <div className="col-span-4 flex flex-col justify-center items-start gap-1">
@@ -103,11 +101,7 @@ const ExpensePage = () => {
         />
       </div>
       {toast && (
-        <Toast
-          type={toast.type}
-          message={toast.message}
-          onClose={closeToast}
-        />
+        <Toast type={toast.type} message={toast.message} onClose={closeToast} />
       )}
     </div>
   );

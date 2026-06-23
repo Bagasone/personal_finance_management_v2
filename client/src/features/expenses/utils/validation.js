@@ -3,13 +3,14 @@ import { EXPENSE_CATEGORIES } from "../../../constants";
 const CATEGORIES_ID = EXPENSE_CATEGORIES.map((cat) => cat.id);
 
 const validateDescription = (value) => {
-  if (value.trim() === "") return "description is required";
+  if (typeof value !== "string" || value.trim() === "")
+    return "description is required";
 
   return null;
 };
 
 const validatePositiveNumber = (value) => {
-  if (value.trim() === "") return "amount must be a valid number";
+  if (value === "") return "amount must be a valid number";
   if (isNaN(Number(value))) return "amount must be a valid number";
   if (Number(value) <= 0) return "amount must be greater than 0";
 

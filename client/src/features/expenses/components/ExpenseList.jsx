@@ -5,7 +5,7 @@ const ExpenseList = ({ data, onEdit, onDelete }) => {
   if (!data) return <EmptyState message="There is No Expense For this Month" />;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 max-h-[80%] py-5">
       <h2 className="text-xl font-bold">Expense List</h2>
       <div
         aria-label="list header"
@@ -16,7 +16,7 @@ const ExpenseList = ({ data, onEdit, onDelete }) => {
         <div className="col-span-2">Date</div>
         <div className="col-span-3">Actions</div>
       </div>
-      <ul className="flex flex-col justify-center items-start gap-3">
+      <ul className="flex flex-1 flex-col gap-3 overflow-scroll max-h-full scrollbar-none">
         {data.map((item) => (
           <ExpenseItem
             key={item.id}

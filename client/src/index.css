@@ -82,3 +82,9 @@ h2,
 h3 {
   font-family: var(--font-head);
 }
+
+@layer utilities {
+  .box {
+    @apply border rounded-sm px-3 py-1;
+  }
+}

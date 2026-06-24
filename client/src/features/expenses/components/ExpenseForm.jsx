@@ -60,15 +60,12 @@ const ExpenseForm = ({ initialData, onSubmit, onCancel, serverError }) => {
   };
 
   return (
-    <div className="flex flex-col justify-start items-start gap-3 w-full h-full">
-      <h2 className="text-xl font-bold">
-        {initialData ? "Edit" : "Add"} Expense Form
-      </h2>
+    <div className="flex flex-col justify-start items-start gap-3 w-full">
+      <h2 className="text-xl font-bold">{initialData ? "Edit" : "Add"} Expense Form</h2>
       {serverError && <ErrorMessage message={serverError} />}
       <form
         onSubmit={handleSubmit}
-        className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full"
-      >
+        className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full h-full">
         <Input
           type="text"
           label="Description"
@@ -109,9 +106,11 @@ const ExpenseForm = ({ initialData, onSubmit, onCancel, serverError }) => {
               payload: e.target.value,
             })
           }
-          options={EXPENSE_CATEGORIES}
-        >
-          <Option label="Select Category" value="" />
+          options={EXPENSE_CATEGORIES}>
+          <Option
+            label="Select Category"
+            value=""
+          />
         </Select>
         <Input
           type="date"
@@ -132,7 +131,11 @@ const ExpenseForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           label={`${initialData ? "Update" : "Add"} Expense`}
         />
         {initialData && (
-          <Button type="button" label="Cancel" onClick={onCancel} />
+          <Button
+            type="button"
+            label="Cancel"
+            onClick={onCancel}
+          />
         )}
       </form>
     </div>

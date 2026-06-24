@@ -60,11 +60,11 @@ const ExpensePage = () => {
     });
   };
 
-  const handleSubmit = (expense) => {
+  const handleSubmit = (data) => {
     setServerError(null);
     if (selectedExpense)
       updateExpense.mutate(
-        { id: selectedExpense.id, data: expense },
+        { id: selectedExpense.id, data },
         {
           onSuccess: () => {
             showToast("Expense updated", "success");

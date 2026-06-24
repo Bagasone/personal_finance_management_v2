@@ -84,7 +84,7 @@ const ExpensePage = () => {
   if (isError) return <ErrorMessage message="Failed while fetching data" />;
 
   return (
-    <div className="grid grid-cols-12 justify-center gap-5 max-h-[75vh] overflow-hidden">
+    <div className="grid grid-cols-12 justify-center gap-5">
       {isFetching && !isLoading && <Spinner />}
       <div className="col-span-8 flex flex-col justify-start items-start gap-1 max-h-[80%]">
         <ExpenseFilters

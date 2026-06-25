@@ -8,10 +8,13 @@ import IncomeList from "../features/income/components/IncomeList";
 import IncomeSummary from "../features/income/components/IncomeSummary";
 import IncomeSkeleton from "../features/income/components/IncomeSkeleton";
 import ErrorMessage from "../components/ErrorMessage";
+import Button from "../components/Button";
 import Spinner from "../components/Spinner";
+import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
 import { getYearMonthDate } from "../utils/date";
+import IncomeForm from "../features/income/components/IncomeForm";
 
 const filterInitialState = {
   month: getYearMonthDate(),
@@ -34,13 +37,22 @@ const filterReducer = (state, action) => {
 const IncomePage = () => {
   const [filters, dispatch] = useReducer(filterReducer, filterInitialState);
   const [selectedIncome, setSelectedIncome] = useState(null);
+  const [serverError, setServerError] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { data, isLoading, isFetching, isError } = useIncomes(filters);
   const { createIncome, updateIncome, deleteIncome } = useIncomeMutation(filters);
 
   const { toast, showToast, closeToast } = useToast();
 
+  const handleCancel = () => {
+    setIsOpen(false);
+    setServerError(null);
+    setSelectedIncome(null);
+  };
+
   const handleEdit = (item) => {
+    setIsOpen(true);
     setSelectedIncome(item);
   };
 
@@ -54,17 +66,43 @@ const IncomePage = () => {
     });
   };
 
+  const handleSubmit = (data) => {
+    if (selectedIncome)
+      updateIncome.mutate(
+        { id: selectedIncome.id, data },
+        {
+          onSuccess: () => {
+            handleCancel();
+            showToast("Income updated", "success");
+          },
+          onError: (err) => setServerError(err.message),
+        },
+      );
+    else
+      createIncome.mutate(data, {
+        onSuccess: () => showToast("Income added", "success"),
+        onError: (err) => setServerError(err.message),
+      });
+  };
+
   if (isLoading) return <IncomeSkeleton />;
   if (isError) return <ErrorMessage message="Failed while fetching data" />;
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">
-    <div className="col-span-8 flex flex-col justify-start items-start gap-1">
+      <div className="col-span-8 flex flex-col justify-start items-start gap-1">
         {isFetching && !isLoading && <Spinner />}
-        <IncomeFilters
-          filters={filters}
-          dispatch={dispatch}
-        />
+        <div className="flex justify-between items-center w-full">
+          <IncomeFilters
+            filters={filters}
+            dispatch={dispatch}
+          />
+          <Button
+            label="Add Income"
+            type="button"
+            onClick={() => setIsOpen(true)}
+          />
+        </div>
         <IncomeList
           data={data}
           onEdit={handleEdit}
@@ -77,6 +115,18 @@ const IncomePage = () => {
           filters={filters}
         />
       </div>
+      {isOpen && (
+        <Modal
+          isOpen={isOpen}
+          onClose={handleCancel}>
+          <IncomeForm
+            initialData={selectedIncome}
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            serverError={serverError}
+          />
+        </Modal>
+      )}
       {toast && (
         <Toast
           message={toast.message}

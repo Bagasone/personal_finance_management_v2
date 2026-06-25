@@ -1,7 +1,11 @@
 import { useRef, useEffect } from "react";
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+const Modal = ({ isOpen, onClose, children }) => {
   const ref = useRef(null);
+
+  const handleClose = (e) => {
+    if (e.target === ref.current) onClose();
+  };
 
   useEffect(() => {
     if (isOpen) ref.current.showModal();
@@ -11,11 +15,11 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   return (
     <dialog
       ref={ref}
-      className="min-w-full min-h-full bg-black-500/10">
-      <div className="flex flex-col justify-center items-center gap-1 min-w-dvw min-h-dvh">
-        <h2 className="text-2xl">{title}</h2>
+      onClose={handleClose}
+      onClick={handleClose}
+      className="max-w-dvw max-h-dvh overflow-hidden min-w-full min-h-full bg-black-500/20">
+      <div className="box max-w-max ml-[50vw] mt-[50vh] translate-[-50%] bg-black-100">
         {children}
-        <button onClick={onClose}>X</button>
       </div>
     </dialog>
   );

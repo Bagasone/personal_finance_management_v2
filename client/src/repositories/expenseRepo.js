@@ -41,7 +41,7 @@ const filterExpense = ({ month, categoryId }) => {
   return expenses
     .filter((exp) => exp.date.startsWith(month))
     .filter((exp) => {
-      if (categoryId !== "") return exp.categoryId === categoryId;
+      if (categoryId) return exp.categoryId === categoryId;
       else return true;
     });
 };

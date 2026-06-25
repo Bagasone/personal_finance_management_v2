@@ -41,7 +41,7 @@ const filterIncome = ({ month, sourceId }) => {
   return incomes
     .filter((inc) => inc.date.startsWith(month))
     .filter((inc) => {
-      if (sourceId !== "") return inc.sourceId === sourceId;
+      if (sourceId) return inc.sourceId === sourceId;
       else return true;
     });
 };

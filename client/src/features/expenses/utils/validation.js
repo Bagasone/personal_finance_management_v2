@@ -5,7 +5,7 @@ import {
   validateDate,
 } from "../../../utils/validation";
 
-export const validateExpense = ({ amount, description, categoryId, date }) => {
+export const validate = ({ amount, description, categoryId, date }) => {
   const errors = {};
 
   const err1 = validateNumber(amount, "amount");

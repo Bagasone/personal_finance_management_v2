@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { validateExpense } from "../utils/validation";
+import { validate } from "../utils/validation";
 
 import { EXPENSE_CATEGORIES } from "../../../constants";
 
@@ -50,7 +50,7 @@ const ExpenseForm = ({ initialData, onSubmit, onCancel, serverError }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { valid, errors } = validateExpense(form);
+    const { valid, errors } = validate(form);
     if (valid) {
       // eslint-disable-next-line no-unused-vars
       const { errors, ...formData } = form;

@@ -6,6 +6,7 @@ import useToast from "../hooks/useToast";
 import IncomeFilters from "../features/income/components/IncomeFilters";
 import IncomeList from "../features/income/components/IncomeList";
 import IncomeSummary from "../features/income/components/IncomeSummary";
+import IncomeForm from "../features/income/components/IncomeForm";
 import IncomeSkeleton from "../features/income/components/IncomeSkeleton";
 import ErrorMessage from "../components/ErrorMessage";
 import Button from "../components/Button";
@@ -14,7 +15,6 @@ import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
 import { getYearMonthDate } from "../utils/date";
-import IncomeForm from "../features/income/components/IncomeForm";
 
 const filterInitialState = {
   month: getYearMonthDate(),

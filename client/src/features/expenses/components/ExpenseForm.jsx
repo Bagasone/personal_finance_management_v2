@@ -52,7 +52,6 @@ const ExpenseForm = ({ initialData, onSubmit, onCancel, serverError }) => {
     e.preventDefault();
     const { valid, errors } = validate(form);
     if (valid) {
-      // eslint-disable-next-line no-unused-vars
       const { errors, ...formData } = form;
       onSubmit(formData);
       dispatch({ type: "RESET" });

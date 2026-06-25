@@ -31,9 +31,10 @@ const useBudgetMutations = (filters) => {
       await queryClient.cancelQueries({ queryKey: BUDGET_KEYS.all() });
 
       const previous = queryClient.getQueryData(BUDGET_KEYS.filtered(filters));
-      queryClient.setQueryData(BUDGET_KEYS.filtered(filters), (oldData) =>
-        oldData.filter((b) => b.id !== id),
-      );
+      queryClient.setQueryData(BUDGET_KEYS.filtered(filters), (oldData) => ({
+        ...oldData,
+        data: oldData.data.filter((b) => b.id !== id),
+      }));
 
       return { previous };
     },

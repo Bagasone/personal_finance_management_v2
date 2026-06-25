@@ -60,7 +60,7 @@ export const validateDate = (value, field = "date") => {
   return null;
 };
 
-const validateMonth = (value, field = "month") => {
+export const validateMonth = (value, field = "month") => {
   if (!/^\d{4}-\d{2}$/.test(value)) return `${field} must be in YYYY-MM format`;
 
   return null;

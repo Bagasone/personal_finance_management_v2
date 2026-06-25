@@ -4,10 +4,18 @@ const CATEGORIES_ID = EXPENSE_CATEGORIES.map((cat) => cat.id);
 const SOURCE_STATUS = INCOME_SOURCES.map((src) => src.id);
 const DEBT_STATUS = Object.keys(DEBT_TYPES);
 
-const validateDescription = (value, field = "description") => {
+export const validateDescription = (value, field = "description") => {
   if (typeof value !== "string" || value.trim() === "") {
     return `${field} is required`;
   }
+
+  return null;
+};
+
+export const validateNumber = (value, field = "amount") => {
+  if (value === "") return `${field} must be a valid number`;
+  if (isNaN(Number(value))) return `${field} must be a valid number`;
+  if (Number(value) <= 0) return `${field} must be greater than 0`;
 
   return null;
 };
@@ -26,7 +34,7 @@ const validatePositiveNumber = (value, field = "amount") => {
   return null;
 };
 
-const validateFormatDate = (value, field = "format date") => {
+const validateFormatDate = (value, field = "date") => {
   if (isNaN(new Date(value).getTime())) {
     return `${field} must be valid date format`;
   }
@@ -34,7 +42,7 @@ const validateFormatDate = (value, field = "format date") => {
   return null;
 };
 
-const validateDateInFuture = (value, field = "date in future") => {
+const validateDateInFuture = (value, field = "date") => {
   if (new Date(value) > new Date().setHours(23, 59, 59, 999)) {
     return `${field} can't be in the future`;
   }
@@ -42,7 +50,7 @@ const validateDateInFuture = (value, field = "date in future") => {
   return null;
 };
 
-const validateDate = (value, field = "date") => {
+export const validateDate = (value, field = "date") => {
   const err1 = validateFormatDate(value, field);
   if (err1) return err1;
 
@@ -58,19 +66,22 @@ const validateMonth = (value, field = "month") => {
   return null;
 };
 
-const validateCategory = (value, field = "category") => {
+export const validateCategory = (value, field = "category") => {
+  if (value === "") return `please select a ${field}`;
   if (!CATEGORIES_ID.includes(value)) return `${field} is not valid`;
 
   return null;
 };
 
-const validateSource = (value, field = "source") => {
+export const validateSource = (value, field = "source") => {
+  if (value === "") return `please select a ${field}`;
   if (!SOURCE_STATUS.includes(value)) return `${field} is not valid`;
 
   return null;
 };
 
-const validateType = (value, field = "type") => {
+export const validateType = (value, field = "type") => {
+  if (value === "") return `please select a ${field}`;
   if (!DEBT_STATUS.includes(value)) return `${field} type is not valid`;
 
   return null;

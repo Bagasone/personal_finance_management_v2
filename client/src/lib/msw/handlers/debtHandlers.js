@@ -1,6 +1,7 @@
 import { http } from "msw";
-import { responseSuccess, responseError } from "../../../utils/response";
 import { validateDebt, validatePayment } from "../../../utils/validation";
+import { responseSuccess, responseError } from "../../../utils/response";
+import { formatMonth } from "../../../utils/formatter";
 
 import {
   getDebts,
@@ -20,7 +21,7 @@ const handlers = [
     const debt = await request.json();
 
     const { valid, errors } = validateDebt(debt);
-    if (!valid) return responseError("VALIDATION_ERROR", "Invalid debt payload", errors);
+    if (!valid) return responseError("BAD_REQUEST", "Invalid debt data", errors);
 
     const { ok, data } = addDebt(debt);
     if (ok) return responseSuccess("CREATED", `Create debt with id ${data.id}`, data);
@@ -33,7 +34,7 @@ const handlers = [
     if (!isExist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
 
     const { valid, errors } = validateDebt(debt);
-    if (!valid) return responseError("VALIDATION_ERROR", "Invalid debt payload", errors);
+    if (!valid) return responseError("BAD_REQUEST", "Invalid debt data", errors);
 
     const { ok, data } = updateDebt(id, debt);
     if (ok) return responseSuccess("OK", `Update debt with id ${id}`, data);
@@ -55,8 +56,7 @@ const handlers = [
     if (!isExist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
 
     const { valid, errors } = validatePayment(payment);
-    if (!valid)
-      return responseError("VALIDATION_ERROR", "Invalid payment payload", errors);
+    if (!valid) return responseError("BAD_REQUEST", "Invalid payment data", errors);
 
     const { ok, data } = addPayment(id, payment);
     const paymentId = data.payments[data.payments.length - 1].id;

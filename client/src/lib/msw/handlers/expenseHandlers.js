@@ -1,6 +1,7 @@
 import { http } from "msw";
-import { responseSuccess, responseError } from "../../../utils/response";
 import { validateExpense } from "../../../utils/validation";
+import { responseSuccess, responseError } from "../../../utils/response";
+import { formatMonth } from "../../../utils/formatter";
 
 import {
   addExpense,
@@ -17,14 +18,15 @@ const handlers = [
 
     if (queries.month) {
       const expenses = filterExpense(queries);
+      const month = formatMonth(queries.month);
 
       if (expenses.length === 0)
         return responseError(
           "NOT_FOUND",
-          `Expense with filter ${queries.categoryId || queries.month} doesn't exist`,
+          `Expense with filter ${queries.categoryId || month} doesn't exist`,
         );
 
-      return responseSuccess("OK", `Expense in ${queries.month}`, expenses);
+      return responseSuccess("OK", `Expense in ${month}`, expenses);
     }
 
     return responseError("BAD_REQUEST", "Required month for get expenses");
@@ -33,8 +35,7 @@ const handlers = [
     const expense = await request.json();
 
     const { valid, errors } = validateExpense(expense);
-    if (!valid)
-      return responseError("VALIDATION_ERROR", "Invalid expense payload", errors);
+    if (!valid) return responseError("BAD_REQUEST", "Invalid expense data", errors);
 
     const { ok, data } = addExpense(expense);
     if (ok) return responseSuccess("CREATED", `Create expense with id: ${data.id}`, data);
@@ -48,8 +49,7 @@ const handlers = [
       return responseError("NOT_FOUND", `Expense with id ${id} doesn't exist`);
 
     const { valid, errors } = validateExpense(expense);
-    if (!valid)
-      return responseError("VALIDATION_ERROR", "Invalid expense payload", errors);
+    if (!valid) return responseError("BAD_REQUEST", "Invalid expense data", errors);
 
     const { ok, data } = updateExpense(id, expense);
     if (ok) return responseSuccess("OK", `Update expense with id: ${id}`, data);

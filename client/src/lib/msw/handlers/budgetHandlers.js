@@ -1,6 +1,7 @@
 import { http } from "msw";
-import { responseSuccess, responseError } from "../../../utils/response";
 import { validateBudget } from "../../../utils/validation";
+import { responseSuccess, responseError } from "../../../utils/response";
+import { formatMonth } from "../../../utils/formatter";
 
 import {
   addBudget,
@@ -17,10 +18,12 @@ const handlers = [
 
     if (queries.month) {
       const budgets = filterBudget(queries);
-      if (budgets.length === 0)
-        return responseError("NOT_FOUND", `Budget in ${queries.month} doesn't exist`);
+      const month = formatMonth(queries.month);
 
-      return responseSuccess("OK", `Budget in ${queries.month}`, budgets);
+      if (budgets.length === 0)
+        return responseError("NOT_FOUND", `Budget in ${month} doesn't exist`);
+
+      return responseSuccess("OK", `Budget in ${month}`, budgets);
     }
 
     return responseError("BAD_REQUEST", "Required month for get budgets");
@@ -29,8 +32,7 @@ const handlers = [
     const budget = await request.json();
 
     const { valid, errors } = validateBudget(budget);
-    if (!valid)
-      return responseError("VALIDATION_ERROR", "Invalid budget payload", errors);
+    if (!valid) return responseError("BAD_REQUEST", "Invalid budget data", errors);
 
     const { ok, data } = addBudget(budget);
     if (ok) return responseSuccess("CREATED", `Create budget with id ${data.id}`, data);
@@ -43,8 +45,7 @@ const handlers = [
     if (!isExist) return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`);
 
     const { valid, errors } = validateBudget(budget);
-    if (!valid)
-      return responseError("VALIDATION_ERROR", "Invalid budget payload", errors);
+    if (!valid) return responseError("BAD_REQUEST", "Invalid budget data", errors);
 
     const { ok, data } = updateBudget(id, budget);
     if (ok) return responseSuccess("OK", `Update budget with id ${id}`, data);

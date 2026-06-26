@@ -1,6 +1,6 @@
 import { http } from "msw";
-import { responseSuccess, responseError } from "../../../utils/response";
 import { validateIncome } from "../../../utils/validation";
+import { responseSuccess, responseError } from "../../../utils/response";
 
 import {
   addIncome,
@@ -9,6 +9,7 @@ import {
   filterIncome,
   findByIdIncome,
 } from "../../../repositories/incomeRepo";
+import { formatMonth } from "../../../utils/formatter";
 
 const handlers = [
   http.get("/api/incomes", ({ request }) => {
@@ -17,14 +18,15 @@ const handlers = [
 
     if (queries.month) {
       const incomes = filterIncome(queries);
+      const month = formatMonth(queries.month);
 
       if (incomes.length === 0)
         return responseError(
           "NOT_FOUND",
-          `Income with filter ${queries.source || queries.month} doesn't exist`,
+          `Income with filter ${queries.source || month} doesn't exist`,
         );
 
-      return responseSuccess("OK", `Income in ${queries.month}`, incomes);
+      return responseSuccess("OK", `Income in ${month}`, incomes);
     }
 
     return responseError("BAD_REQUEST", "Required month for get incomes");
@@ -34,8 +36,7 @@ const handlers = [
     const income = await request.json();
 
     const { valid, errors } = validateIncome(income);
-    if (!valid)
-      return responseError("VALIDATION_ERROR", "Invalid income payload", errors);
+    if (!valid) return responseError("BAD_REQUEST", "Invalid income data", errors);
 
     const { ok, data } = addIncome(income);
     if (ok) return responseSuccess("CREATED", `Create income with id: ${data.id}`, data);
@@ -48,8 +49,7 @@ const handlers = [
     if (!isExist) return responseError("NOT_FOUND", `Income with id ${id} doesn't exist`);
 
     const { valid, errors } = validateIncome(income);
-    if (!valid)
-      return responseError("VALIDATION_ERROR", "Invalid income payload", errors);
+    if (!valid) return responseError("BAD_REQUEST", "Invalid income data", errors);
 
     const { ok, data } = updateIncome(id, income);
     if (ok) return responseSuccess("OK", `Update income with id: ${id}`, data);

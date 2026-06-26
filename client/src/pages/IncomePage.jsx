@@ -80,7 +80,10 @@ const IncomePage = () => {
       );
     else
       createIncome.mutate(data, {
-        onSuccess: () => showToast("Income added", "success"),
+        onSuccess: () => {
+          showToast("Income added", "success");
+          handleCancel();
+        },
         onError: (err) => setServerError(err.message),
       });
   };

@@ -75,7 +75,10 @@ const ExpensePage = () => {
       );
     else
       createExpense.mutate(data, {
-        onSuccess: () => showToast("Expense added", "success"),
+        onSuccess: () => {
+          showToast("Expense added", "success");
+          setSelectedExpense(null);
+        },
         onError: (err) => setServerError(err.message),
       });
   };

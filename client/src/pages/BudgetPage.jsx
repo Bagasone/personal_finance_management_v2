@@ -15,6 +15,7 @@ import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
 import { getYearMonthDate } from "../utils/date";
+import BudgetForm from "../features/budget/components/BudgetForm";
 
 const filterInitialState = {
   month: getYearMonthDate(),
@@ -34,6 +35,7 @@ const filterReducer = (state, action) => {
 const BudgetPage = () => {
   const [filters, dispatch] = useReducer(filterReducer, filterInitialState);
   const [selectedBuget, setSelectedBuget] = useState(null);
+  const [serverError, setServerError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const { toast, showToast, closeToast } = useToast();
@@ -43,6 +45,7 @@ const BudgetPage = () => {
     isLoading: isBudgetLoading,
     isFetching: isBudgetFetching,
     isError: isBudgetError,
+    error: budgetError,
   } = useBudgets(filters);
 
   const {
@@ -50,16 +53,19 @@ const BudgetPage = () => {
     isLoading: isExpenseLoading,
     isFetching: isExpenseFetching,
     isError: isExpenseError,
+    error: expenseError,
   } = useExpenses(filters);
 
   const isLoading = isBudgetLoading || isExpenseLoading;
   const isFetching = isBudgetFetching || isExpenseFetching;
   const isError = isBudgetError || isExpenseError;
+  const error = budgetError || expenseError;
 
   const { createBudget, updateBudget, deleteBudget } = useBudgetMutations(filters);
 
   const handleCancel = () => {
     setIsOpen(false);
+    setSelectedBuget(null);
   };
 
   const handleDelete = (id) => {
@@ -74,8 +80,31 @@ const BudgetPage = () => {
     setSelectedBuget(item);
   };
 
+  const handleSubmit = (data) => {
+    setServerError(null);
+    if (selectedBuget)
+      updateBudget.mutate(
+        { id: selectedBuget.id, data },
+        {
+          onSuccess: () => {
+            showToast("Budget updated", "success");
+            handleCancel();
+          },
+          onError: (err) => setServerError(err.message),
+        },
+      );
+    else
+      createBudget.mutate(data, {
+        onSuccess: () => {
+          showToast("Budget added", "success");
+          handleCancel();
+        },
+        onError: (err) => setServerError(err.message),
+      });
+  };
+
   if (isLoading) return <BudgetSkeleton />;
-  if (isError) return <ErrorMessage message="Failed while fetching data" />;
+  if (isError) return <ErrorMessage message={error.message} />;
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">
@@ -104,7 +133,12 @@ const BudgetPage = () => {
         <Modal
           isOpen={isOpen}
           onClose={handleCancel}>
-          Budget Form
+          <BudgetForm
+            initialData={selectedBuget}
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            serverError={serverError}
+          />
         </Modal>
       )}
       {toast && (

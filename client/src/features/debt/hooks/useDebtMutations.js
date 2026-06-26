@@ -31,9 +31,10 @@ const useDebtMutations = () => {
       await queryClient.cancelQueries({ queryKey: DEBT_KEYS.all() });
 
       const previous = queryClient.getQueryData(DEBT_KEYS.all());
-      queryClient.setQueryData(DEBT_KEYS.all(), (oldData) =>
-        oldData.filter((d) => d.id !== id),
-      );
+      queryClient.setQueryData(DEBT_KEYS.all(), (oldData) => ({
+        ...oldData,
+        data: oldData.data.filter((d) => d.id !== id),
+      }));
 
       return { previous };
     },

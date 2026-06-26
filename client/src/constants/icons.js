@@ -14,6 +14,8 @@ import {
   TbCashBanknotePlus,
   TbTax,
   TbMoneybagPlus,
+  TbMoneybagMove,
+  TbMoneybagMoveBack,
   TbPigMoney,
   TbSeedling,
   TbCreditCard,
@@ -38,4 +40,9 @@ export const SOURCE_ICONS = {
   dividend: TbPigMoney,
   interest: TbSeedling,
   other: TbCreditCard,
+};
+
+export const TYPE_ICONS = {
+  owe: TbMoneybagMove,
+  owed: TbMoneybagMoveBack,
 };

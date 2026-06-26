@@ -7,7 +7,7 @@ export const formatCurrency = (amount) => {
 };
 
 export const formatDate = (date, option) => {
-  return new Intl.DateTimeFormat("en-US", option).format(date);
+  return new Intl.DateTimeFormat("en-GB", option).format(date);
 };
 
 export const formatMonth = (month) => {

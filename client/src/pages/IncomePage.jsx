@@ -40,7 +40,7 @@ const IncomePage = () => {
   const [serverError, setServerError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, isLoading, isFetching, isError } = useIncomes(filters);
+  const { data, isLoading, isFetching, isError, error } = useIncomes(filters);
   const { createIncome, updateIncome, deleteIncome } = useIncomeMutation(filters);
 
   const { toast, showToast, closeToast } = useToast();
@@ -86,7 +86,7 @@ const IncomePage = () => {
   };
 
   if (isLoading) return <IncomeSkeleton />;
-  if (isError) return <ErrorMessage message="Failed while fetching data" />;
+  if (isError) return <ErrorMessage message={error.message} />;
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">

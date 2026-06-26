@@ -37,7 +37,7 @@ const ExpensePage = () => {
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [serverError, setServerError] = useState(null);
 
-  const { data, isLoading, isFetching, isError } = useExpenses(filters);
+  const { data, isLoading, isFetching, isError, error } = useExpenses(filters);
   const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
 
   const { toast, showToast, closeToast } = useToast();
@@ -81,7 +81,7 @@ const ExpensePage = () => {
   };
 
   if (isLoading) return <ExpenseSkeleton />;
-  if (isError) return <ErrorMessage message="Failed while fetching data" />;
+  if (isError) return <ErrorMessage message={error.message} />;
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5">

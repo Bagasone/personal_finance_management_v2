@@ -12,6 +12,18 @@ export const validateDescription = (value, field = "description") => {
   return null;
 };
 
+export const validateNote = (value, field = "note") => {
+  if (typeof value !== "string") {
+    return `${field} should be valid text`;
+  }
+
+  if (value.split('').length > 100) {
+    return `${field} can't be more than 100 character`;
+  }
+
+  return null;
+};
+
 export const validateNumber = (value, field = "amount") => {
   if (value === "") return `${field} must be a valid number`;
   if (isNaN(Number(value))) return `${field} must be a valid number`;
@@ -30,6 +42,17 @@ const validatePositiveNumber = (value, field = "amount") => {
   if (numVal <= 0) {
     return `${field} must be greater than 0`;
   }
+
+  return null;
+};
+
+export const validateAmountPay = (value, field = "amount pay", remainingAmount) => {
+  const err1 = validatePositiveNumber(value, field);
+  if (err1) return err1;
+
+  console.log(value > remainingAmount);
+
+  if (value > remainingAmount) return `${field} can't be more than remaining pay`;
 
   return null;
 };
@@ -186,14 +209,19 @@ export const validateDebt = ({ totalAmount, description, type, dueDate }) => {
   return { valid: true };
 };
 
-export const validatePayment = ({ amount, date }) => {
+export const validatePayment = ({ amount, date, note }, remainingAmount) => {
   const errors = {};
 
-  const err1 = validatePositiveNumber(amount, "amount");
+  const err1 = validateAmountPay(amount, "amount pay", remainingAmount);
   if (err1) errors.amount = err1;
 
   const err2 = validateDate(date, "date");
   if (err2) errors.date = err2;
+
+  if (note) {
+    const err3 = validateNote(note);
+    if (err3) errors.note = err3;
+  }
 
   if (Object.keys(errors).length) {
     return { valid: false, errors };

@@ -55,7 +55,9 @@ const handlers = [
     const isExist = findByIdDebt(id);
     if (!isExist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
 
-    const { valid, errors } = validatePayment(payment);
+    const debt = findByIdDebt(id);
+
+    const { valid, errors } = validatePayment(payment, debt.totalAmount);
     if (!valid) return responseError("BAD_REQUEST", "Invalid payment data", errors);
 
     const { ok, data } = addPayment(id, payment);

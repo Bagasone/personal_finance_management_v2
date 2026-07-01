@@ -2,7 +2,7 @@ import { EXPENSE_CATEGORIES, INCOME_SOURCES, DEBT_TYPES } from "../constants";
 
 const CATEGORIES_ID = EXPENSE_CATEGORIES.map((cat) => cat.id);
 const SOURCE_STATUS = INCOME_SOURCES.map((src) => src.id);
-const DEBT_STATUS = Object.keys(DEBT_TYPES);
+const DEBT_STATUS = Object.values(DEBT_TYPES);
 
 export const validateDescription = (value, field = "description") => {
   if (typeof value !== "string" || value.trim() === "") {
@@ -82,7 +82,19 @@ export const validateSource = (value, field = "source") => {
 
 export const validateType = (value, field = "type") => {
   if (value === "") return `please select a ${field}`;
-  if (!DEBT_STATUS.includes(value)) return `${field} type is not valid`;
+  if (!DEBT_STATUS.includes(value)) return `${field} is not valid`;
+
+  return null;
+};
+
+export const validateDueDate = (value, field = "due date") => {
+  if (isNaN(new Date(value).getTime())) {
+    return `${field} must be valid date format`;
+  }
+
+  if (new Date(value) <= Date.now()) {
+    return `${field} can't be now or past`;
+  }
 
   return null;
 };

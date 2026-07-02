@@ -46,12 +46,11 @@ const DebtDetailPanel = ({ data, onAddPayment, serverError }) => {
     e.preventDefault();
     const { valid, errors } = validatePayment(form, data.remainingAmount);
     if (valid) {
-      const { errrs, ...formData } = form;
+      const { errors, ...formData } = form;
       onAddPayment(formData);
+      dispatch({ type: "RESET" });
     } else dispatch({ type: "INVALID", payload: errors });
   };
-
-  console.log(data.remainingAmount);
 
   return (
     <div className="box flex flex-col gap-3 w-full h-full">
@@ -144,6 +143,7 @@ const DetailItem = ({ item }) => {
   return (
     <div className="flex justify-between items-center">
       <span className="text-sm font-semibold">{formatCurrency(item.amount)}</span>
+      {item.note && <span className="text-black-500 text-sm">{item.note}</span>}
       <span className="text-black-600 text-sm">
         {formatDate(paidDate, {
           year: "numeric",

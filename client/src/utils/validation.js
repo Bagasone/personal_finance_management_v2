@@ -17,7 +17,7 @@ export const validateNote = (value, field = "note") => {
     return `${field} should be valid text`;
   }
 
-  if (value.split('').length > 100) {
+  if (value.split("").length > 100) {
     return `${field} can't be more than 100 character`;
   }
 
@@ -25,14 +25,6 @@ export const validateNote = (value, field = "note") => {
 };
 
 export const validateNumber = (value, field = "amount") => {
-  if (value === "") return `${field} must be a valid number`;
-  if (isNaN(Number(value))) return `${field} must be a valid number`;
-  if (Number(value) <= 0) return `${field} must be greater than 0`;
-
-  return null;
-};
-
-const validatePositiveNumber = (value, field = "amount") => {
   const numVal = Number(value);
 
   if (!Number.isFinite(numVal)) {
@@ -47,7 +39,7 @@ const validatePositiveNumber = (value, field = "amount") => {
 };
 
 export const validateAmountPay = (value, field = "amount pay", remainingAmount) => {
-  const err1 = validatePositiveNumber(value, field);
+  const err1 = validateNumber(value, field);
   if (err1) return err1;
 
   console.log(value > remainingAmount);
@@ -125,7 +117,7 @@ export const validateDueDate = (value, field = "due date") => {
 export const validateExpense = ({ amount, description, categoryId, date }) => {
   const errors = {};
 
-  const err1 = validatePositiveNumber(amount, "amount");
+  const err1 = validateNumber(amount, "amount");
   if (err1) errors.amount = err1;
 
   const err2 = validateDescription(description, "description");
@@ -147,7 +139,7 @@ export const validateExpense = ({ amount, description, categoryId, date }) => {
 export const validateIncome = ({ amount, description, sourceId, date }) => {
   const errors = {};
 
-  const err1 = validatePositiveNumber(amount, "amount");
+  const err1 = validateNumber(amount, "amount");
   if (err1) errors.amount = err1;
 
   const err2 = validateDescription(description, "description");
@@ -169,7 +161,7 @@ export const validateIncome = ({ amount, description, sourceId, date }) => {
 export const validateBudget = ({ limit, categoryId, month }) => {
   const errors = {};
 
-  const err1 = validatePositiveNumber(limit, "limit");
+  const err1 = validateNumber(limit, "limit");
   if (err1) errors.limit = err1;
 
   const err2 = validateCategory(categoryId);
@@ -188,7 +180,7 @@ export const validateBudget = ({ limit, categoryId, month }) => {
 export const validateDebt = ({ totalAmount, description, type, dueDate }) => {
   const errors = {};
 
-  const err1 = validatePositiveNumber(totalAmount, "total amount");
+  const err1 = validateNumber(totalAmount, "total amount");
   if (err1) errors.totalAmount = err1;
 
   const err2 = validateDescription(description, "description");

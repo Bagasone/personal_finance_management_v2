@@ -1,10 +1,10 @@
 import {
   validateDescription,
-  validateNumber,
   validateDate,
   validateDueDate,
   validateNote,
   validateAmountPay,
+  validateNumber,
 } from "../../../utils/validation";
 
 export const validate = ({ description, totalAmount, dueDate }) => {
@@ -41,12 +41,10 @@ export const validatePayment = ({ amount, date, note }, remainingAmount) => {
     const err3 = validateNote(note);
     if (err3) errors.note = err3;
   }
- 
+
   if (Object.keys(errors).length) {
     return { valid: false, errors };
   }
 
   return { valid: true };
 };
-
-

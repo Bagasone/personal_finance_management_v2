@@ -8,7 +8,8 @@ const fetcher = async (url, options = {}) => {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || "Something went wrong");
+    error.status = response.status;
+    throw error;
   }
 
   return response.json();

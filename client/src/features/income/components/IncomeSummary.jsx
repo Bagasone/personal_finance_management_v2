@@ -3,6 +3,7 @@ import { INCOME_SOURCES } from "../../../constants";
 import { calculate, percent } from "../../../utils/calculate";
 import { labelSource } from "../../../utils/label";
 import { formatDate, formatCurrency } from "../../../utils/formatter";
+import ProgressBar from "../../../components/ProgressBar";
 
 const IncomeSummary = ({ data, filters }) => {
   const option = { year: "numeric", month: "long" };
@@ -53,11 +54,10 @@ const IncomeSourceDetail = ({ data, total, label, id }) => {
           <span className="text-sm text-black-500">{PercentSource}</span>
         </p>
       </div>
-      <div className="flex justify-start items-center rounded-sm bg-black-300 w-full h-3">
-        <div
-          style={{ width: PercentSource }}
-          className="rounded-sm h-3 bg-income-500"></div>
-      </div>
+      <ProgressBar
+        fill={PercentSource}
+        color="bg-income-500"
+      />
     </div>
   );
 };

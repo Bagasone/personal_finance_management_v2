@@ -70,6 +70,7 @@ const IncomePage = () => {
   };
 
   const handleSubmit = (data) => {
+    setErrors({ message: null, fields: {} });
     if (selected)
       updateIncome.mutate(
         { id: selected.id, data },

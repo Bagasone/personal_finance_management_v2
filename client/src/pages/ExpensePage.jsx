@@ -44,10 +44,6 @@ const ExpensePage = () => {
 
   const { toast, showToast, closeToast } = useToast();
 
-  const handleFocus = () => {
-    firstInputRef.current?.focus();
-  };
-
   const handleEdit = (item) => {
     setSelected(item);
   };
@@ -117,7 +113,7 @@ const ExpensePage = () => {
           data={data}
           onEdit={handleEdit}
           onDelete={handleDelete}
-          onFocus={handleFocus}
+          onFocus={() => firstInputRef.current?.focus()}
         />
         <ExpenseSummary
           data={data}

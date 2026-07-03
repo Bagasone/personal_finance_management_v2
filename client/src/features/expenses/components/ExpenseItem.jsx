@@ -24,12 +24,10 @@ const ExpenseItem = ({ item, onEdit, onDelete }) => {
         <Button
           label="Edit"
           onClick={() => onEdit(item)}
-          className="border rounded-sm px-2 py-1"
         />
         <Button
           label="Delete"
           onClick={() => onDelete(item.id)}
-          className="border rounded-sm px-2 py-1"
         />
       </div>
     </li>

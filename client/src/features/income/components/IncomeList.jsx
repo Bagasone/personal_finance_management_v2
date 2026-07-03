@@ -1,8 +1,15 @@
 import IncomeItem from "./IncomeItem";
 import EmptyState from "../../../components/EmptyState";
 
-const IncomeList = ({ data, onEdit, onDelete }) => {
-  if (!data) return <EmptyState message="There is No Income For this Month" />;
+const IncomeList = ({ data, onEdit, onDelete, onOpen }) => {
+  if (!data)
+    return (
+      <EmptyState
+        message="There is No Income For this Month"
+        actionLabel="Add Income"
+        onAction={onOpen}
+      />
+    );
 
   return (
     <div className="flex flex-col gap-3">

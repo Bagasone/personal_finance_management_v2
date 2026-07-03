@@ -1,4 +1,5 @@
 import { useReducer, useState } from "react";
+
 import useIncomes from "../features/income/hooks/useIncomes";
 import useIncomeMutation from "../features/income/hooks/useIncomeMutations";
 import useToast from "../hooks/useToast";
@@ -16,66 +17,70 @@ import Toast from "../components/Toast";
 
 import { getYearMonthDate } from "../utils/date";
 
-const filterInitialState = {
+const initialState = {
   month: getYearMonthDate(),
   sourceId: "",
 };
 
-const filterReducer = (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case "SET_MONTH":
       return { ...state, month: action.payload };
     case "SET_SOURCE":
       return { ...state, sourceId: action.payload };
     case "RESET":
-      return filterInitialState;
+      return initialState;
     default:
       return state;
   }
 };
 
 const IncomePage = () => {
-  const [filters, dispatch] = useReducer(filterReducer, filterInitialState);
-  const [selectedIncome, setSelectedIncome] = useState(null);
-  const [serverError, setServerError] = useState(null);
+  const [filters, dispatch] = useReducer(reducer, initialState);
+  const [selected, setSelected] = useState(null);
+  const [errors, setErrors] = useState({ message: null, fields: {} });
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, isLoading, isFetching, isError, error } = useIncomes(filters);
+  const { data, isLoading, isFetching, isError, error, refetch } = useIncomes(filters);
   const { createIncome, updateIncome, deleteIncome } = useIncomeMutation(filters);
 
   const { toast, showToast, closeToast } = useToast();
 
   const handleCancel = () => {
     setIsOpen(false);
-    setServerError(null);
-    setSelectedIncome(null);
+    setErrors(null);
+    setSelected(null);
   };
 
   const handleEdit = (item) => {
     setIsOpen(true);
-    setSelectedIncome(item);
+    setSelected(item);
   };
 
   const handleDelete = (id) => {
     deleteIncome.mutate(id, {
       onSuccess: () => {
-        setSelectedIncome(null);
+        setSelected(null);
         showToast("Income deleted", "success");
       },
-      onError: () => showToast("Failed to delete income", "error"),
+      onError: () => {
+        showToast("Failed to delete income", "error");
+      },
     });
   };
 
   const handleSubmit = (data) => {
-    if (selectedIncome)
+    if (selected)
       updateIncome.mutate(
-        { id: selectedIncome.id, data },
+        { id: selected.id, data },
         {
           onSuccess: () => {
-            handleCancel();
             showToast("Income updated", "success");
+            handleCancel();
           },
-          onError: (err) => setServerError(err.message),
+          onError: (err) => {
+            setErrors({ message: err.message, fields: err.errors });
+          },
         },
       );
     else
@@ -84,12 +89,20 @@ const IncomePage = () => {
           showToast("Income added", "success");
           handleCancel();
         },
-        onError: (err) => setServerError(err.message),
+        onError: (err) => {
+          setErrors({ message: err.message, fields: err.errors });
+        },
       });
   };
 
   if (isLoading) return <IncomeSkeleton />;
-  if (isError) return <ErrorMessage message={error.message} />;
+  if (isError && error.status >= 500)
+    return (
+      <ErrorMessage
+        message={error.message}
+        onRetry={refetch}
+      />
+    );
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">
@@ -110,6 +123,7 @@ const IncomePage = () => {
           data={data}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onOpen={() => setIsOpen(true)}
         />
       </div>
       <div className="col-span-4 flex flex-col justify-start items-start gap-1 ">
@@ -123,10 +137,10 @@ const IncomePage = () => {
           isOpen={isOpen}
           onClose={handleCancel}>
           <IncomeForm
-            initialData={selectedIncome}
+            initialData={selected}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
-            serverError={serverError}
+            serverErrors={errors}
           />
         </Modal>
       )}

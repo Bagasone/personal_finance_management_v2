@@ -1,4 +1,6 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useRef } from "react";
+
+import useForm from "../../../hooks/useForm";
 
 import { INCOME_SOURCES } from "../../../constants";
 
@@ -11,32 +13,20 @@ import ErrorMessage from "../../../components/ErrorMessage";
 import { getShortDate } from "../../../utils/date";
 import { validate } from "../utils/validation";
 
-const initialState = {
-  description: "",
-  amount: "",
-  sourceId: "",
-  date: getShortDate(),
-  errors: {},
-};
+const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
+  const [form, dispatch] = useForm({
+    description: "",
+    amount: "",
+    sourceId: "",
+    date: getShortDate(),
+  });
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_FIELD":
-      return { ...state, [action.field]: action.payload };
-    case "PREFILL": {
-      const { description, amount, sourceId, date } = action.payload;
-      return { ...initialState, description, amount: String(amount), sourceId, date };
-    }
-    case "INVALID": {
-      return { ...state, errors: action.payload };
-    }
-    case "RESET":
-      return initialState;
-  }
-};
+  const firstInputRef = useRef(null);
+  const fieldError = (field) => form.errors[field] || serverErrors?.fields[field];
 
-const IncomeForm = ({ initialData, onSubmit, onCancel, serverError }) => {
-  const [form, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    firstInputRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (initialData) dispatch({ type: "PREFILL", payload: initialData });
@@ -55,16 +45,17 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverError }) => {
   return (
     <div className="w-72 lex flex-col justify-start items-start gap-3 px-3 py-1">
       <h2 className="text-xl font-bold">{initialData ? "Edit" : "Add"} Income Form</h2>
-      {serverError && <ErrorMessage message={serverError} />}
+      {serverErrors && <ErrorMessage message={serverErrors.message} />}
       <form
         onSubmit={handleSubmit}
         className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full h-full">
         <Input
+          ref={firstInputRef}
           type="text"
           label="Description"
           id="description"
           value={form.description}
-          error={form.errors.description}
+          error={fieldError("description")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -78,7 +69,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           label="Amount"
           id="amount"
           value={form.amount}
-          error={form.errors?.amount}
+          error={fieldError("amount")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -91,7 +82,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           label="Source"
           id="sourceId"
           value={form.sourceId}
-          error={form.errors?.sourceId}
+          error={fieldError("sourceId")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -110,7 +101,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           label="Date"
           id="date"
           value={form.date}
-          error={form.errors?.date}
+          error={fieldError("date")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",

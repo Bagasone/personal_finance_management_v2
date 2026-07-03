@@ -1,4 +1,5 @@
-import { useReducer, useState } from "react";
+import { useReducer, useState, useRef } from "react";
+
 import useToast from "../hooks/useToast";
 import useExpenses from "../features/expenses/hooks/useExpenses";
 import useExpenseMutations from "../features/expenses/hooks/useExpenseMutations";
@@ -14,77 +15,95 @@ import Toast from "../components/Toast";
 
 import { getYearMonthDate } from "../utils/date";
 
-const filterInitialState = {
+const initialState = {
   month: getYearMonthDate(),
   categoryId: "",
 };
 
-const filterReducer = (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case "SET_MONTH":
       return { ...state, month: action.payload };
     case "SET_CATEGORY":
       return { ...state, categoryId: action.payload };
     case "RESET":
-      return filterInitialState;
+      return initialState;
     default:
       return state;
   }
 };
 
 const ExpensePage = () => {
-  const [filters, dispatch] = useReducer(filterReducer, filterInitialState);
-  const [selectedExpense, setSelectedExpense] = useState(null);
-  const [serverError, setServerError] = useState(null);
+  const [filters, dispatch] = useReducer(reducer, initialState);
+  const [selected, setSelected] = useState(null);
+  const [errors, setErrors] = useState({ message: null, fields: {} });
+  const firstInputRef = useRef(null);
 
-  const { data, isLoading, isFetching, isError, error } = useExpenses(filters);
+  const { data, isLoading, isFetching, isError, error, refetch } = useExpenses(filters);
   const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
 
   const { toast, showToast, closeToast } = useToast();
 
+  const handleFocus = () => {
+    firstInputRef.current?.focus();
+  };
+
   const handleEdit = (item) => {
-    setSelectedExpense(item);
+    setSelected(item);
   };
 
   const handleCancel = () => {
-    setSelectedExpense(null);
+    setSelected(null);
   };
 
   const handleDelete = (id) => {
     deleteExpense.mutate(id, {
       onSuccess: () => {
-        setSelectedExpense(null);
+        setSelected(null);
         showToast("Expense deleted", "success");
       },
-      onError: () => showToast("Failed to delete expense", "error"),
+      onError: () => {
+        showToast("Failed to delete expense", "error");
+      },
     });
   };
 
-  const handleSubmit = (data) => {
-    setServerError(null);
-    if (selectedExpense)
+  const handleSubmit = (data, resetForm) => {
+    setErrors({ message: null, fields: {} });
+    if (selected)
       updateExpense.mutate(
-        { id: selectedExpense.id, data },
+        { id: selected.id, data },
         {
           onSuccess: () => {
             showToast("Expense updated", "success");
-            setSelectedExpense(null);
+            setSelected(null);
+            resetForm();
           },
-          onError: (err) => setServerError(err.message),
+          onError: (err) => {
+            setErrors({ message: err.message, fields: err.errors });
+          },
         },
       );
     else
       createExpense.mutate(data, {
         onSuccess: () => {
           showToast("Expense added", "success");
-          setSelectedExpense(null);
+          resetForm();
         },
-        onError: (err) => setServerError(err.message),
+        onError: (err) => {
+          setErrors({ message: err.message, fields: err.errors });
+        },
       });
   };
 
   if (isLoading) return <ExpenseSkeleton />;
-  if (isError) return <ErrorMessage message={error.message} />;
+  if (isError && error.status >= 500)
+    return (
+      <ErrorMessage
+        message={error.message}
+        onRetry={refetch}
+      />
+    );
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5">
@@ -98,6 +117,7 @@ const ExpensePage = () => {
           data={data}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onFocus={handleFocus}
         />
         <ExpenseSummary
           data={data}
@@ -106,10 +126,11 @@ const ExpensePage = () => {
       </div>
       <div className="col-span-4 flex flex-col items-start gap-1">
         <ExpenseForm
-          initialData={selectedExpense}
+          initialData={selected}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
-          serverError={serverError}
+          serverErrors={errors}
+          ref={firstInputRef}
         />
       </div>
       {toast && (

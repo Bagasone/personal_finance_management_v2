@@ -1,12 +1,11 @@
-import { EXPENSE_CATEGORIES } from "../../../constants";
-import { CATEGORY_ICONS } from "../../../constants/icons";
+import { labelCategory } from "../../../utils/label";
+import { iconCategory } from "../../../utils/icon";
 
 import Button from "../../../components/Button";
 
 const ExpenseItem = ({ item, onEdit, onDelete }) => {
-  const categoryLabel =
-    EXPENSE_CATEGORIES.find((c) => c.id === item.categoryId).label ?? "Other";
-  const Icon = CATEGORY_ICONS[item.categoryId] ?? CATEGORY_ICONS["other"];
+  const Label = labelCategory(item.categoryId);
+  const Icon = iconCategory(item.categoryId);
 
   return (
     <li className="grid grid-cols-12 w-full items-center gap-3 border rounded-sm px-3 py-1 text-sm">
@@ -19,9 +18,7 @@ const ExpenseItem = ({ item, onEdit, onDelete }) => {
         </span>
       </div>
       <div className="col-span-2 border rounded-sm px-2 py-1 truncate">{item.amount}</div>
-      <div className="col-span-2 border rounded-sm px-2 py-1 truncate">
-        {categoryLabel}
-      </div>
+      <div className="col-span-2 border rounded-sm px-2 py-1 truncate">{Label}</div>
       <div className="col-span-2 border rounded-sm px-2 py-1 truncate">{item.date}</div>
       <div className="col-span-3 flex justify-center items-center gap-3 border rounded-sm px-2 py-1 truncate">
         <Button

@@ -1,8 +1,15 @@
 import ExpenseItem from "./ExpenseItem";
 import EmptyState from "../../../components/EmptyState";
 
-const ExpenseList = ({ data, onEdit, onDelete }) => {
-  if (!data) return <EmptyState message="There is No Expense For this Month" />;
+const ExpenseList = ({ data, onEdit, onDelete, onFocus }) => {
+  if (!data)
+    return (
+      <EmptyState
+        message="There is No Expense For this Month"
+        actionLabel="Add Expense"
+        onAction={onFocus}
+      />
+    );
 
   return (
     <div className="flex flex-col gap-3">

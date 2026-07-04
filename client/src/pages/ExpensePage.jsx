@@ -50,6 +50,7 @@ const ExpensePage = () => {
 
   const handleCancel = () => {
     setSelected(null);
+    setErrors({ message: null, fields: {} });
   };
 
   const handleDelete = (id) => {

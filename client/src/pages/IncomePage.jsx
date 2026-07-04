@@ -48,8 +48,8 @@ const IncomePage = () => {
 
   const handleCancel = () => {
     setIsOpen(false);
-    setErrors(null);
     setSelected(null);
+    setErrors({ message: null, fields: {} });
   };
 
   const handleEdit = (item) => {

@@ -7,6 +7,7 @@ import {
   addBudget,
   deleteBudget,
   filterBudget,
+  findBudgetCategoryandMonth,
   findByIdBudget,
   updateBudget,
 } from "../../../repositories/budgetRepo";
@@ -33,6 +34,10 @@ const handlers = [
 
     const { valid, errors } = validateBudget(budget);
     if (!valid) return responseError("BAD_REQUEST", "Invalid budget data", errors);
+
+    const duplicate = findBudgetCategoryandMonth(budget.categoryId, budget.month);
+    if (duplicate)
+      return responseError("CONFLICT", "Budget already exist for this category");
 
     const { ok, data } = addBudget(budget);
     if (ok) return responseSuccess("CREATED", `Create budget with id ${data.id}`, data);

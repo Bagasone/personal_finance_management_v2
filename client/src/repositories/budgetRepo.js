@@ -43,4 +43,15 @@ const findByIdBudget = (id) => {
   return budgets.find((bud) => bud.id === id);
 };
 
-export { addBudget, updateBudget, deleteBudget, filterBudget, findByIdBudget };
+const findBudgetCategoryandMonth = (categoryId, month) => {
+  return budgets.find((bud) => bud.categoryId === categoryId && bud.month === month);
+};
+
+export {
+  addBudget,
+  updateBudget,
+  deleteBudget,
+  filterBudget,
+  findByIdBudget,
+  findBudgetCategoryandMonth,
+};

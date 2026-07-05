@@ -1,4 +1,5 @@
 import { useReducer, useState } from "react";
+
 import useToast from "../hooks/useToast";
 import useBudgets from "../features/budget/hooks/useBudgets";
 import useBudgetMutations from "../features/budget/hooks/useBudgetMutations";
@@ -7,6 +8,7 @@ import useExpenses from "../features/expenses/hooks/useExpenses";
 import BudgetFilters from "../features/budget/components/BudgetFilters";
 import BudgetList from "../features/budget/components/BudgetList";
 import BudgetSummary from "../features/budget/components/BudgetSummary";
+import BudgetForm from "../features/budget/components/BudgetForm";
 import BudgetSkeleton from "../features/budget/components/BudgetSkeleton";
 import ErrorMessage from "../components/ErrorMessage";
 import Button from "../components/Button";
@@ -15,27 +17,26 @@ import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
 import { getYearMonthDate } from "../utils/date";
-import BudgetForm from "../features/budget/components/BudgetForm";
 
-const filterInitialState = {
+const initialState = {
   month: getYearMonthDate(),
 };
 
-const filterReducer = (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case "SET_MONTH":
       return { ...state, month: action.payload };
     case "RESET":
-      return filterInitialState;
+      return initialState;
     default:
       return state;
   }
 };
 
 const BudgetPage = () => {
-  const [filters, dispatch] = useReducer(filterReducer, filterInitialState);
-  const [selectedBuget, setSelectedBuget] = useState(null);
-  const [serverError, setServerError] = useState(null);
+  const [filters, dispatch] = useReducer(reducer, initialState);
+  const [selected, setSelected] = useState(null);
+  const [errors, setErrors] = useState({ message: null, fields: {} });
   const [isOpen, setIsOpen] = useState(false);
 
   const { toast, showToast, closeToast } = useToast();
@@ -46,6 +47,7 @@ const BudgetPage = () => {
     isFetching: isBudgetFetching,
     isError: isBudgetError,
     error: budgetError,
+    refetch: budgetRefetch,
   } = useBudgets(filters);
 
   const {
@@ -54,43 +56,52 @@ const BudgetPage = () => {
     isFetching: isExpenseFetching,
     isError: isExpenseError,
     error: expenseError,
+    refetch: expenseRefetch,
   } = useExpenses(filters);
 
   const isLoading = isBudgetLoading || isExpenseLoading;
   const isFetching = isBudgetFetching || isExpenseFetching;
   const isError = isBudgetError || isExpenseError;
   const error = budgetError || expenseError;
+  const refetch = budgetRefetch || expenseRefetch;
 
   const { createBudget, updateBudget, deleteBudget } = useBudgetMutations(filters);
 
   const handleCancel = () => {
     setIsOpen(false);
-    setSelectedBuget(null);
+    setSelected(null);
+    setErrors({ message: null, fields: {} });
   };
 
   const handleDelete = (id) => {
     deleteBudget.mutate(id, {
-      onSuccess: () => showToast("Budget deleted", "success"),
-      onError: () => showToast("Failed to delete budget", "error"),
+      onSuccess: () => {
+        showToast("Budget deleted", "success");
+      },
+      onError: () => {
+        showToast("Failed to delete budget", "error");
+      },
     });
   };
 
   const handleEdit = (item) => {
     setIsOpen(true);
-    setSelectedBuget(item);
+    setSelected(item);
   };
 
   const handleSubmit = (data) => {
-    setServerError(null);
-    if (selectedBuget)
+    setErrors({ message: null, fields: {} });
+    if (selected)
       updateBudget.mutate(
-        { id: selectedBuget.id, data },
+        { id: selected.id, data },
         {
           onSuccess: () => {
             showToast("Budget updated", "success");
             handleCancel();
           },
-          onError: (err) => setServerError(err.message),
+          onError: (err) => {
+            setErrors({ message: err.message, fields: err.errors });
+          },
         },
       );
     else
@@ -99,12 +110,20 @@ const BudgetPage = () => {
           showToast("Budget added", "success");
           handleCancel();
         },
-        onError: (err) => setServerError(err.message),
+        onError: (err) => {
+          setErrors({ message: err.message, fields: err.errors });
+        },
       });
   };
 
   if (isLoading) return <BudgetSkeleton />;
-  if (isError) return <ErrorMessage message={error.message} />;
+  if (isError && error.status >= 500)
+    return (
+      <ErrorMessage
+        message={error.message}
+        onRetry={refetch}
+      />
+    );
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">
@@ -134,10 +153,10 @@ const BudgetPage = () => {
           isOpen={isOpen}
           onClose={handleCancel}>
           <BudgetForm
-            initialData={selectedBuget}
+            initialData={selected}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
-            serverError={serverError}
+            serverErrors={errors}
           />
         </Modal>
       )}

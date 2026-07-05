@@ -1,4 +1,6 @@
-import { useReducer, useEffect } from "react";
+import { useEffect } from "react";
+
+import useForm from "../../../hooks/useForm";
 
 import { EXPENSE_CATEGORIES } from "../../../constants";
 
@@ -10,31 +12,31 @@ import ErrorMessage from "../../../components/ErrorMessage";
 
 import { validate } from "../utils/validation";
 import { getYearMonthDate } from "../../../utils/date";
+import { errorField } from "../../../utils/errors";
 
-const initialState = {
-  categoryId: "",
-  limit: "",
-  month: getYearMonthDate(),
-  errors: {},
-};
+const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
+  const [form, dispatch] = useForm({
+    categoryId: "",
+    limit: "",
+    month: getYearMonthDate(),
+    prevCategoryId: "",
+    prevMonth: "",
+  });
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_FIELD":
-      return { ...state, [action.field]: action.payload };
-    case "INVALID":
-      return { ...state, errors: action.payload };
-    case "PREFILL": {
-      const { categoryId, limit, month } = action.payload;
-      return { ...initialState, categoryId, limit: String(limit), month };
-    }
-    case "RESET":
-      return initialState;
-  }
-};
+  const fieldError = errorField(form?.errors, serverErrors?.fields);
 
-const BudgetForm = ({ initialData, onSubmit, onCancel, serverError }) => {
-  const [form, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    if (initialData)
+      dispatch({
+        type: "PREFILL",
+        payload: {
+          ...initialData,
+          prevCategoryId: initialData.categoryId,
+          prevMonth: initialData.month,
+        },
+      });
+    else dispatch({ type: "RESET" });
+  }, [initialData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,15 +47,10 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverError }) => {
     } else dispatch({ type: "INVALID", payload: errors });
   };
 
-  useEffect(() => {
-    if (initialData) dispatch({ type: "PREFILL", payload: initialData });
-    else dispatch({ type: "RESET" });
-  }, [initialData]);
-
   return (
     <div className="flex flex-col justify-start items-start gap-3 w-full">
       <h2 className="text-xl font-bold">{initialData ? "Edit" : "Add"} Budget Form</h2>
-      {serverError && <ErrorMessage message={serverError} />}
+      {serverErrors && <ErrorMessage message={serverErrors.message} />}
       <form
         onSubmit={handleSubmit}
         className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full h-full">
@@ -61,7 +58,7 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           label="Category"
           id="categoryId"
           value={form.categoryId}
-          error={form.errors.categoryId}
+          error={fieldError("categoryId")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -80,7 +77,7 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           label="Limit"
           id="limit"
           value={form.limit}
-          error={form.errors.limit}
+          error={fieldError("limit")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -94,7 +91,7 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           label="Month"
           id="month"
           value={form.month}
-          error={form.errors.month}
+          error={fieldError("month")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",

@@ -12,7 +12,7 @@ import ErrorMessage from "../../../components/ErrorMessage";
 
 import { validate } from "../utils/validation";
 import { getShortDate } from "../../../utils/date";
-import { fieldError } from "../../../utils/errors";
+import { errorField } from "../../../utils/errors";
 
 const ExpenseForm = forwardRef(
   ({ initialData, onSubmit, onCancel, serverErrors }, ref) => {
@@ -22,6 +22,8 @@ const ExpenseForm = forwardRef(
       categoryId: "",
       date: getShortDate(),
     });
+
+    const fieldError = errorField(form?.errors, serverErrors?.fields);
 
     useEffect(() => {
       if (initialData) dispatch({ type: "PREFILL", payload: initialData });

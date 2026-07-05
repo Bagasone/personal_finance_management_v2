@@ -1,1 +1,3 @@
-export const fieldError = (field) => form.errors[field] || serverErrors?.fields?.[field];
+export const errorField = (clientError, serverError) => {
+  return (field) => clientError[field] || serverError?.[field];
+};

@@ -52,6 +52,15 @@ const handlers = [
     const { valid, errors } = validateBudget(budget);
     if (!valid) return responseError("BAD_REQUEST", "Invalid budget data", errors);
 
+    if (
+      budget.prevCategoryId !== budget.categoryId ||
+      budget.prevMonth !== budget.month
+    ) {
+      const duplicate = findBudgetCategoryandMonth(budget.categoryId, budget.month);
+      if (duplicate)
+        return responseError("CONFLICT", "Budget already exist for this category");
+    }
+
     const { ok, data } = updateBudget(id, budget);
     if (ok) return responseSuccess("OK", `Update budget with id ${id}`, data);
   }),

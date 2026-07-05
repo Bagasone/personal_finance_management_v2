@@ -40,7 +40,7 @@ const IncomeSummary = ({ data, filters }) => {
 };
 
 const IncomeSourceDetail = ({ data, total, label, id }) => {
-  const TotalSource = calculate(data, { label: "sourceId", value: id });
+  const TotalSource = calculate(data, "amount", { key: "sourceId", id });
   const PercentSource = percent(TotalSource, total);
 
   return (

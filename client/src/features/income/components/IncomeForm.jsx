@@ -12,6 +12,7 @@ import ErrorMessage from "../../../components/ErrorMessage";
 
 import { getShortDate } from "../../../utils/date";
 import { validate } from "../utils/validation";
+import { fieldError } from "../../../utils/errors";
 
 const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
   const [form, dispatch] = useForm({
@@ -22,7 +23,6 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
   });
 
   const firstInputRef = useRef(null);
-  const fieldError = (field) => form.errors[field] || serverErrors?.fields[field];
 
   useEffect(() => {
     firstInputRef.current?.focus();

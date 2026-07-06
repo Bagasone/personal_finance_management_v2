@@ -44,7 +44,7 @@ const handlers = [
   }),
   http.put("/api/budgets/:id", async ({ request, params }) => {
     const { id } = params;
-    const budget = await request.json();
+    const { prevCategoryId, prevMonth, ...budget } = await request.json();
 
     const isExist = findByIdBudget(id);
     if (!isExist) return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`);
@@ -52,10 +52,7 @@ const handlers = [
     const { valid, errors } = validateBudget(budget);
     if (!valid) return responseError("BAD_REQUEST", "Invalid budget data", errors);
 
-    if (
-      budget.prevCategoryId !== budget.categoryId ||
-      budget.prevMonth !== budget.month
-    ) {
+    if (prevCategoryId !== budget.categoryId || prevMonth !== budget.month) {
       const duplicate = findBudgetCategoryandMonth(budget.categoryId, budget.month);
       if (duplicate)
         return responseError("CONFLICT", "Budget already exist for this category");

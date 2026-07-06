@@ -10,7 +10,7 @@ import Option from "../../../components/Option";
 import Button from "../../../components/Button";
 import ErrorMessage from "../../../components/ErrorMessage";
 
-import { getShortDate } from "../../../utils/date";
+import { getDate } from "../../../utils/date";
 import { validate } from "../utils/validation";
 import { errorField } from "../../../utils/errors";
 
@@ -19,7 +19,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
     description: "",
     amount: "",
     sourceId: "",
-    date: getShortDate(),
+    date: getDate(),
   });
 
   const firstInputRef = useRef(null);

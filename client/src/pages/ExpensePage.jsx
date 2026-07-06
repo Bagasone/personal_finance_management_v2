@@ -13,10 +13,10 @@ import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
 import Toast from "../components/Toast";
 
-import { getYearMonthDate } from "../utils/date";
+import { getMonth } from "../utils/date";
 
 const initialState = {
-  month: getYearMonthDate(),
+  month: getMonth(),
   categoryId: "",
 };
 

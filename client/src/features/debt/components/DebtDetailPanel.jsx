@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 
 import { percent } from "../../../utils/calculate";
-import { getShortDate } from "../../../utils/date";
+import { getDate } from "../../../utils/date";
 import { formatCurrency, formatDate } from "../../../utils/formatter";
 
 import Input from "../../../components/Input";
@@ -11,7 +11,7 @@ import { validatePayment } from "../utils/validation";
 
 const initialState = {
   amount: "",
-  date: getShortDate(),
+  date: getDate(),
   note: "",
   errors: {},
 };

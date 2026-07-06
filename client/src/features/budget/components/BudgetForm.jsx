@@ -11,14 +11,14 @@ import Button from "../../../components/Button";
 import ErrorMessage from "../../../components/ErrorMessage";
 
 import { validate } from "../utils/validation";
-import { getYearMonthDate } from "../../../utils/date";
+import { getMonth } from "../../../utils/date";
 import { errorField } from "../../../utils/errors";
 
 const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
   const [form, dispatch] = useForm({
     categoryId: "",
     limit: "",
-    month: getYearMonthDate(),
+    month: getMonth(),
     prevCategoryId: "",
     prevMonth: "",
   });

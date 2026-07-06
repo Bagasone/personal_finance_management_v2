@@ -11,7 +11,7 @@ import Button from "../../../components/Button";
 import ErrorMessage from "../../../components/ErrorMessage";
 
 import { validate } from "../utils/validation";
-import { getShortDate } from "../../../utils/date";
+import { getDate } from "../../../utils/date";
 import { errorField } from "../../../utils/errors";
 
 const ExpenseForm = forwardRef(
@@ -20,7 +20,7 @@ const ExpenseForm = forwardRef(
       description: "",
       amount: "",
       categoryId: "",
-      date: getShortDate(),
+      date: getDate(),
     });
 
     const fieldError = errorField(form?.errors, serverErrors?.fields);

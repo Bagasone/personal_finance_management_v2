@@ -15,10 +15,10 @@ import Spinner from "../components/Spinner";
 import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
-import { getYearMonthDate } from "../utils/date";
+import { getMonth } from "../utils/date";
 
 const initialState = {
-  month: getYearMonthDate(),
+  month: getMonth(),
   sourceId: "",
 };
 

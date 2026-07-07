@@ -16,11 +16,12 @@ export const formatCurrencyCompact = (amount) => {
   }).format(amount);
 };
 
-export const formatDate = (date, option) => {
+export const formatDate = (data, option) => {
+  const date = new Date(data);
   return new Intl.DateTimeFormat("en-GB", option).format(date);
 };
 
-export const formatMonth = (month) => {
-  const date = new Date(`${month}-01`);
+export const formatMonth = (data) => {
+  const date = new Date(`${data}-01`);
   return formatDate(date, { year: "numeric", month: "long" });
 };

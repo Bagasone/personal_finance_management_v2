@@ -7,7 +7,7 @@ import { iconCategory } from "../../../utils/icon";
 import { labelCategory } from "../../../utils/label";
 import { variations } from "../utils/variation";
 
-const BudgetItem = ({ item, onEdit, onDelete, data }) => {
+const BudgetItem = ({ item, onEdit, onDelete, onOpen, data }) => {
   const Icon = iconCategory(item.categoryId);
   const Label = labelCategory(item.categoryId);
 
@@ -19,8 +19,20 @@ const BudgetItem = ({ item, onEdit, onDelete, data }) => {
   const PercentCategory = percent(TotalCategory, item.limit);
   const BudgetVariation = variations(PercentCategory);
 
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    onEdit(item);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    onDelete(item.id);
+  };
+
   return (
-    <li className="box flex flex-col gap-3">
+    <li
+      className="box flex flex-col gap-3"
+      onClick={() => onOpen(item)}>
       <div
         aria-label="card-head"
         className="flex justify-between items-center">
@@ -35,11 +47,11 @@ const BudgetItem = ({ item, onEdit, onDelete, data }) => {
         <div className="flex items-center gap-3">
           <Button
             label="Edit"
-            onClick={() => onEdit(item)}
+            onClick={handleEdit}
           />
           <Button
             label="Delete"
-            onClick={() => onDelete(item.id)}
+            onClick={handleDelete}
           />
         </div>
       </div>

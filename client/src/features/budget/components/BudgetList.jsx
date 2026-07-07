@@ -1,7 +1,7 @@
 import BudgetItem from "./BudgetItem";
 import EmptyState from "../../../components/EmptyState";
 
-const BudgetList = ({ dataBudgets, dataExpenses, onEdit, onDelete }) => {
+const BudgetList = ({ dataBudgets, dataExpenses, onEdit, onDelete, onOpen}) => {
   if (!dataBudgets) return <EmptyState message="There is No Budget For this Month" />;
 
   return (
@@ -12,6 +12,7 @@ const BudgetList = ({ dataBudgets, dataExpenses, onEdit, onDelete }) => {
           item={item}
           onEdit={onEdit}
           onDelete={onDelete}
+          onOpen={onOpen}
           data={dataExpenses}
         />
       ))}

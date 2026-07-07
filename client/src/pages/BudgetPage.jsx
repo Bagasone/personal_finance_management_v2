@@ -17,6 +17,9 @@ import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
 import { getMonth } from "../utils/date";
+import BudgetDetailPanel from "../features/budget/components/BudgetDetailPanel";
+import { calculate } from "../utils/calculate";
+import { labelCategory } from "../utils/label";
 
 const initialState = {
   month: getMonth(),
@@ -36,8 +39,9 @@ const reducer = (state, action) => {
 const BudgetPage = () => {
   const [filters, dispatch] = useReducer(reducer, initialState);
   const [selected, setSelected] = useState(null);
-  const [errors, setErrors] = useState({ message: null, fields: {} });
+  const [edited, setEdited] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [errors, setErrors] = useState({ message: null, fields: {} });
 
   const { toast, showToast, closeToast } = useToast();
 
@@ -67,15 +71,38 @@ const BudgetPage = () => {
 
   const { createBudget, updateBudget, deleteBudget } = useBudgetMutations(filters);
 
+  const handleSelected = (data) => {
+    const label = labelCategory(data.id);
+    const spent = calculate(expenses, "amount", {
+      key: "categoryId",
+      id: data.categoryId,
+    });
+    const remaining = data.limit - spent;
+    const quantity = expenses.map((e) => e.categoryId === data.id).length;
+    const average = spent / quantity;
+    const expense = expenses.filter((e) => e.categoryId === data.categoryId);
+
+    setSelected({
+      ...data,
+      label,
+      spent,
+      remaining,
+      quantity,
+      average,
+      expenses: expense,
+    });
+  };
+
   const handleCancel = () => {
     setIsOpen(false);
-    setSelected(null);
+    setEdited(null);
     setErrors({ message: null, fields: {} });
   };
 
   const handleDelete = (id) => {
     deleteBudget.mutate(id, {
       onSuccess: () => {
+        if (selected.id === id) setSelected(null);
         showToast("Budget deleted", "success");
       },
       onError: () => {
@@ -84,9 +111,9 @@ const BudgetPage = () => {
     });
   };
 
-  const handleEdit = (item) => {
+  const handleEdit = (data) => {
     setIsOpen(true);
-    setSelected(item);
+    setEdited(data);
   };
 
   const handleSubmit = (data) => {
@@ -144,16 +171,19 @@ const BudgetPage = () => {
           dataExpenses={expenses}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onOpen={handleSelected}
         />
         <BudgetSummary data={budgets} />
       </div>
-      <div className="col-span-4 flex flex-col justify-start items-start gap-1 "></div>
+      <div className="col-span-4 flex flex-col justify-start items-start gap-1 ">
+        <BudgetDetailPanel data={selected} />
+      </div>
       {isOpen && (
         <Modal
           isOpen={isOpen}
           onClose={handleCancel}>
           <BudgetForm
-            initialData={selected}
+            initialData={edited}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
             serverErrors={errors}

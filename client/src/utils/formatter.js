@@ -6,6 +6,16 @@ export const formatCurrency = (amount) => {
   }).format(amount);
 };
 
+export const formatCurrencyCompact = (amount) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    notation: "compact",
+    compactDisplay: "short",
+  }).format(amount);
+};
+
 export const formatDate = (date, option) => {
   return new Intl.DateTimeFormat("en-GB", option).format(date);
 };

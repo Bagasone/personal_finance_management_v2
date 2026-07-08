@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import useDebts from "../features/debt/hooks/useDebts";
 import useDebtMutations from "../features/debt/hooks/useDebtMutations";
 import useToast from "../hooks/useToast";
@@ -14,45 +15,53 @@ import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
 const DebtPage = () => {
-  const [selectedDebt, setSelectedDebt] = useState(null);
-  const [serverError, setServerError] = useState(null);
+  const [selected, setSelected] = useState(null);
+  const [edited, setEdited] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [errors, setErrors] = useState({ message: null, fields: {} });
+  const [paymentErrors, setPaymentErrors] = useState({ message: null, fields: {} });
 
-  const { data, isLoading, isFetching, isError, error } = useDebts();
+  const { data, isLoading, isFetching, isError, error, refetch } = useDebts();
   const { createDebt, updateDebt, deleteDebt, addPayment } = useDebtMutations();
 
   const { toast, showToast, closeToast } = useToast();
 
   const handleCancel = () => {
     setIsOpen(false);
-    setSelectedDebt(null);
+    setEdited(null);
+    setErrors({ message: null, fields: {} });
   };
 
   const handleEdit = (data) => {
     setIsOpen(true);
-    setSelectedDebt(data);
+    setEdited(data);
   };
 
   const handleDelete = (id) => {
     deleteDebt.mutate(id, {
       onSuccess: () => {
-        setSelectedDebt(null);
+        if (selected.id === id) setSelected(null);
         showToast("Debt deleted", "success");
       },
-      onError: (err) => showToast("Failed to delete debt", "error"),
+      onError: (err) => {
+        showToast("Failed to delete debt", "error");
+      },
     });
   };
 
   const handleSubmit = (data) => {
-    if (selectedDebt)
+    setErrors({ message: null, fields: {} });
+    if (edited)
       updateDebt.mutate(
-        { id: selectedDebt.id, data },
+        { id: edited.id, data },
         {
           onSuccess: () => {
             showToast("Debt updated", "success");
             handleCancel();
           },
-          onError: (err) => setServerError(err.message),
+          onError: (err) => {
+            setErrors({ message: err.message, fields: err.errors });
+          },
         },
       );
     else
@@ -61,25 +70,36 @@ const DebtPage = () => {
           showToast("Debt added", "success");
           handleCancel();
         },
-        onError: (err) => setServerError(err.message),
+        onError: (err) => {
+          setErrors({ message: err.message, fields: err.errors });
+        },
       });
   };
 
   const handleAddPayment = (data) => {
+    setPaymentErrors({ message: null, fields: {} });
     addPayment.mutate(
-      { id: selectedDebt.id, data },
+      { id: selected.id, data },
       {
         onSuccess: ({ data }) => {
-          setSelectedDebt(data);
+          setSelected(data);
           showToast("Payment added", "success");
         },
-        onError: (err) => setServerError(err.message),
+        onError: (err) => {
+          setPaymentErrors({ message: err.message, fields: err.errors });
+        },
       },
     );
   };
 
   if (isLoading) return <DebtSkeleton />;
-  if (isError) return <ErrorMessage message={error.message} />;
+  if (isError && error.status >= 500)
+    return (
+      <ErrorMessage
+        message={error.message}
+        onRetry={refetch}
+      />
+    );
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">
@@ -93,14 +113,14 @@ const DebtPage = () => {
           data={data}
           onEdit={handleEdit}
           onDelete={handleDelete}
-          onDetail={setSelectedDebt}
+          onDetail={setSelected}
         />
       </div>
       <div className="col-span-4 flex flex-col justify-start items-start gap-1 ">
         <DebtDetailPanel
-          data={selectedDebt}
+          data={selected}
           onAddPayment={handleAddPayment}
-          serverError={serverError}
+          serverErrors={paymentErrors}
         />
       </div>
       {isOpen && (
@@ -108,10 +128,10 @@ const DebtPage = () => {
           isOpen={isOpen}
           onClose={handleCancel}>
           <DebtForm
-            initialData={selectedDebt}
+            initialData={edited}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
-            serverError={serverError}
+            serverErrors={errors}
           />
         </Modal>
       )}

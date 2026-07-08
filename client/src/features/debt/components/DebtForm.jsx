@@ -1,4 +1,8 @@
 import { useReducer, useEffect } from "react";
+import useForm from "../../../hooks/useForm";
+
+import { validate } from "../utils/validation";
+import { errorField } from "../../../utils/errors";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
@@ -6,39 +10,13 @@ import ErrorMessage from "../../../components/ErrorMessage";
 
 import { DEBT_TYPES } from "../../../constants/";
 
-import { validate } from "../utils/validation";
-
-const initialState = {
-  type: "owe",
-  description: "",
-  totalAmount: "",
-  dueDate: "",
-  errors: {},
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_FIELD":
-      return { ...state, [action.field]: action.payload };
-    case "INVALID":
-      return { ...state, errors: action.payload };
-    case "RESET":
-      return initialState;
-    case "PREFILL": {
-      const { type, description, totalAmount, dueDate } = action.payload;
-      return {
-        ...initialState,
-        type,
-        description,
-        totalAmount: String(totalAmount),
-        dueDate,
-      };
-    }
-  }
-};
-
-const DebtForm = ({ initialData, onSubmit, onCancel, serverError }) => {
-  const [form, dispatch] = useReducer(reducer, initialState);
+const DebtForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
+  const [form, dispatch] = useForm({
+    type: "owe",
+    description: "",
+    totalAmount: "",
+    dueDate: "",
+  });
 
   useEffect(() => {
     if (initialData) dispatch({ type: "PREFILL", payload: initialData });
@@ -54,10 +32,12 @@ const DebtForm = ({ initialData, onSubmit, onCancel, serverError }) => {
     } else dispatch({ type: "INVALID", payload: errors });
   };
 
+  const error = errorField(form.errors, serverErrors.fields);
+
   return (
     <div className="w-72 lex flex-col justify-start items-start gap-3 px-3 py-1">
       <h2 className="text-xl font-bold">{initialData ? "Edit" : "Add"} Debt Form</h2>
-      {serverError && <ErrorMessage message={serverError} />}
+      {serverErrors && <ErrorMessage message={serverErrors.message} />}
       <form
         onSubmit={handleSubmit}
         className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full h-full">
@@ -99,7 +79,7 @@ const DebtForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           onChange={(e) =>
             dispatch({ type: "SET_FIELD", field: "description", payload: e.target.value })
           }
-          error={form.errors.description}
+          error={error("description")}
         />
         <Input
           type="number"
@@ -109,7 +89,7 @@ const DebtForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           onChange={(e) =>
             dispatch({ type: "SET_FIELD", field: "totalAmount", payload: e.target.value })
           }
-          error={form.errors.totalAmount}
+          error={error("totalAmount")}
         />
         <Input
           type="date"
@@ -119,7 +99,7 @@ const DebtForm = ({ initialData, onSubmit, onCancel, serverError }) => {
           onChange={(e) =>
             dispatch({ type: "SET_FIELD", field: "dueDate", payload: e.target.value })
           }
-          error={form.errors.dueDate}
+          error={error("dueDate")}
         />
         <div className="flex gap-3">
           <Button

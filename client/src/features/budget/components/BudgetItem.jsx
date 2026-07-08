@@ -7,7 +7,7 @@ import { iconCategory } from "../../../utils/icon";
 import { labelCategory } from "../../../utils/label";
 import { variations } from "../utils/variation";
 
-const BudgetItem = ({ item, onEdit, onDelete, onOpen, data }) => {
+const BudgetItem = ({ item, onEdit, onDelete, onDetail, data }) => {
   const Icon = iconCategory(item.categoryId);
   const Label = labelCategory(item.categoryId);
 
@@ -32,7 +32,7 @@ const BudgetItem = ({ item, onEdit, onDelete, onOpen, data }) => {
   return (
     <li
       className="box flex flex-col gap-3"
-      onClick={() => onOpen(item)}>
+      onClick={() => onDetail(item)}>
       <div
         aria-label="card-head"
         className="flex justify-between items-center">

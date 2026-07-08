@@ -1,19 +1,14 @@
-import { TYPE_ICONS } from "../../../constants/icons";
-
 import { formatCurrency, formatDate } from "../../../utils/formatter";
+import { iconType } from "../../../utils/icon";
 
 import Button from "../../../components/Button";
+import { variations } from "../utils/variation";
 
 const DebtItem = ({ item, onEdit, onDelete, onDetail }) => {
-  const Icon = TYPE_ICONS[item.type];
+  const Icon = iconType(item.type);
   const dueDate = new Date(item.dueDate);
 
-  const className =
-    item.remainingAmount === 0
-      ? { type: "bg-income-500/5 text-income-700", amount: "text-income-700" }
-      : item.type === "owe"
-        ? { type: "bg-debt-500/5 text-debt-700", amount: "text-debt-700" }
-        : { type: "bg-budget-500/5 text-budget-700", amount: "text-budget-700" };
+  const variation = variations(item);
 
   return (
     <li
@@ -30,12 +25,13 @@ const DebtItem = ({ item, onEdit, onDelete, onDetail }) => {
               className="truncate text-lg font-medium">
               {item.description}
             </div>
-            <div className={`border rounded-sm px-2 py-1 truncate ${className.type}`}>
-              {item.remainingAmount === 0 ? "Paid Off" : item.type}
+            <div
+              className={`border rounded-sm px-2 py-1 truncate ${variation.classAmount}`}>
+              {variation.label}
             </div>
           </div>
           <div
-            className={`border rounded-sm px-2 py-1 truncate text-lg font-medium ${className.amount}`}>
+            className={`border rounded-sm px-2 py-1 truncate text-lg font-medium ${variation.classAmount}`}>
             {formatCurrency(item.remainingAmount)}
           </div>
         </div>

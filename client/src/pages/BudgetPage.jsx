@@ -9,6 +9,7 @@ import BudgetFilters from "../features/budget/components/BudgetFilters";
 import BudgetList from "../features/budget/components/BudgetList";
 import BudgetSummary from "../features/budget/components/BudgetSummary";
 import BudgetForm from "../features/budget/components/BudgetForm";
+import BudgetDetailPanel from "../features/budget/components/BudgetDetailPanel";
 import BudgetSkeleton from "../features/budget/components/BudgetSkeleton";
 import ErrorMessage from "../components/ErrorMessage";
 import Button from "../components/Button";
@@ -17,7 +18,6 @@ import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
 import { getMonth } from "../utils/date";
-import BudgetDetailPanel from "../features/budget/components/BudgetDetailPanel";
 import { calculate } from "../utils/calculate";
 import { labelCategory } from "../utils/label";
 
@@ -171,7 +171,7 @@ const BudgetPage = () => {
           dataExpenses={expenses}
           onEdit={handleEdit}
           onDelete={handleDelete}
-          onOpen={handleSelected}
+          onDetail={handleSelected}
         />
         <BudgetSummary data={budgets} />
       </div>

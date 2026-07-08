@@ -1,46 +1,32 @@
 import { useReducer } from "react";
+import useForm from "../../../hooks/useForm";
 
 import { percent } from "../../../utils/calculate";
 import { getDate } from "../../../utils/date";
 import { formatCurrency, formatDate } from "../../../utils/formatter";
+import { validatePayment } from "../utils/validation";
+import { errorField } from "../../../utils/errors";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import EmptyState from "../../../components/EmptyState";
-import { validatePayment } from "../utils/validation";
+import { variations } from "../utils/variation";
 
-const initialState = {
-  amount: "",
-  date: getDate(),
-  note: "",
-  errors: {},
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "SET_FIELD":
-      return { ...state, [action.field]: action.payload };
-    case "INVALID":
-      return { ...state, errors: action.payload };
-    case "RESET":
-      return initialState;
-  }
-};
-
-const DebtDetailPanel = ({ data, onAddPayment, serverError }) => {
-  const [form, dispatch] = useReducer(reducer, initialState);
+const DebtDetailPanel = ({ data, onAddPayment, serverErrors }) => {
+  const [form, dispatch] = useForm({
+    amount: "",
+    date: getDate(),
+    note: "",
+  });
 
   if (!data) return <EmptyState message="Pick one Debt to see the detail" />;
 
   const paidDebt = data.payments.reduce((acc, curr) => acc + curr.amount, 0);
   const percentDebt = percent(paidDebt, data.totalAmount);
 
-  const className =
-    data.remainingAmount === 0
-      ? { type: "bg-income-500/5 text-income-500", amount: "text-income-500" }
-      : data.type === "owe"
-        ? { type: "bg-debt-500/5 text-debt-500", amount: "text-debt-500" }
-        : { type: "bg-budget-500/5 text-budget-500", amount: "text-budget-500" };
+  const variation = variations(data);
+
+  const fieldError = errorField(form.errors, serverErrors.fields);
 
   const handleAddPayment = (e) => {
     e.preventDefault();
@@ -56,7 +42,7 @@ const DebtDetailPanel = ({ data, onAddPayment, serverError }) => {
     <div className="box flex flex-col gap-3 w-full h-full">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">{data.description}</h2>
-        <span className={`box ${className.type}`}>{data.type}</span>
+        <span className={`box ${variation.classType}`}>{data.type}</span>
       </div>
       <div className="box flex justify-between items-center">
         <div className="flex flex-col gap-1">
@@ -67,7 +53,7 @@ const DebtDetailPanel = ({ data, onAddPayment, serverError }) => {
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-black-600 text-sm">Remaining</span>
-          <p className={`${className.amount} text-lg font-medium`}>
+          <p className={`${variation.classAmount} text-lg font-medium`}>
             {formatCurrency(data.remainingAmount)}
           </p>
         </div>
@@ -85,7 +71,9 @@ const DebtDetailPanel = ({ data, onAddPayment, serverError }) => {
       </div>
       <div className="flex flex-col gap-3">
         <h3 className="text-black-600 font-semibold">Payment History</h3>
-        {serverError && <p className="text-lg text-expense-500">{serverError}</p>}
+        {serverErrors && (
+          <p className="text-lg text-expense-500">{serverErrors.message}</p>
+        )}
         <div className="flex flex-col gap-3">
           {data.payments.map((item) => (
             <DetailItem
@@ -97,42 +85,46 @@ const DebtDetailPanel = ({ data, onAddPayment, serverError }) => {
       </div>
       <div className="flex flex-col gap-3">
         <h3 className="text-black-600 font-semibold">Added Payment</h3>
-        <div className="flex flex-col gap-3">
-          <Input
-            type="number"
-            label="Amount"
-            id="amount"
-            value={form.amount}
-            onChange={(e) =>
-              dispatch({ type: "SET_FIELD", field: "amount", payload: e.target.value })
-            }
-            error={form.errors.amount}
-          />
-          <Input
-            type="date"
-            label="Date"
-            id="date"
-            value={form.date}
-            onChange={(e) =>
-              dispatch({ type: "SET_FIELD", field: "date", payload: e.target.value })
-            }
-            error={form.errors.date}
-          />
-          <Input
-            type="text"
-            label="Note"
-            id="note"
-            value={form.note}
-            onChange={(e) =>
-              dispatch({ type: "SET_FIELD", field: "note", payload: e.target.value })
-            }
-            error={form.errors.note}
-          />
-          <Button
-            label="Add Payment"
-            onClick={handleAddPayment}
-          />
-        </div>
+        {data.remainingAmount === 0 ? (
+          <p>This debt has been fully paid</p>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <Input
+              type="number"
+              label="Amount"
+              id="amount"
+              value={form.amount}
+              onChange={(e) =>
+                dispatch({ type: "SET_FIELD", field: "amount", payload: e.target.value })
+              }
+              error={fieldError("amount")}
+            />
+            <Input
+              type="date"
+              label="Date"
+              id="date"
+              value={form.date}
+              onChange={(e) =>
+                dispatch({ type: "SET_FIELD", field: "date", payload: e.target.value })
+              }
+              error={fieldError("date")}
+            />
+            <Input
+              type="text"
+              label="Note"
+              id="note"
+              value={form.note}
+              onChange={(e) =>
+                dispatch({ type: "SET_FIELD", field: "note", payload: e.target.value })
+              }
+              error={fieldError("note")}
+            />
+            <Button
+              label="Add Payment"
+              onClick={handleAddPayment}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

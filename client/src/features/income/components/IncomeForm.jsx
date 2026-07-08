@@ -12,7 +12,7 @@ import ErrorMessage from "../../../components/ErrorMessage";
 
 import { getDate } from "../../../utils/date";
 import { validate } from "../utils/validation";
-import { errorField } from "../../../utils/errors";
+import { errorField } from "../../../utils/error";
 
 const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
   const [form, dispatch] = useForm({
@@ -23,7 +23,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
   });
 
   const firstInputRef = useRef(null);
-  const fieldError = errorField(form?.errors, serverErrors?.fields);
+  const error = errorField(form?.errors, serverErrors?.fields);
 
   useEffect(() => {
     firstInputRef.current?.focus();
@@ -56,7 +56,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
           label="Description"
           id="description"
           value={form.description}
-          error={fieldError("description")}
+          error={error("description")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -70,7 +70,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
           label="Amount"
           id="amount"
           value={form.amount}
-          error={fieldError("amount")}
+          error={error("amount")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -83,7 +83,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
           label="Source"
           id="sourceId"
           value={form.sourceId}
-          error={fieldError("sourceId")}
+          error={error("sourceId")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -102,7 +102,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
           label="Date"
           id="date"
           value={form.date}
-          error={fieldError("date")}
+          error={error("date")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",

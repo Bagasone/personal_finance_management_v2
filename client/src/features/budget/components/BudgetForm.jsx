@@ -12,7 +12,7 @@ import ErrorMessage from "../../../components/ErrorMessage";
 
 import { validate } from "../utils/validation";
 import { getMonth } from "../../../utils/date";
-import { errorField } from "../../../utils/errors";
+import { errorField } from "../../../utils/error";
 
 const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
   const [form, dispatch] = useForm({
@@ -23,7 +23,7 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
     prevMonth: "",
   });
 
-  const fieldError = errorField(form?.errors, serverErrors?.fields);
+  const error = errorField(form?.errors, serverErrors?.fields);
 
   useEffect(() => {
     if (initialData)
@@ -58,7 +58,7 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
           label="Category"
           id="categoryId"
           value={form.categoryId}
-          error={fieldError("categoryId")}
+          error={error("categoryId")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -77,7 +77,7 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
           label="Limit"
           id="limit"
           value={form.limit}
-          error={fieldError("limit")}
+          error={error("limit")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
@@ -91,7 +91,7 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
           label="Month"
           id="month"
           value={form.month}
-          error={fieldError("month")}
+          error={error("month")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",

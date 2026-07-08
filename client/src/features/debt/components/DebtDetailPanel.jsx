@@ -25,8 +25,7 @@ const DebtDetailPanel = ({ data, onAddPayment, serverErrors }) => {
   const percentDebt = percent(paidDebt, data.totalAmount);
 
   const variation = variations(data);
-
-  const fieldError = errorField(form.errors, serverErrors.fields);
+  const error = errorField(form.errors, serverErrors.fields);
 
   const handleAddPayment = (e) => {
     e.preventDefault();
@@ -97,7 +96,7 @@ const DebtDetailPanel = ({ data, onAddPayment, serverErrors }) => {
               onChange={(e) =>
                 dispatch({ type: "SET_FIELD", field: "amount", payload: e.target.value })
               }
-              error={fieldError("amount")}
+              error={error("amount")}
             />
             <Input
               type="date"
@@ -107,7 +106,7 @@ const DebtDetailPanel = ({ data, onAddPayment, serverErrors }) => {
               onChange={(e) =>
                 dispatch({ type: "SET_FIELD", field: "date", payload: e.target.value })
               }
-              error={fieldError("date")}
+              error={error("date")}
             />
             <Input
               type="text"
@@ -117,7 +116,7 @@ const DebtDetailPanel = ({ data, onAddPayment, serverErrors }) => {
               onChange={(e) =>
                 dispatch({ type: "SET_FIELD", field: "note", payload: e.target.value })
               }
-              error={fieldError("note")}
+              error={error("note")}
             />
             <Button
               label="Add Payment"

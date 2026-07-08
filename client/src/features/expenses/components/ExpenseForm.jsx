@@ -12,7 +12,7 @@ import ErrorMessage from "../../../components/ErrorMessage";
 
 import { validate } from "../utils/validation";
 import { getDate } from "../../../utils/date";
-import { errorField } from "../../../utils/errors";
+import { errorField } from "../../../utils/error";
 
 const ExpenseForm = forwardRef(
   ({ initialData, onSubmit, onCancel, serverErrors }, ref) => {
@@ -23,7 +23,7 @@ const ExpenseForm = forwardRef(
       date: getDate(),
     });
 
-    const fieldError = errorField(form?.errors, serverErrors?.fields);
+    const error = errorField(form?.errors, serverErrors?.fields);
 
     useEffect(() => {
       if (initialData) dispatch({ type: "PREFILL", payload: initialData });
@@ -52,7 +52,7 @@ const ExpenseForm = forwardRef(
             label="Description"
             id="description"
             value={form.description}
-            error={fieldError("description")}
+            error={error("description")}
             onChange={(e) =>
               dispatch({
                 type: "SET_FIELD",
@@ -66,7 +66,7 @@ const ExpenseForm = forwardRef(
             label="Amount"
             id="amount"
             value={form.amount}
-            error={fieldError("amount")}
+            error={error("amount")}
             onChange={(e) =>
               dispatch({
                 type: "SET_FIELD",
@@ -79,7 +79,7 @@ const ExpenseForm = forwardRef(
             label="Category"
             id="categoryId"
             value={form.categoryId}
-            error={fieldError("categoryId")}
+            error={error("categoryId")}
             onChange={(e) =>
               dispatch({
                 type: "SET_FIELD",
@@ -98,7 +98,7 @@ const ExpenseForm = forwardRef(
             label="Date"
             id="date"
             value={form.date}
-            error={fieldError("date")}
+            error={error("date")}
             onChange={(e) =>
               dispatch({
                 type: "SET_FIELD",

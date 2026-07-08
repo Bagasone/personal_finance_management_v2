@@ -1,8 +1,8 @@
 export const calculate = (data, key = "amount", filter = null) => {
-  if (!data) return 0;
-  else if (!filter) return data.reduce((acc, curr) => acc + curr[key], 0);
+  if (!data || data.length === 0) return 0;
+  if (!filter) return data.reduce((acc, curr) => acc + curr[key], 0);
   return data.reduce((acc, curr) => {
-    return curr[filter.key] === filter.id ? acc + curr[key] : acc;
+    return curr[filter.key] === filter.value ? acc + curr[key] : acc;
   }, 0);
 };
 

@@ -75,7 +75,7 @@ const BudgetPage = () => {
     const label = labelCategory(data.id);
     const spent = calculate(expenses, "amount", {
       key: "categoryId",
-      id: data.categoryId,
+      value: data.categoryId,
     });
     const remaining = data.limit - spent;
     const quantity = expenses.map((e) => e.categoryId === data.id).length;

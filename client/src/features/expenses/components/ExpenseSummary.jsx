@@ -3,7 +3,7 @@ import { formatCurrency } from "../../../utils/formatter";
 import { labelCategory } from "../../../utils/label";
 
 const ExpenseSummary = ({ data, categoryId }) => {
-  const TotalSpent = calculate(data);
+  const TotalSpent = calculate(data, "amount");
   const Label = labelCategory(categoryId, "All Category");
 
   return (

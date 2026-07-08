@@ -13,7 +13,7 @@ const BudgetItem = ({ item, onEdit, onDelete, onDetail, data }) => {
 
   const TotalCategory = calculate(data, "amount", {
     key: "categoryId",
-    id: item.categoryId,
+    value: item.categoryId,
   });
 
   const PercentCategory = percent(TotalCategory, item.limit);

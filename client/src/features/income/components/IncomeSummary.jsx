@@ -8,7 +8,7 @@ import ProgressBar from "../../../components/ProgressBar";
 const IncomeSummary = ({ data, filters }) => {
   const option = { year: "numeric", month: "long" };
 
-  const TotalIncome = calculate(data);
+  const TotalIncome = calculate(data, "amount");
   const FilterMonth = new Date(`${filters.month}-01`);
   const Label = labelSource(filters.sourceId, "All Source");
 
@@ -40,7 +40,7 @@ const IncomeSummary = ({ data, filters }) => {
 };
 
 const IncomeSourceDetail = ({ data, total, label, id }) => {
-  const TotalSource = calculate(data, "amount", { key: "sourceId", id });
+  const TotalSource = calculate(data, "amount", { key: "sourceId", value: id });
   const PercentSource = percent(TotalSource, total);
 
   return (

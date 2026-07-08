@@ -4,6 +4,8 @@ import useIncomes from "../features/income/hooks/useIncomes";
 import useIncomeMutation from "../features/income/hooks/useIncomeMutations";
 import useToast from "../hooks/useToast";
 
+import { getMonth } from "../utils/date";
+
 import IncomeFilters from "../features/income/components/IncomeFilters";
 import IncomeList from "../features/income/components/IncomeList";
 import IncomeSummary from "../features/income/components/IncomeSummary";
@@ -14,8 +16,6 @@ import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 import Modal from "../components/Modal";
 import Toast from "../components/Toast";
-
-import { getMonth } from "../utils/date";
 
 const initialState = {
   month: getMonth(),
@@ -37,31 +37,40 @@ const reducer = (state, action) => {
 
 const IncomePage = () => {
   const [filters, dispatch] = useReducer(reducer, initialState);
-  const [selected, setSelected] = useState(null);
-  const [errors, setErrors] = useState({ message: null, fields: {} });
+  const [edited, setEdited] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [errors, setErrors] = useState({ message: null, fields: {} });
 
   const { data, isLoading, isFetching, isError, error, refetch } = useIncomes(filters);
   const { createIncome, updateIncome, deleteIncome } = useIncomeMutation(filters);
 
   const { toast, showToast, closeToast } = useToast();
 
+  if (isLoading) return <IncomeSkeleton />;
+  if (isError && error.status >= 500)
+    return (
+      <ErrorMessage
+        message={error.message}
+        onRetry={refetch}
+      />
+    );
+
   const handleCancel = () => {
     setIsOpen(false);
-    setSelected(null);
+    setEdited(null);
     setErrors({ message: null, fields: {} });
   };
 
   const handleEdit = (item) => {
     setIsOpen(true);
-    setSelected(item);
+    setEdited(item);
   };
 
   const handleDelete = (id) => {
     deleteIncome.mutate(id, {
       onSuccess: () => {
-        setSelected(null);
         showToast("Income deleted", "success");
+        setEdited(null);
       },
       onError: () => {
         showToast("Failed to delete income", "error");
@@ -71,9 +80,9 @@ const IncomePage = () => {
 
   const handleSubmit = (data) => {
     setErrors({ message: null, fields: {} });
-    if (selected)
+    if (edited)
       updateIncome.mutate(
-        { id: selected.id, data },
+        { id: edited.id, data },
         {
           onSuccess: () => {
             showToast("Income updated", "success");
@@ -95,15 +104,6 @@ const IncomePage = () => {
         },
       });
   };
-
-  if (isLoading) return <IncomeSkeleton />;
-  if (isError && error.status >= 500)
-    return (
-      <ErrorMessage
-        message={error.message}
-        onRetry={refetch}
-      />
-    );
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">
@@ -138,7 +138,7 @@ const IncomePage = () => {
           isOpen={isOpen}
           onClose={handleCancel}>
           <IncomeForm
-            initialData={selected}
+            initialData={edited}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
             serverErrors={errors}

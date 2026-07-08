@@ -1,8 +1,10 @@
-import { useReducer, useState, useRef } from "react";
+import { useReducer, useState, useRef, useEffect } from "react";
 
 import useToast from "../hooks/useToast";
 import useExpenses from "../features/expenses/hooks/useExpenses";
 import useExpenseMutations from "../features/expenses/hooks/useExpenseMutations";
+
+import { getMonth } from "../utils/date";
 
 import ExpenseFilters from "../features/expenses/components/ExpenseFilters";
 import ExpenseList from "../features/expenses/components/ExpenseList";
@@ -12,8 +14,6 @@ import ExpenseSkeleton from "../features/expenses/components/ExpenseSkeleton";
 import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
 import Toast from "../components/Toast";
-
-import { getMonth } from "../utils/date";
 
 const initialState = {
   month: getMonth(),
@@ -35,28 +35,45 @@ const reducer = (state, action) => {
 
 const ExpensePage = () => {
   const [filters, dispatch] = useReducer(reducer, initialState);
-  const [selected, setSelected] = useState(null);
+  const [edited, setEdited] = useState(null);
   const [errors, setErrors] = useState({ message: null, fields: {} });
+
   const firstInputRef = useRef(null);
 
   const { data, isLoading, isFetching, isError, error, refetch } = useExpenses(filters);
   const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
-
   const { toast, showToast, closeToast } = useToast();
 
+  useEffect(() => {
+    setEdited(null);
+  }, [filters.month]);
+
+  if (isLoading) return <ExpenseSkeleton />;
+  if (isError && error.status >= 500)
+    return (
+      <ErrorMessage
+        message={error.message}
+        onRetry={refetch}
+      />
+    );
+
   const handleEdit = (item) => {
-    setSelected(item);
+    setErrors({ message: null, fields: {} });
+    setEdited(item);
   };
 
   const handleCancel = () => {
-    setSelected(null);
+    setEdited(null);
     setErrors({ message: null, fields: {} });
   };
 
   const handleDelete = (id) => {
     deleteExpense.mutate(id, {
       onSuccess: () => {
-        setSelected(null);
+        if (edited.id === id) {
+          setEdited(null);
+          setErrors({ message: null, fields: {} });
+        }
         showToast("Expense deleted", "success");
       },
       onError: () => {
@@ -67,13 +84,13 @@ const ExpensePage = () => {
 
   const handleSubmit = (data, resetForm) => {
     setErrors({ message: null, fields: {} });
-    if (selected)
+    if (edited)
       updateExpense.mutate(
-        { id: selected.id, data },
+        { id: edited.id, data },
         {
           onSuccess: () => {
             showToast("Expense updated", "success");
-            setSelected(null);
+            setEdited(null);
             resetForm();
           },
           onError: (err) => {
@@ -92,15 +109,6 @@ const ExpensePage = () => {
         },
       });
   };
-
-  if (isLoading) return <ExpenseSkeleton />;
-  if (isError && error.status >= 500)
-    return (
-      <ErrorMessage
-        message={error.message}
-        onRetry={refetch}
-      />
-    );
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5">
@@ -123,7 +131,7 @@ const ExpensePage = () => {
       </div>
       <div className="col-span-4 flex flex-col items-start gap-1">
         <ExpenseForm
-          initialData={selected}
+          initialData={edited}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
           serverErrors={errors}

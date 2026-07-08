@@ -1,9 +1,13 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 import useToast from "../hooks/useToast";
 import useBudgets from "../features/budget/hooks/useBudgets";
 import useBudgetMutations from "../features/budget/hooks/useBudgetMutations";
 import useExpenses from "../features/expenses/hooks/useExpenses";
+
+import { getMonth } from "../utils/date";
+import { calculate } from "../utils/calculate";
+import { labelCategory } from "../utils/label";
 
 import BudgetFilters from "../features/budget/components/BudgetFilters";
 import BudgetList from "../features/budget/components/BudgetList";
@@ -16,10 +20,6 @@ import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 import Modal from "../components/Modal";
 import Toast from "../components/Toast";
-
-import { getMonth } from "../utils/date";
-import { calculate } from "../utils/calculate";
-import { labelCategory } from "../utils/label";
 
 const initialState = {
   month: getMonth(),
@@ -63,6 +63,10 @@ const BudgetPage = () => {
     refetch: expenseRefetch,
   } = useExpenses(filters);
 
+  useEffect(() => {
+    setSelected(null);
+  }, [filters.month]);
+
   const isLoading = isBudgetLoading || isExpenseLoading;
   const isFetching = isBudgetFetching || isExpenseFetching;
   const isError = isBudgetError || isExpenseError;
@@ -71,26 +75,17 @@ const BudgetPage = () => {
 
   const { createBudget, updateBudget, deleteBudget } = useBudgetMutations(filters);
 
-  const handleSelected = (data) => {
-    const label = labelCategory(data.id);
-    const spent = calculate(expenses, "amount", {
-      key: "categoryId",
-      value: data.categoryId,
-    });
-    const remaining = data.limit - spent;
-    const quantity = expenses.map((e) => e.categoryId === data.id).length;
-    const average = spent / quantity;
-    const expense = expenses.filter((e) => e.categoryId === data.categoryId);
+  if (isLoading) return <BudgetSkeleton />;
+  if (isError && error.status >= 500)
+    return (
+      <ErrorMessage
+        message={error.message}
+        onRetry={refetch}
+      />
+    );
 
-    setSelected({
-      ...data,
-      label,
-      spent,
-      remaining,
-      quantity,
-      average,
-      expenses: expense,
-    });
+  const handleSelected = (data) => {
+    setSelected(data);
   };
 
   const handleCancel = () => {
@@ -143,15 +138,6 @@ const BudgetPage = () => {
       });
   };
 
-  if (isLoading) return <BudgetSkeleton />;
-  if (isError && error.status >= 500)
-    return (
-      <ErrorMessage
-        message={error.message}
-        onRetry={refetch}
-      />
-    );
-
   return (
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">
       <div className="col-span-8 flex flex-col justify-start items-start gap-1">
@@ -176,7 +162,10 @@ const BudgetPage = () => {
         <BudgetSummary data={budgets} />
       </div>
       <div className="col-span-4 flex flex-col justify-start items-start gap-1 ">
-        <BudgetDetailPanel data={selected} />
+        <BudgetDetailPanel
+          data={selected}
+          dataExpenses={expenses}
+        />
       </div>
       {isOpen && (
         <Modal

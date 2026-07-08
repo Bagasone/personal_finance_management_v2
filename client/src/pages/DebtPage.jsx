@@ -26,6 +26,15 @@ const DebtPage = () => {
 
   const { toast, showToast, closeToast } = useToast();
 
+  if (isLoading) return <DebtSkeleton />;
+  if (isError && error.status >= 500)
+    return (
+      <ErrorMessage
+        message={error.message}
+        onRetry={refetch}
+      />
+    );
+
   const handleCancel = () => {
     setIsOpen(false);
     setEdited(null);
@@ -91,15 +100,6 @@ const DebtPage = () => {
       },
     );
   };
-
-  if (isLoading) return <DebtSkeleton />;
-  if (isError && error.status >= 500)
-    return (
-      <ErrorMessage
-        message={error.message}
-        onRetry={refetch}
-      />
-    );
 
   return (
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">

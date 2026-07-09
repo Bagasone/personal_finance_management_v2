@@ -61,9 +61,9 @@ const IncomePage = () => {
     setErrors({ message: null, fields: {} });
   };
 
-  const handleEdit = (item) => {
+  const handleEdit = (data) => {
     setIsOpen(true);
-    setEdited(item);
+    setEdited(data);
   };
 
   const handleDelete = (id) => {

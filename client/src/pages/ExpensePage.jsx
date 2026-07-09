@@ -57,9 +57,9 @@ const ExpensePage = () => {
       />
     );
 
-  const handleEdit = (item) => {
+  const handleEdit = (data) => {
     setErrors({ message: null, fields: {} });
-    setEdited(item);
+    setEdited(data);
   };
 
   const handleCancel = () => {

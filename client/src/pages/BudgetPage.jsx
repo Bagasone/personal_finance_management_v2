@@ -63,10 +63,6 @@ const BudgetPage = () => {
     refetch: expenseRefetch,
   } = useExpenses(filters);
 
-  useEffect(() => {
-    setSelected(null);
-  }, [filters.month]);
-
   const isLoading = isBudgetLoading || isExpenseLoading;
   const isFetching = isBudgetFetching || isExpenseFetching;
   const isError = isBudgetError || isExpenseError;
@@ -74,6 +70,10 @@ const BudgetPage = () => {
   const refetch = budgetRefetch || expenseRefetch;
 
   const { createBudget, updateBudget, deleteBudget } = useBudgetMutations(filters);
+
+  useEffect(() => {
+    setSelected(null);
+  }, [filters.month]);
 
   if (isLoading) return <BudgetSkeleton />;
   if (isError && error.status >= 500)
@@ -153,7 +153,7 @@ const BudgetPage = () => {
           />
         </div>
         <BudgetList
-          dataBudgets={budgets}
+          data={budgets}
           dataExpenses={expenses}
           onEdit={handleEdit}
           onDelete={handleDelete}

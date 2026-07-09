@@ -13,6 +13,7 @@ import Spinner from "../components/Spinner";
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 import Toast from "../components/Toast";
+import DebtSummary from "../features/debt/components/DebtSummary";
 
 const DebtPage = () => {
   const [selected, setSelected] = useState(null);
@@ -105,15 +106,19 @@ const DebtPage = () => {
     <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">
       <div className="col-span-8 flex flex-col justify-start items-start gap-1">
         {isFetching && !isLoading && <Spinner />}
-        <Button
-          label="Add Debt"
-          onClick={() => setIsOpen(true)}
-        />
+        <div className="w-full flex justify-between items-center">
+          <DebtSummary data={data} />
+          <Button
+            label="Add Debt"
+            onClick={() => setIsOpen(true)}
+          />
+        </div>
         <DebtList
           data={data}
           onEdit={handleEdit}
           onDelete={handleDelete}
           onDetail={setSelected}
+          onOpen={() => setIsOpen(true)}
         />
       </div>
       <div className="col-span-4 flex flex-col justify-start items-start gap-1 ">

@@ -9,7 +9,7 @@ const Select = ({ label, id, value, onChange, options, error, children }) => {
         id={id}
         value={value}
         onChange={onChange}
-        className="w-full border px-3 py-1 rounded-sm ">
+        className="box w-full ">
         {children}
         {options.map((opt) => (
           <Option

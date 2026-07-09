@@ -11,7 +11,7 @@ const Input = forwardRef(({ type = "text", label, id, value, onChange, error }, 
         id={id}
         value={value}
         onChange={onChange}
-        className="w-full border px-3 py-1 rounded-sm text-sm cursor-pointer"
+        className="box w-full text-sm cursor-pointer"
       />
       {error && <p className="text-rose-500 first-letter:capitalize">{error}</p>}
     </div>

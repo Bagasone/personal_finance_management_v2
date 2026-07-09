@@ -3,7 +3,7 @@ const Button = ({ label, type = "button", onClick }) => {
     <button
       onClick={onClick}
       type={type}
-      className="border px-3 py-1 rounded-sm text-sm cursor-pointer">
+      className="box text-sm cursor-pointer">
       {label}
     </button>
   );

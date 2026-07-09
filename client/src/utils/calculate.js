@@ -6,6 +6,6 @@ export const calculate = (data, key = "amount", filter = null) => {
   }, 0);
 };
 
-export const percent = (dividen, divisor) => {
+export const calculatePercent = (dividen, divisor) => {
   return `${Math.round((dividen / divisor) * 100)}%`;
 };

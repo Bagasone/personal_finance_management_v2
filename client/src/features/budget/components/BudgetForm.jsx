@@ -14,32 +14,34 @@ import { validate } from "../utils/validation";
 import { getMonth } from "../../../utils/date";
 import { errorField } from "../../../utils/error";
 
-const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
+const BudgetForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
   const [form, dispatch] = useForm({
-    categoryId: "",
+    category_id: "",
     limit: "",
     month: getMonth(),
-    prevCategoryId: "",
-    prevMonth: "",
+    prev_category_id: "",
+    prev_month: "",
   });
 
-  const error = errorField(form?.errors, serverErrors?.fields);
+  const error = errorField(form?.errors, server_errors?.fields);
 
   useEffect(() => {
-    if (initialData)
+    if (initial_data)
       dispatch({
         type: "PREFILL",
         payload: {
-          ...initialData,
-          prevCategoryId: initialData.categoryId,
-          prevMonth: initialData.month,
+          ...initial_data,
+          prev_category_id: initial_data.category_id,
+          prev_month: initial_data.month,
         },
       });
     else dispatch({ type: "RESET" });
-  }, [initialData]);
+  }, [initial_data]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch({ type: "RESET_ERROR" });
+
     const { valid, errors } = validate(form);
     if (valid) {
       const { errors, ...formData } = form;
@@ -49,20 +51,20 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
 
   return (
     <div className="flex flex-col justify-start items-start gap-3 w-full">
-      <h2 className="text-xl font-bold">{initialData ? "Edit" : "Add"} Budget Form</h2>
-      {serverErrors && <ErrorMessage message={serverErrors.message} />}
+      <h2 className="text-xl font-bold">{initial_data ? "Edit" : "Add"} Budget Form</h2>
+      {server_errors && <ErrorMessage message={server_errors.message} />}
       <form
         onSubmit={handleSubmit}
         className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full h-full">
         <Select
           label="Category"
-          id="categoryId"
-          value={form.categoryId}
-          error={error("categoryId")}
+          id="category_id"
+          value={form.category_id}
+          error={error("category_id")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
-              field: "categoryId",
+              field: "category_id",
               payload: e.target.value,
             })
           }
@@ -102,7 +104,7 @@ const BudgetForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
         />
         <Button
           type="submit"
-          label={`${initialData ? "Update" : "Add"} Budget`}
+          label={`${initial_data ? "Update" : "Add"} Budget`}
         />
         <Button
           type="button"

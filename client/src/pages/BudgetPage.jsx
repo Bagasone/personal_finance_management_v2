@@ -21,7 +21,7 @@ import Spinner from "../components/Spinner";
 import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
-const initialState = {
+const initial_state = {
   month: getMonth(),
 };
 
@@ -30,17 +30,17 @@ const reducer = (state, action) => {
     case "SET_MONTH":
       return { ...state, month: action.payload };
     case "RESET":
-      return initialState;
+      return initial_state;
     default:
       return state;
   }
 };
 
 const BudgetPage = () => {
-  const [filters, dispatch] = useReducer(reducer, initialState);
+  const [filters, dispatch] = useReducer(reducer, initial_state);
   const [selected, setSelected] = useState(null);
   const [edited, setEdited] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [is_open, setIsOpen] = useState(false);
   const [errors, setErrors] = useState({ message: null, fields: {} });
 
   const { toast, showToast, closeToast } = useToast();
@@ -113,9 +113,9 @@ const BudgetPage = () => {
 
   const handleSubmit = (data) => {
     setErrors({ message: null, fields: {} });
-    if (selected)
+    if (edited)
       updateBudget.mutate(
-        { id: selected.id, data },
+        { id: edited.id, data },
         {
           onSuccess: () => {
             showToast("Budget updated", "success");
@@ -154,28 +154,29 @@ const BudgetPage = () => {
         </div>
         <BudgetList
           data={budgets}
-          dataExpenses={expenses}
+          data_expenses={expenses}
           onEdit={handleEdit}
           onDelete={handleDelete}
           onDetail={handleSelected}
+          onOpen={() => setIsOpen(true)}
         />
         <BudgetSummary data={budgets} />
       </div>
       <div className="col-span-4 flex flex-col justify-start items-start gap-1 ">
         <BudgetDetailPanel
           data={selected}
-          dataExpenses={expenses}
+          data_expenses={expenses}
         />
       </div>
-      {isOpen && (
+      {is_open && (
         <Modal
-          isOpen={isOpen}
+          is_open={is_open}
           onClose={handleCancel}>
           <BudgetForm
-            initialData={edited}
+            initial_data={edited}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
-            serverErrors={errors}
+            server_errors={errors}
           />
         </Modal>
       )}

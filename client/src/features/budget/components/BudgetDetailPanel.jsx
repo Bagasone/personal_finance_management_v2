@@ -1,19 +1,34 @@
-import EmptyState from "../../../components/EmptyState";
 import {
   formatCurrencyCompact,
   formatCurrency,
   formatDate,
   formatMonth,
 } from "../../../utils/formatter";
+import { labelCategory } from "../../../utils/label";
+import { calculate } from "../../../utils/calculate";
 
-const BudgetDetailPanel = ({ data }) => {
+import EmptyState from "../../../components/EmptyState";
+
+const BudgetDetailPanel = ({ data, data_expenses = [] }) => {
   if (!data) return <EmptyState message="Please select one Budget to see a detail" />;
+
+  const label = labelCategory(data.category_id);
+  const spent = calculate(data_expenses, "amount", {
+    key: "category_id",
+    value: data.category_id,
+  });
+  const remaining = data.limit - spent;
+  const quantity = data_expenses.map((e) => e.category_id === data.id).length;
+  const average = spent / quantity;
+  const expenses = data_expenses.filter((e) => e.category_id === data.category_id);
 
   return (
     <div className="box flex flex-col gap-3 w-full h-full">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">{data.label}</h2>
-        <span className="box">{formatMonth(data.month)}</span>
+        <h2 className="text-xl font-bold">{label}</h2>
+        <span className="box">
+          {formatDate(data.month, { month: "long", day: null })}
+        </span>
       </div>
       <div className="box flex justify-between items-center">
         <div className="flex flex-col gap-1 w-full">
@@ -26,35 +41,33 @@ const BudgetDetailPanel = ({ data }) => {
           </p>
           <p className="text-black-800 text-base font-medium grid grid-cols-12">
             <span className="col-span-4 font-bold">Spent</span>
-            <span className="col-span-8 font-semibold">
-              : {formatCurrency(data.spent)}
-            </span>
+            <span className="col-span-8 font-semibold">: {formatCurrency(spent)}</span>
           </p>
           <p className="text-black-800 text-base font-medium grid grid-cols-12">
             <span className="col-span-4 font-bold">Remaining</span>
             <span className="col-span-8 font-semibold">
-              : {formatCurrency(data.remaining)}
+              : {formatCurrency(remaining)}
             </span>
           </p>
           <p className="text-black-800 text-base font-medium grid grid-cols-12">
             <span className="col-span-4 font-bold">Avg per Txn</span>
             <span className="col-span-8 font-semibold">
-              : {formatCurrency(data.average)}/txn
+              : {formatCurrency(average)}/txn
             </span>
           </p>
           <p className="text-black-800 text-base font-medium grid grid-cols-12">
             <span className="col-span-4 font-bold">Transactions</span>
-            <span className="col-span-8 font-semibold">: {data.quantity} Transaksi</span>
+            <span className="col-span-8 font-semibold">: {quantity} Transaksi</span>
           </p>
         </div>
       </div>
       <div className="flex flex-col gap-1">
         <h3 className="text-black-600 text-lg">Expense Breakdown: </h3>
         <ul className="flex flex-col gap-3">
-          {data.expenses.map((e) => (
+          {expenses.map((item) => (
             <BudgetItem
-              key={e.id}
-              item={e}
+              key={item.id}
+              item={item}
             />
           ))}
         </ul>
@@ -71,7 +84,7 @@ const BudgetItem = ({ item }) => {
       </div>
       <div className="col-span-5 box truncate flex flex-col">
         <span className="text-base font-semibold">
-          {formatCurrencyCompact(item.amount)}
+          {formatCurrency(item.amount, { notation: "compact", compactDisplay: "short" })}
         </span>
         <span className="text-xs font-semibold text-black-600">
           {formatDate(item.date)}

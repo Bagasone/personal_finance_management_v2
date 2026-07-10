@@ -1,48 +1,57 @@
-import Button from "../../../components/Button";
-import ProgressBar from "../../../components/ProgressBar";
-
-import { calculate, percent } from "../../../utils/calculate";
+import { calculate, calculatePercent } from "../../../utils/calculate";
 import { formatCurrency } from "../../../utils/formatter";
 import { iconCategory } from "../../../utils/icon";
 import { labelCategory } from "../../../utils/label";
-import { variations } from "../utils/variation";
+import { statusIndicator } from "../utils/indicator";
 
-const BudgetItem = ({ item, onEdit, onDelete, onDetail, data }) => {
-  const Icon = iconCategory(item.categoryId);
-  const Label = labelCategory(item.categoryId);
+import Button from "../../../components/Button";
+import ProgressBar from "../../../components/ProgressBar";
 
-  const TotalCategory = calculate(data, "amount", {
-    key: "categoryId",
-    value: item.categoryId,
+const BudgetItem = ({ data, onEdit, onDelete, onDetail, data_expenses }) => {
+  const Icon = iconCategory(data.category_id);
+
+  const label = labelCategory(data.category_id);
+  const total = calculate(data_expenses, "amount", {
+    key: "category_id",
+    value: data.category_id,
   });
+  const percent = calculatePercent(total, data.limit);
 
-  const PercentCategory = percent(TotalCategory, item.limit);
-  const BudgetVariation = variations(PercentCategory);
+  const { status_label, status_cls, bar_cls } = statusIndicator(percent);
 
   const handleEdit = (e) => {
     e.stopPropagation();
-    onEdit(item);
+    onEdit(data);
   };
 
   const handleDelete = (e) => {
     e.stopPropagation();
-    onDelete(item.id);
+    onDelete(data.id);
+  };
+
+  const handleDetail = () => {
+    onDetail(data);
   };
 
   return (
     <li
       className="box flex flex-col gap-3"
-      onClick={() => onDetail(item)}>
+      onClick={handleDetail}>
       <div
         aria-label="card-head"
         className="flex justify-between items-center">
         <div className="flex gap-3">
-          <p className="box flex justify-center items-center gap-1">
-            <Icon /> {Label}
+          <p className="box flex justify-center items-center gap-3">
+            <span className="stroke-2">
+              <Icon className="size-6" />
+            </span>
+            <span
+              title={data.description}
+              className="truncate">
+              {label}
+            </span>
           </p>
-          <p className={`box ${BudgetVariation.classLabel} font-bold`}>
-            {BudgetVariation.label}
-          </p>
+          <p className={`box font-bold ${status_cls}`}>{status_label}</p>
         </div>
         <div className="flex items-center gap-3">
           <Button
@@ -59,13 +68,13 @@ const BudgetItem = ({ item, onEdit, onDelete, onDetail, data }) => {
         aria-label="card-body"
         className="flex flex-col gap-3">
         <ProgressBar
-          fill={PercentCategory}
-          color={BudgetVariation.classBar}
+          fill={percent}
+          color={bar_cls}
         />
         <div className="box flex justify-between items-center gap-3">
-          <p>Spent: {formatCurrency(TotalCategory)}</p>
-          <p>{PercentCategory}</p>
-          <p>Limit: {formatCurrency(item.limit)}</p>
+          <p>Spent: {formatCurrency(total)}</p>
+          <p>{percent}</p>
+          <p>Limit: {formatCurrency(data.limit)}</p>
         </div>
       </div>
     </li>

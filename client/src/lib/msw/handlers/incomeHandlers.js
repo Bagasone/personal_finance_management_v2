@@ -23,7 +23,7 @@ const handlers = [
       if (incomes.length === 0)
         return responseError(
           "NOT_FOUND",
-          `Income with filter ${queries.source || month} doesn't exist`,
+          `Income with filter ${queries.source_id || month} doesn't exist`,
         );
 
       return responseSuccess("OK", `Income in ${month}`, incomes);

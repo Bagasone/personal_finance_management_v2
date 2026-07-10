@@ -7,18 +7,18 @@ import {
   validateNumber,
 } from "../../../utils/validation";
 
-export const validate = ({ description, totalAmount, dueDate }) => {
+export const validate = ({ description, total_amount, due_date }) => {
   const errors = {};
 
   const err1 = validateDescription(description);
   if (err1) errors.description = err1;
 
-  const err2 = validateNumber(totalAmount);
-  if (err2) errors.totalAmount = err2;
+  const err2 = validateNumber(total_amount);
+  if (err2) errors.total_amount = err2;
 
-  if (dueDate) {
-    const err3 = validateDueDate(dueDate);
-    if (err3) errors.dueDate = err3;
+  if (due_date) {
+    const err3 = validateDueDate(due_date);
+    if (err3) errors.due_date = err3;
   }
 
   if (Object.entries(errors).length) {
@@ -28,10 +28,10 @@ export const validate = ({ description, totalAmount, dueDate }) => {
   return { valid: true };
 };
 
-export const validatePayment = ({ amount, date, note }, remainingAmount) => {
+export const validatePayment = ({ amount, date, note }, remaining_amount) => {
   const errors = {};
 
-  const err1 = validateAmountPay(amount, "amount pay", remainingAmount);
+  const err1 = validateAmountPay(amount, "amount pay", remaining_amount);
   if (err1) errors.amount = err1;
 
   const err2 = validateDate(date);

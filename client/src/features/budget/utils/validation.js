@@ -4,11 +4,11 @@ import {
   validateNumber,
 } from "../../../utils/validation";
 
-export const validate = ({ categoryId, month, limit }) => {
+export const validate = ({ category_id, month, limit }) => {
   const errors = {};
 
-  const err1 = validateCategory(categoryId, "category");
-  if (err1) errors.categoryId = err1;
+  const err1 = validateCategory(category_id, "category");
+  if (err1) errors.category_id = err1;
 
   const err2 = validateMonth(month, "month");
   if (err2) errors.month = err2;

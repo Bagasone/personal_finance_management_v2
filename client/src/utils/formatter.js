@@ -1,27 +1,43 @@
-export const formatCurrency = (amount) => {
+export const formatCurrency = (amount, option) => {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     minimumFractionDigits: 0,
+    ...option,
   }).format(amount);
 };
 
-export const formatCurrencyCompact = (amount) => {
+export const formatCurrencyCompact = (amount, option) => {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     minimumFractionDigits: 0,
     notation: "compact",
     compactDisplay: "short",
+    ...option,
   }).format(amount);
 };
 
-export const formatDate = (data, option) => {
-  const date = new Date(data);
-  return new Intl.DateTimeFormat("en-GB", option).format(date);
+export const formatDate = (value, option) => {
+  const date = new Date(value);
+  const default_option = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    ...option,
+  };
+
+  const options = Object.fromEntries(
+    Object.entries(default_option).filter(([_, value]) => value !== null),
+  );
+
+  return new Intl.DateTimeFormat("en-GB", options).format(date);
 };
 
 export const formatMonth = (data) => {
   const date = new Date(`${data}-01`);
-  return formatDate(date, { year: "numeric", month: "long" });
+  return new Intl.DateTimeFormat("en-GB", {
+    year: "numeric",
+    month: "short",
+  }).format(date);
 };

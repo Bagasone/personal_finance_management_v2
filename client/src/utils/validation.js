@@ -84,11 +84,11 @@ export const validateNumber = (value, field = "amount") => {
   return null;
 };
 
-export const validateAmountPay = (value, field = "amount pay", remainingAmount) => {
+export const validateAmountPay = (value, field = "amount pay", remaining_amount) => {
   const err1 = validateNumber(value, field);
   if (err1) return err1;
 
-  if (value > remainingAmount) {
+  if (value > remaining_amount) {
     return `${field} can't be more than remaining pay`;
   }
 
@@ -165,7 +165,7 @@ export const validateDueDate = (value, field = "due date") => {
   return null;
 };
 
-export const validateExpense = ({ amount, description, categoryId, date }) => {
+export const validateExpense = ({ amount, description, category_id, date }) => {
   const errors = {};
 
   const err1 = validateNumber(amount, "amount");
@@ -174,8 +174,8 @@ export const validateExpense = ({ amount, description, categoryId, date }) => {
   const err2 = validateDescription(description, "description");
   if (err2) errors.description = err2;
 
-  const err3 = validateCategory(categoryId, "category");
-  if (err3) errors.categoryId = err3;
+  const err3 = validateCategory(category_id, "category");
+  if (err3) errors.category_id = err3;
 
   const err4 = validateDate(date, "date");
   if (err4) errors.date = err4;
@@ -187,7 +187,7 @@ export const validateExpense = ({ amount, description, categoryId, date }) => {
   return { valid: true };
 };
 
-export const validateIncome = ({ amount, description, sourceId, date }) => {
+export const validateIncome = ({ amount, description, source_id, date }) => {
   const errors = {};
 
   const err1 = validateNumber(amount, "amount");
@@ -196,8 +196,8 @@ export const validateIncome = ({ amount, description, sourceId, date }) => {
   const err2 = validateDescription(description, "description");
   if (err2) errors.description = err2;
 
-  const err3 = validateSource(sourceId, "source");
-  if (err3) errors.sourceId = err3;
+  const err3 = validateSource(source_id, "source");
+  if (err3) errors.source_id = err3;
 
   const err4 = validateDate(date, "date");
   if (err4) errors.date = err4;
@@ -209,14 +209,14 @@ export const validateIncome = ({ amount, description, sourceId, date }) => {
   return { valid: true };
 };
 
-export const validateBudget = ({ limit, categoryId, month }) => {
+export const validateBudget = ({ limit, category_id, month }) => {
   const errors = {};
 
   const err1 = validateNumber(limit, "limit");
   if (err1) errors.limit = err1;
 
-  const err2 = validateCategory(categoryId, "category");
-  if (err2) errors.categoryId = err2;
+  const err2 = validateCategory(category_id, "category");
+  if (err2) errors.category_id = err2;
 
   const err3 = validateMonth(month, "month");
   if (err3) errors.month = err3;
@@ -228,11 +228,11 @@ export const validateBudget = ({ limit, categoryId, month }) => {
   return { valid: true };
 };
 
-export const validateDebt = ({ totalAmount, description, type, dueDate }) => {
+export const validateDebt = ({ total_amount, description, type, due_date }) => {
   const errors = {};
 
-  const err1 = validateNumber(totalAmount, "total amount");
-  if (err1) errors.totalAmount = err1;
+  const err1 = validateNumber(total_amount, "total amount");
+  if (err1) errors.total_amount = err1;
 
   const err2 = validateDescription(description, "description");
   if (err2) errors.description = err2;
@@ -240,9 +240,9 @@ export const validateDebt = ({ totalAmount, description, type, dueDate }) => {
   const err3 = validateType(type, "type");
   if (err3) errors.type = err3;
 
-  if (dueDate) {
-    const err4 = validateDueDate(dueDate, "due date");
-    if (err4) errors.dueDate = err4;
+  if (due_date) {
+    const err4 = validateDueDate(due_date, "due date");
+    if (err4) errors.due_date = err4;
   }
 
   if (Object.keys(errors).length) {
@@ -252,10 +252,10 @@ export const validateDebt = ({ totalAmount, description, type, dueDate }) => {
   return { valid: true };
 };
 
-export const validatePayment = ({ amount, date, note }, remainingAmount) => {
+export const validatePayment = ({ amount, date, note }, remaining_amount) => {
   const errors = {};
 
-  const err1 = validateAmountPay(amount, "amount pay", remainingAmount);
+  const err1 = validateAmountPay(amount, "amount pay", remaining_amount);
   if (err1) errors.amount = err1;
 
   const err2 = validateDate(date, "date");

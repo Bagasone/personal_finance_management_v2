@@ -1,18 +1,19 @@
 import { useReducer } from "react";
+
 import useForm from "../../../hooks/useForm";
 
-import { percent } from "../../../utils/calculate";
+import { calculatePercent, calculate } from "../../../utils/calculate";
 import { getDate } from "../../../utils/date";
 import { formatCurrency, formatDate } from "../../../utils/formatter";
 import { validatePayment } from "../utils/validation";
-import { errorField } from "../../../utils/errors";
+import { errorField } from "../../../utils/error";
+import { typeIndicator } from "../utils/indicator";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import EmptyState from "../../../components/EmptyState";
-import { variations } from "../utils/variation";
 
-const DebtDetailPanel = ({ data, onAddPayment, serverErrors }) => {
+const DebtDetailPanel = ({ data, onAddPayment, server_errors }) => {
   const [form, dispatch] = useForm({
     amount: "",
     date: getDate(),
@@ -21,19 +22,24 @@ const DebtDetailPanel = ({ data, onAddPayment, serverErrors }) => {
 
   if (!data) return <EmptyState message="Pick one Debt to see the detail" />;
 
-  const paidDebt = data.payments.reduce((acc, curr) => acc + curr.amount, 0);
-  const percentDebt = percent(paidDebt, data.totalAmount);
+  const paid = calculate(data.payments, "amount");
+  const percent = calculatePercent(paid, data.total_amount);
 
-  const variation = variations(data);
-  const error = errorField(form.errors, serverErrors.fields);
+  const { type_label, type_cls, remaining_cls } = typeIndicator(
+    data.remaining_amount,
+    data.type,
+  );
+
+  const error = errorField(form.errors, server_errors.fields);
 
   const handleAddPayment = (e) => {
     e.preventDefault();
-    const { valid, errors } = validatePayment(form, data.remainingAmount);
+    dispatch({ type: "RESET_ERROR" });
+
+    const { valid, errors } = validatePayment(form, data.remaining_amount);
     if (valid) {
       const { errors, ...formData } = form;
-      onAddPayment(formData);
-      dispatch({ type: "RESET" });
+      onAddPayment(formData, () => dispatch({ type: "RESET" }));
     } else dispatch({ type: "INVALID", payload: errors });
   };
 
@@ -41,50 +47,50 @@ const DebtDetailPanel = ({ data, onAddPayment, serverErrors }) => {
     <div className="box flex flex-col gap-3 w-full h-full">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">{data.description}</h2>
-        <span className={`box ${variation.classType}`}>{data.type}</span>
+        <span className={`box ${type_cls}`}>{data.type}</span>
       </div>
       <div className="box flex justify-between items-center">
         <div className="flex flex-col gap-1">
           <span className="text-black-600 text-sm">Total</span>
           <p className="text-black-800 text-lg font-medium">
-            {formatCurrency(data.totalAmount)}
+            {formatCurrency(data.total_amount)}
           </p>
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-black-600 text-sm">Remaining</span>
-          <p className={`${variation.classAmount} text-lg font-medium`}>
-            {formatCurrency(data.remainingAmount)}
+          <p className={`${remaining_cls} text-lg font-medium`}>
+            {formatCurrency(data.remaining_amount)}
           </p>
         </div>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex justify-between items-center">
           <span className="text-black-600">Paid Off:</span>
-          <span className="text-black-600">{percentDebt}</span>
+          <span className="text-black-600">{percent}</span>
         </div>
         <div className="flex justify-start items-center rounded-sm bg-black-300 w-full h-3">
           <div
-            style={{ width: percentDebt }}
+            style={{ width: percent }}
             className="rounded-sm h-3 bg-debt-500"></div>
         </div>
       </div>
       <div className="flex flex-col gap-3">
         <h3 className="text-black-600 font-semibold">Payment History</h3>
-        {serverErrors && (
-          <p className="text-lg text-expense-500">{serverErrors.message}</p>
+        {server_errors && (
+          <p className="text-lg text-expense-500">{server_errors.message}</p>
         )}
         <div className="flex flex-col gap-3">
-          {data.payments.map((item) => (
+          {data.payments.map((pay) => (
             <DetailItem
-              key={item.id}
-              item={item}
+              key={pay.id}
+              data={pay}
             />
           ))}
         </div>
       </div>
       <div className="flex flex-col gap-3">
         <h3 className="text-black-600 font-semibold">Added Payment</h3>
-        {data.remainingAmount === 0 ? (
+        {data.remaining_amount === 0 ? (
           <p>This debt has been fully paid</p>
         ) : (
           <div className="flex flex-col gap-3">
@@ -129,18 +135,15 @@ const DebtDetailPanel = ({ data, onAddPayment, serverErrors }) => {
   );
 };
 
-const DetailItem = ({ item }) => {
-  const paidDate = new Date(item.date);
+const DetailItem = ({ data }) => {
+  const paid_date = new Date(data.date);
+
   return (
     <div className="flex justify-between items-center">
-      <span className="text-sm font-semibold">{formatCurrency(item.amount)}</span>
-      {item.note && <span className="text-black-500 text-sm">{item.note}</span>}
+      <span className="text-sm font-semibold">{formatCurrency(data.amount)}</span>
+      {data.note && <span className="text-black-500 text-sm">{data.note}</span>}
       <span className="text-black-600 text-sm">
-        {formatDate(paidDate, {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })}
+        {formatDate(paid_date, { month: "short" })}
       </span>
     </div>
   );

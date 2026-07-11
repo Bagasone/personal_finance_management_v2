@@ -1,66 +1,78 @@
 import { formatCurrency, formatDate } from "../../../utils/formatter";
 import { iconType } from "../../../utils/icon";
+import { typeIndicator } from "../utils/indicator";
 
 import Button from "../../../components/Button";
-import { variations } from "../utils/variation";
 
-const DebtItem = ({ item, onEdit, onDelete, onDetail }) => {
-  const Icon = iconType(item.type);
-  const dueDate = new Date(item.dueDate);
+const DebtItem = ({ data, onEdit, onDelete, onDetail }) => {
+  const Icon = iconType(data.type);
 
-  const variation = variations(item);
+  const due_date = new Date(data.due_date);
+  const { type_label, type_cls, remaining_cls } = typeIndicator(
+    data.remaining_amount,
+    data.type,
+  );
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    onDelete(data.id);
+  };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    onEdit(data);
+  };
+
+  const handleDetail = () => {
+    onDetail(data);
+  };
 
   return (
     <li
-      onClick={() => onDetail(item)}
-      className="grid grid-cols-12 w-full items-center gap-3 border rounded-sm px-3 py-1 text-sm">
+      onClick={handleDetail}
+      className="box grid grid-cols-12 w-full items-center gap-3 text-sm">
       <div className="col-span-1 flex justify-center items-center">
-        <Icon className="size-8 stroke-1" />
+        <span className="stroke-2">
+          <Icon className="size-6" />
+        </span>
       </div>
       <div className="col-span-8 flex flex-col gap-3 border rounded-sm px-2 py-1">
         <div className="flex justify-between items-center">
           <div className="flex justify-center items-center gap-3">
             <div
-              title={item.description}
+              title={data.description}
               className="truncate text-lg font-medium">
-              {item.description}
+              {data.description}
             </div>
-            <div
-              className={`border rounded-sm px-2 py-1 truncate ${variation.classAmount}`}>
-              {variation.label}
+            <div className={`border rounded-sm px-2 py-1 truncate ${type_cls}`}>
+              {type_label}
             </div>
           </div>
           <div
-            className={`border rounded-sm px-2 py-1 truncate text-lg font-medium ${variation.classAmount}`}>
-            {formatCurrency(item.remainingAmount)}
+            className={`border rounded-sm px-2 py-1 truncate text-lg font-medium ${remaining_cls}`}>
+            {formatCurrency(data.remaining_amount)}
           </div>
         </div>
         <div className="flex justify-between items-center">
           <div className="border rounded-sm px-2 py-1 truncate">
-            {item.dueDate
-              ? `Due: ${formatDate(dueDate, { year: "numeric", month: "short", day: "numeric" })}`
+            {data.due_date
+              ? `Due: ${formatDate(due_date, { month: "short" })}`
               : "No Due date"}
           </div>
           <div className="border rounded-sm px-2 py-1 truncate">
-            {formatCurrency(item.totalAmount)}
+            {formatCurrency(data.total_amount)}
           </div>
         </div>
       </div>
       <div className="col-span-3 flex justify-center items-center gap-3 border rounded-sm px-2 py-1 truncate">
         <Button
           label="Edit"
-          onClick={(e) => {
-            e.stopPropagation();
-            onEdit(item);
-          }}
+          onClick={handleEdit}
           className="border rounded-sm px-2 py-1"
         />
         <Button
           label="Delete"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(item.id);
-          }}
+          onClick={handleDelete}
           className="border rounded-sm px-2 py-1"
         />
       </div>

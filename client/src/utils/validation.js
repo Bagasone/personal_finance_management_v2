@@ -84,17 +84,6 @@ export const validateNumber = (value, field = "amount") => {
   return null;
 };
 
-export const validateAmountPay = (value, field = "amount pay", remaining_amount) => {
-  const err1 = validateNumber(value, field);
-  if (err1) return err1;
-
-  if (value > remaining_amount) {
-    return `${field} can't be more than remaining pay`;
-  }
-
-  return null;
-};
-
 export const validateDate = (value, field = "date") => {
   const err1 = validateEmptyString(value, field);
   if (err1) return err1;
@@ -252,10 +241,10 @@ export const validateDebt = ({ total_amount, description, type, due_date }) => {
   return { valid: true };
 };
 
-export const validatePayment = ({ amount, date, note }, remaining_amount) => {
+export const validatePayment = ({ amount, date, note }) => {
   const errors = {};
 
-  const err1 = validateAmountPay(amount, "amount pay", remaining_amount);
+  const err1 = validateNumber(amount, "amount pay");
   if (err1) errors.amount = err1;
 
   const err2 = validateDate(date, "date");

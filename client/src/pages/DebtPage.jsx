@@ -18,9 +18,9 @@ import DebtSummary from "../features/debt/components/DebtSummary";
 const DebtPage = () => {
   const [selected, setSelected] = useState(null);
   const [edited, setEdited] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [is_open, setIsOpen] = useState(false);
   const [errors, setErrors] = useState({ message: null, fields: {} });
-  const [paymentErrors, setPaymentErrors] = useState({ message: null, fields: {} });
+  const [payment_errors, setPaymentErrors] = useState({ message: null, fields: {} });
 
   const { data, isLoading, isFetching, isError, error, refetch } = useDebts();
   const { createDebt, updateDebt, deleteDebt, addPayment } = useDebtMutations();
@@ -86,14 +86,15 @@ const DebtPage = () => {
       });
   };
 
-  const handleAddPayment = (data) => {
+  const handleAddPayment = (data, resetForm) => {
     setPaymentErrors({ message: null, fields: {} });
     addPayment.mutate(
       { id: selected.id, data },
       {
         onSuccess: ({ data }) => {
-          setSelected(data);
           showToast("Payment added", "success");
+          setSelected(data);
+          resetForm();
         },
         onError: (err) => {
           setPaymentErrors({ message: err.message, fields: err.errors });
@@ -125,18 +126,18 @@ const DebtPage = () => {
         <DebtDetailPanel
           data={selected}
           onAddPayment={handleAddPayment}
-          serverErrors={paymentErrors}
+          server_errors={payment_errors}
         />
       </div>
-      {isOpen && (
+      {is_open && (
         <Modal
-          isOpen={isOpen}
+          is_open={is_open}
           onClose={handleCancel}>
           <DebtForm
-            initialData={edited}
+            initial_data={edited}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
-            serverErrors={errors}
+            server_errors={errors}
           />
         </Modal>
       )}

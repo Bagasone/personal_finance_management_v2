@@ -30,8 +30,8 @@ const handlers = [
     const { id } = params;
     const debt = await request.json();
 
-    const isExist = findByIdDebt(id);
-    if (!isExist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
+    const is_exist = findByIdDebt(id);
+    if (!is_exist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
 
     const { valid, errors } = validateDebt(debt);
     if (!valid) return responseError("BAD_REQUEST", "Invalid debt data", errors);
@@ -42,8 +42,8 @@ const handlers = [
   http.delete("/api/debts/:id", async ({ params }) => {
     const { id } = params;
 
-    const isExist = findByIdDebt(id);
-    if (!isExist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
+    const is_exist = findByIdDebt(id);
+    if (!is_exist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
 
     const { ok, data } = deleteDebt(id);
     if (ok) return responseSuccess("OK", `Delete debt with id ${id}`, data);
@@ -52,13 +52,17 @@ const handlers = [
     const { id } = params;
     const payment = await request.json();
 
-    const isExist = findByIdDebt(id);
-    if (!isExist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
+    const is_exist = findByIdDebt(id);
+    if (!is_exist) return responseError("NOT_FOUND", `Debt with id ${id} doesn't exist`);
 
-    const debt = findByIdDebt(id);
-
-    const { valid, errors } = validatePayment(payment, debt.totalAmount);
+    const { valid, errors } = validatePayment(payment);
     if (!valid) return responseError("BAD_REQUEST", "Invalid payment data", errors);
+
+    if (payment.amount > findByIdDebt(id).remaining_amount)
+      return responseError("BAD_REQUEST", "Invalid payment data", {
+        ...errors,
+        amount: "Amount pay can't more than remaining",
+      });
 
     const { ok, data } = addPayment(id, payment);
     const paymentId = data.payments[data.payments.length - 1].id;

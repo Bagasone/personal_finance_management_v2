@@ -1,30 +1,33 @@
 import { useReducer, useEffect } from "react";
+
 import useForm from "../../../hooks/useForm";
 
 import { validate } from "../utils/validation";
-import { errorField } from "../../../utils/errors";
+import { errorField } from "../../../utils/error";
+
+import { DEBT_TYPES } from "../../../constants/";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import ErrorMessage from "../../../components/ErrorMessage";
 
-import { DEBT_TYPES } from "../../../constants/";
-
-const DebtForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
+const DebtForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
   const [form, dispatch] = useForm({
     type: "owe",
     description: "",
-    totalAmount: "",
-    dueDate: "",
+    total_amount: "",
+    due_date: "",
   });
 
   useEffect(() => {
-    if (initialData) dispatch({ type: "PREFILL", payload: initialData });
+    if (initial_data) dispatch({ type: "PREFILL", payload: initial_data });
     else dispatch({ type: "RESET" });
-  }, [initialData]);
+  }, [initial_data]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch({ type: "RESET_ERROR" });
+
     const { valid, errors } = validate(form);
     if (valid) {
       const { errors, ...formData } = form;
@@ -32,12 +35,12 @@ const DebtForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
     } else dispatch({ type: "INVALID", payload: errors });
   };
 
-  const error = errorField(form.errors, serverErrors.fields);
+  const error = errorField(form.errors, server_errors.fields);
 
   return (
     <div className="w-72 lex flex-col justify-start items-start gap-3 px-3 py-1">
-      <h2 className="text-xl font-bold">{initialData ? "Edit" : "Add"} Debt Form</h2>
-      {serverErrors && <ErrorMessage message={serverErrors.message} />}
+      <h2 className="text-xl font-bold">{initial_data ? "Edit" : "Add"} Debt Form</h2>
+      {server_errors && <ErrorMessage message={server_errors.message} />}
       <form
         onSubmit={handleSubmit}
         className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full h-full">
@@ -84,27 +87,31 @@ const DebtForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
         <Input
           type="number"
           label="Total Amount"
-          id="totalAmount"
-          value={form.totalAmount}
+          id="total_amount"
+          value={form.total_amount}
           onChange={(e) =>
-            dispatch({ type: "SET_FIELD", field: "totalAmount", payload: e.target.value })
+            dispatch({
+              type: "SET_FIELD",
+              field: "total_amount",
+              payload: e.target.value,
+            })
           }
-          error={error("totalAmount")}
+          error={error("total_amount")}
         />
         <Input
           type="date"
           label="Due Date"
-          id="dueDate"
-          value={form.dueDate}
+          id="due_date"
+          value={form.due_date}
           onChange={(e) =>
-            dispatch({ type: "SET_FIELD", field: "dueDate", payload: e.target.value })
+            dispatch({ type: "SET_FIELD", field: "due_date", payload: e.target.value })
           }
-          error={error("dueDate")}
+          error={error("due_date")}
         />
         <div className="flex gap-3">
           <Button
             type="submit"
-            label={`${initialData ? "Update" : "Add"} Debt`}
+            label={`${initial_data ? "Update" : "Add"} Debt`}
           />
           <Button
             type="button"

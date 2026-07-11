@@ -3,7 +3,6 @@ import {
   validateDate,
   validateDueDate,
   validateNote,
-  validateAmountPay,
   validateNumber,
 } from "../../../utils/validation";
 
@@ -28,10 +27,10 @@ export const validate = ({ description, total_amount, due_date }) => {
   return { valid: true };
 };
 
-export const validatePayment = ({ amount, date, note }, remaining_amount) => {
+export const validatePayment = ({ amount, date, note }) => {
   const errors = {};
 
-  const err1 = validateAmountPay(amount, "amount pay", remaining_amount);
+  const err1 = validateNumber(amount, "amount pay");
   if (err1) errors.amount = err1;
 
   const err2 = validateDate(date);

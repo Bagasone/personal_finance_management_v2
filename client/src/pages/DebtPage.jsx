@@ -65,9 +65,10 @@ const DebtPage = () => {
       updateDebt.mutate(
         { id: edited.id, data },
         {
-          onSuccess: () => {
+          onSuccess: ({ data }) => {
             showToast("Debt updated", "success");
             handleCancel();
+            if (selected.id === data.id) setSelected(data);
           },
           onError: (err) => {
             setErrors({ message: err.message, fields: err.errors });

@@ -37,7 +37,7 @@ const updateDebt = (id, { total_amount, description, type, due_date }) => {
   debts[index].remaining_amount = Number(total_amount) - total_paid;
   debts[index] = { ...debts[index], ...data };
 
-  return { ok: true, data };
+  return { ok: true, data: debts[index] };
 };
 
 const deleteDebt = (id) => {

@@ -36,6 +36,16 @@ const handlers = [
     const { valid, errors } = validateDebt(debt);
     if (!valid) return responseError("BAD_REQUEST", "Invalid debt data", errors);
 
+    const total_paid = findByIdDebt(id).payments.reduce(
+      (acc, curr) => acc + curr.amount,
+      0,
+    );
+
+    if (debt.total_amount < total_paid)
+      return responseError("BAD_REQUEST", "Invalid debt data", {
+        total_amount: "Total amount can't less than payment already paid",
+      });
+
     const { ok, data } = updateDebt(id, debt);
     if (ok) return responseSuccess("OK", `Update debt with id ${id}`, data);
   }),

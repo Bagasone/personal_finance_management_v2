@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 
-const useForm = (initialFields) => {
-  const initialState = { ...initialFields, errors: {} };
+const useForm = (initial_fields) => {
+  const initial_state = { ...initial_fields, errors: {} };
 
   const reducer = (state, action) => {
     switch (action.type) {
@@ -9,10 +9,12 @@ const useForm = (initialFields) => {
         return { ...state, [action.field]: action.payload };
       case "INVALID":
         return { ...state, errors: action.payload };
+      case "RESET_ERROR":
+        return { ...state, errors: {} };
       case "RESET":
-        return initialState;
+        return initial_state;
       case "PREFILL": {
-        const { errors, ...fields } = initialState;
+        const { errors, ...fields } = initial_state;
         const filled = Object.keys(fields).reduce(
           (acc, key) => ({ ...acc, [key]: action.payload[key] ?? fields[key] }),
           {},
@@ -24,7 +26,7 @@ const useForm = (initialFields) => {
     }
   };
 
-  return useReducer(reducer, initialState);
+  return useReducer(reducer, initial_state);
 };
 
 export default useForm;

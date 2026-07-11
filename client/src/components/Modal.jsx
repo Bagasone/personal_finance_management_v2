@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ is_open, onClose, children }) => {
   const ref = useRef(null);
 
   const handleClose = (e) => {
@@ -8,9 +8,9 @@ const Modal = ({ isOpen, onClose, children }) => {
   };
 
   useEffect(() => {
-    if (isOpen) ref.current.showModal();
+    if (is_open) ref.current.showModal();
     else ref.current.close();
-  }, [isOpen]);
+  }, [is_open]);
 
   return (
     <dialog

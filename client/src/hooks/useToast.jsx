@@ -2,21 +2,21 @@ import { useEffect, useRef, useState } from "react";
 
 const useToast = () => {
   const [toast, setToast] = useState(null);
-  const timerRef = useRef(null);
+  const timer_ref = useRef(null);
 
   const showToast = (message, type = "success") => {
-    if (timerRef.current) clearTimeout(timerRef.current);
+    if (timer_ref.current) clearTimeout(timer_ref.current);
 
     setToast({ message, type });
-    timerRef.current = setTimeout(() => setToast(null), 3500);
+    timer_ref.current = setTimeout(() => setToast(null), 3500);
   };
 
   const closeToast = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
+    if (timer_ref.current) clearTimeout(timer_ref.current);
     setToast(null);
   };
 
-  useEffect(() => () => clearTimeout(timerRef.current), []);
+  useEffect(() => () => clearTimeout(timer_ref.current), []);
 
   return { toast, showToast, closeToast };
 };

@@ -2,25 +2,25 @@ import { expenses } from "../lib/msw/db";
 import { getFullDate } from "../utils/date";
 import { generateId } from "../utils/generateId";
 
-const addExpense = ({ amount, description, categoryId, date }) => {
+const addExpense = ({ amount, description, category_id, date }) => {
   const data = {
     id: generateId("exp"),
     amount: Number(amount),
     description,
-    categoryId,
+    category_id,
     date,
-    createdAt: getFullDate(),
+    created_at: getFullDate(),
   };
 
   expenses.push(data);
   return { ok: true, data };
 };
 
-const updateExpense = (id, { amount, description, categoryId, date }) => {
+const updateExpense = (id, { amount, description, category_id, date }) => {
   const data = {
     amount: Number(amount),
     description,
-    categoryId,
+    category_id,
     date,
   };
 
@@ -31,17 +31,17 @@ const updateExpense = (id, { amount, description, categoryId, date }) => {
 };
 
 const deleteExpense = (id) => {
-  const newExpenses = expenses.filter((exp) => exp.id !== id);
-  const data = expenses.splice(0, expenses.length, ...newExpenses);
+  const new_expenses = expenses.filter((exp) => exp.id !== id);
+  const data = expenses.splice(0, expenses.length, ...new_expenses);
 
   return { ok: true, data };
 };
 
-const filterExpense = ({ month, categoryId }) => {
+const filterExpense = ({ month, category_id }) => {
   return expenses
     .filter((exp) => exp.date.startsWith(month))
     .filter((exp) => {
-      if (categoryId) return exp.categoryId === categoryId;
+      if (category_id) return exp.category_id === category_id;
       else return true;
     });
 };

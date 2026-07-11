@@ -2,25 +2,25 @@ import { incomes } from "../lib/msw/db";
 import { getFullDate } from "../utils/date";
 import { generateId } from "../utils/generateId";
 
-const addIncome = ({ amount, sourceId, description, date }) => {
+const addIncome = ({ amount, source_id, description, date }) => {
   const data = {
     id: generateId("inc"),
     amount: Number(amount),
-    sourceId,
+    source_id,
     description,
     date,
-    createdAt: getFullDate(),
+    created_at: getFullDate(),
   };
 
   incomes.push(data);
   return { ok: true, data };
 };
 
-const updateIncome = (id, { amount, description, sourceId, date }) => {
+const updateIncome = (id, { amount, description, source_id, date }) => {
   const data = {
     amount: Number(amount),
     description,
-    sourceId,
+    source_id,
     date,
   };
 
@@ -31,17 +31,17 @@ const updateIncome = (id, { amount, description, sourceId, date }) => {
 };
 
 const deleteIncome = (id) => {
-  const newincomes = incomes.filter((inc) => inc.id !== id);
-  const data = incomes.splice(0, incomes.length, ...newincomes);
+  const new_incomes = incomes.filter((inc) => inc.id !== id);
+  const data = incomes.splice(0, incomes.length, ...new_incomes);
 
   return { ok: true, data };
 };
 
-const filterIncome = ({ month, sourceId }) => {
+const filterIncome = ({ month, source_id }) => {
   return incomes
     .filter((inc) => inc.date.startsWith(month))
     .filter((inc) => {
-      if (sourceId) return inc.sourceId === sourceId;
+      if (source_id) return inc.source_id === source_id;
       else return true;
     });
 };

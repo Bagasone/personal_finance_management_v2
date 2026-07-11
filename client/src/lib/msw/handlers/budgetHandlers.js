@@ -35,7 +35,7 @@ const handlers = [
     const { valid, errors } = validateBudget(budget);
     if (!valid) return responseError("BAD_REQUEST", "Invalid budget data", errors);
 
-    const duplicate = findBudgetCategoryandMonth(budget.categoryId, budget.month);
+    const duplicate = findBudgetCategoryandMonth(budget.category_id, budget.month);
     if (duplicate)
       return responseError("CONFLICT", "Budget already exist for this category");
 
@@ -44,16 +44,17 @@ const handlers = [
   }),
   http.put("/api/budgets/:id", async ({ request, params }) => {
     const { id } = params;
-    const { prevCategoryId, prevMonth, ...budget } = await request.json();
+    const { prev_category_id, prev_month, ...budget } = await request.json();
 
-    const isExist = findByIdBudget(id);
-    if (!isExist) return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`);
+    const is_exist = findByIdBudget(id);
+    if (!is_exist)
+      return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`);
 
     const { valid, errors } = validateBudget(budget);
     if (!valid) return responseError("BAD_REQUEST", "Invalid budget data", errors);
 
-    if (prevCategoryId !== budget.categoryId || prevMonth !== budget.month) {
-      const duplicate = findBudgetCategoryandMonth(budget.categoryId, budget.month);
+    if (prev_category_id !== budget.category_id || prev_month !== budget.month) {
+      const duplicate = findBudgetCategoryandMonth(budget.category_id, budget.month);
       if (duplicate)
         return responseError("CONFLICT", "Budget already exist for this category");
     }
@@ -64,8 +65,9 @@ const handlers = [
   http.delete("/api/budgets/:id", async ({ params }) => {
     const { id } = params;
 
-    const isExist = findByIdBudget(id);
-    if (!isExist) return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`);
+    const is_exist = findByIdBudget(id);
+    if (!is_exist)
+      return responseError("NOT_FOUND", `Budget with id ${id} doesn't exist`);
 
     const { ok, data } = deleteBudget(id);
     if (ok) return responseSuccess("OK", `Delete budget with id ${id}`, data);

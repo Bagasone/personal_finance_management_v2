@@ -6,16 +6,16 @@ import { PAYMENT_STATUS } from "../constants";
 
 const getDebts = () => debts;
 
-const addDebt = ({ totalAmount, description, type, dueDate }) => {
+const addDebt = ({ total_amount, description, type, due_date }) => {
   const data = {
     id: generateId("dbt"),
-    totalAmount: Number(totalAmount),
-    remainingAmount: Number(totalAmount),
+    total_amount: Number(total_amount),
+    remaining_amount: Number(total_amount),
     description,
     type,
-    dueDate: dueDate ?? null,
+    due_date: due_date ?? null,
     status: PAYMENT_STATUS.ACTIVE,
-    createdAt: getFullDate(),
+    created_at: getFullDate(),
     payments: [],
   };
 
@@ -23,26 +23,26 @@ const addDebt = ({ totalAmount, description, type, dueDate }) => {
   return { ok: true, data };
 };
 
-const updateDebt = (id, { totalAmount, description, type, dueDate }) => {
+const updateDebt = (id, { total_amount, description, type, due_date }) => {
   const data = {
-    totalAmount: Number(totalAmount),
+    total_amount: Number(total_amount),
     description,
     type,
-    dueDate,
+    due_date,
   };
 
   const index = debts.findIndex((dbt) => dbt.id === id);
-  const totalPaid = debts[index].payments.reduce((acc, curr) => acc + curr.amount, 0);
+  const total_paid = debts[index].payments.reduce((acc, curr) => acc + curr.amount, 0);
 
-  debts[index].remainingAmount = Number(totalAmount) - totalPaid;
+  debts[index].remaining_amount = Number(total_amount) - total_paid;
   debts[index] = { ...debts[index], ...data };
 
   return { ok: true, data };
 };
 
 const deleteDebt = (id) => {
-  const newDebts = debts.filter((dbt) => dbt.id !== id);
-  const data = debts.splice(0, debts.length, ...newDebts);
+  const new_debts = debts.filter((dbt) => dbt.id !== id);
+  const data = debts.splice(0, debts.length, ...new_debts);
 
   return { ok: true, data };
 };
@@ -58,13 +58,13 @@ const addPayment = (id, { amount, date, note }) => {
   const index = debts.findIndex((dbt) => dbt.id === id);
   debts[index].payments.push(data);
 
-  const remainingAmount =
-    debts[index].totalAmount -
+  const remaining_amount =
+    debts[index].total_amount -
     debts[index].payments.reduce((acc, curr) => acc + curr.amount, 0);
 
   const debt = {
-    status: remainingAmount === 0 ? PAYMENT_STATUS.PAID_OFF : PAYMENT_STATUS.ACTIVE,
-    remainingAmount,
+    status: remaining_amount === 0 ? PAYMENT_STATUS.PAID_OFF : PAYMENT_STATUS.ACTIVE,
+    remaining_amount,
   };
   debts[index] = { ...debts[index], ...debt };
 

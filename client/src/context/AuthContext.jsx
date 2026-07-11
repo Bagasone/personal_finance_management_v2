@@ -1,25 +1,26 @@
 import { createContext, useContext, useState } from "react";
+
 import { KEY_AUTH } from "../constants";
 
 const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
+  const [is_authenticated, setAuthenticated] = useState(
     () => localStorage.getItem(KEY_AUTH) === "true",
   );
 
   const login = () => {
-    setIsAuthenticated(true);
+    setAuthenticated(true);
     localStorage.setItem(KEY_AUTH, "true");
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
+    setAuthenticated(false);
     localStorage.setItem(KEY_AUTH, "false");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ is_authenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

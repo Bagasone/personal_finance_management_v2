@@ -2,23 +2,23 @@ import { budgets } from "../lib/msw/db";
 import { generateId } from "../utils/generateId";
 import { getFullDate } from "../utils/date";
 
-const addBudget = ({ limit, categoryId, month }) => {
+const addBudget = ({ limit, category_id, month }) => {
   const data = {
     id: generateId("bud"),
     limit: Number(limit),
-    categoryId,
+    category_id,
     month,
-    createdAt: getFullDate(),
+    created_at: getFullDate(),
   };
 
   budgets.push(data);
   return { ok: true, data };
 };
 
-const updateBudget = (id, { limit, categoryId, month }) => {
+const updateBudget = (id, { limit, category_id, month }) => {
   const data = {
     limit: Number(limit),
-    categoryId,
+    category_id,
     month,
   };
 
@@ -29,8 +29,8 @@ const updateBudget = (id, { limit, categoryId, month }) => {
 };
 
 const deleteBudget = (id) => {
-  const newBudgets = budgets.filter((bud) => bud.id !== id);
-  const data = budgets.splice(0, budgets.length, ...newBudgets);
+  const new_budgets = budgets.filter((bud) => bud.id !== id);
+  const data = budgets.splice(0, budgets.length, ...new_budgets);
 
   return { ok: true, data };
 };
@@ -43,8 +43,8 @@ const findByIdBudget = (id) => {
   return budgets.find((bud) => bud.id === id);
 };
 
-const findBudgetCategoryandMonth = (categoryId, month) => {
-  return budgets.find((bud) => bud.categoryId === categoryId && bud.month === month);
+const findBudgetCategoryandMonth = (category_id, month) => {
+  return budgets.find((bud) => bud.category_id === category_id && bud.month === month);
 };
 
 export {

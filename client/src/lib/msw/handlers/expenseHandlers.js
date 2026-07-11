@@ -23,7 +23,7 @@ const handlers = [
       if (expenses.length === 0)
         return responseError(
           "NOT_FOUND",
-          `Expense with filter ${queries.categoryId || month} doesn't exist`,
+          `Expense with filter ${queries.category_id || month} doesn't exist`,
         );
 
       return responseSuccess("OK", `Expense in ${month}`, expenses);
@@ -44,8 +44,8 @@ const handlers = [
     const { id } = params;
     const expense = await request.json();
 
-    const isExist = findByIdExpense(id);
-    if (!isExist)
+    const is_exist = findByIdExpense(id);
+    if (!is_exist)
       return responseError("NOT_FOUND", `Expense with id ${id} doesn't exist`);
 
     const { valid, errors } = validateExpense(expense);
@@ -57,8 +57,8 @@ const handlers = [
   http.delete("/api/expenses/:id", async ({ params }) => {
     const { id } = params;
 
-    const isExist = findByIdExpense(id);
-    if (!isExist)
+    const is_exist = findByIdExpense(id);
+    if (!is_exist)
       return responseError("NOT_FOUND", `Expense with id ${id} doesn't exist`);
 
     const { ok, data } = deleteExpense(id);

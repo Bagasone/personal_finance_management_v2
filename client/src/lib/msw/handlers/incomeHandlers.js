@@ -45,8 +45,9 @@ const handlers = [
     const { id } = params;
     const income = await request.json();
 
-    const isExist = findByIdIncome(id);
-    if (!isExist) return responseError("NOT_FOUND", `Income with id ${id} doesn't exist`);
+    const is_exist = findByIdIncome(id);
+    if (!is_exist)
+      return responseError("NOT_FOUND", `Income with id ${id} doesn't exist`);
 
     const { valid, errors } = validateIncome(income);
     if (!valid) return responseError("BAD_REQUEST", "Invalid income data", errors);
@@ -57,8 +58,9 @@ const handlers = [
   http.delete("/api/incomes/:id", async ({ params }) => {
     const { id } = params;
 
-    const isExist = findByIdIncome(id);
-    if (!isExist) return responseError("NOT_FOUND", `Income with id ${id} doesn't exist`);
+    const is_exist = findByIdIncome(id);
+    if (!is_exist)
+      return responseError("NOT_FOUND", `Income with id ${id} doesn't exist`);
 
     const { ok, data } = deleteIncome(id);
     if (ok) return responseSuccess("OK", `Delete income with id: ${id}`, data);

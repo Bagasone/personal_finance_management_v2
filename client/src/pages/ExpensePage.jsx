@@ -15,9 +15,9 @@ import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
 import Toast from "../components/Toast";
 
-const initialState = {
+const initial_state = {
   month: getMonth(),
-  categoryId: "",
+  category_id: "",
 };
 
 const reducer = (state, action) => {
@@ -25,20 +25,20 @@ const reducer = (state, action) => {
     case "SET_MONTH":
       return { ...state, month: action.payload };
     case "SET_CATEGORY":
-      return { ...state, categoryId: action.payload };
+      return { ...state, category_id: action.payload };
     case "RESET":
-      return initialState;
+      return initial_state;
     default:
       return state;
   }
 };
 
 const ExpensePage = () => {
-  const [filters, dispatch] = useReducer(reducer, initialState);
+  const [filters, dispatch] = useReducer(reducer, initial_state);
   const [edited, setEdited] = useState(null);
   const [errors, setErrors] = useState({ message: null, fields: {} });
 
-  const firstInputRef = useRef(null);
+  const first_input_ref = useRef(null);
 
   const { data, isLoading, isFetching, isError, error, refetch } = useExpenses(filters);
   const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
@@ -122,20 +122,20 @@ const ExpensePage = () => {
           data={data}
           onEdit={handleEdit}
           onDelete={handleDelete}
-          onFocus={() => firstInputRef.current?.focus()}
+          onFocus={() => first_input_ref.current?.focus()}
         />
         <ExpenseSummary
           data={data}
-          categoryId={filters.categoryId}
+          category_id={filters.category_id}
         />
       </div>
       <div className="col-span-4 flex flex-col items-start gap-1">
         <ExpenseForm
-          initialData={edited}
+          initial_data={edited}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
-          serverErrors={errors}
-          ref={firstInputRef}
+          server_errors={errors}
+          ref={first_input_ref}
         />
       </div>
       {toast && (

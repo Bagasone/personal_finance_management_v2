@@ -2,11 +2,11 @@ import ExpenseItem from "./ExpenseItem";
 import EmptyState from "../../../components/EmptyState";
 
 const ExpenseList = ({ data, onEdit, onDelete, onFocus }) => {
-  if (!data)
+  if (!data || data.length === 0)
     return (
       <EmptyState
         message="There is No Expense For this Month"
-        actionLabel="Add Expense"
+        action_label="Add New Expense"
         onAction={onFocus}
       />
     );
@@ -24,10 +24,10 @@ const ExpenseList = ({ data, onEdit, onDelete, onFocus }) => {
         <div className="col-span-3">Actions</div>
       </div>
       <ul className="flex flex-1 flex-col gap-3">
-        {data.map((item) => (
+        {data.map((exp) => (
           <ExpenseItem
-            key={item.id}
-            item={item}
+            key={exp.id}
+            data={exp}
             onEdit={onEdit}
             onDelete={onDelete}
           />

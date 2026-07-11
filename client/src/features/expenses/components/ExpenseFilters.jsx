@@ -12,13 +12,13 @@ const ExpenseFilters = ({ filters, dispatch }) => {
       className="flex justify-center items-start gap-5 max-h-[10%]">
       <Input
         type="month"
-        id="filterCategory"
+        id="filterMonth"
         value={filters.month}
         onChange={(e) => dispatch({ type: "SET_MONTH", payload: e.target.value })}
       />
       <Select
         id="filterCategoryId"
-        value={filters.categoryId}
+        value={filters.category_id}
         options={EXPENSE_CATEGORIES}
         onChange={(e) => dispatch({ type: "SET_CATEGORY", payload: e.target.value })}>
         <Option

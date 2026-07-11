@@ -5,7 +5,7 @@ import {
   validateDate,
 } from "../../../utils/validation";
 
-export const validate = ({ description, amount, categoryId, date }) => {
+export const validate = ({ description, amount, category_id, date }) => {
   const errors = {};
 
   const err1 = validateDescription(description, "description");
@@ -14,8 +14,8 @@ export const validate = ({ description, amount, categoryId, date }) => {
   const err2 = validateNumber(amount, "amount");
   if (err2) errors.amount = err2;
 
-  const err3 = validateCategory(categoryId, "category");
-  if (err3) errors.categoryId = err3;
+  const err3 = validateCategory(category_id, "category");
+  if (err3) errors.category_id = err3;
 
   const err4 = validateDate(date, "date");
   if (err4) errors.date = err4;

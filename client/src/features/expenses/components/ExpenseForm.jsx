@@ -15,23 +15,25 @@ import { getDate } from "../../../utils/date";
 import { errorField } from "../../../utils/error";
 
 const ExpenseForm = forwardRef(
-  ({ initialData, onSubmit, onCancel, serverErrors }, ref) => {
+  ({ initial_data, onSubmit, onCancel, server_errors }, ref) => {
     const [form, dispatch] = useForm({
       description: "",
       amount: "",
-      categoryId: "",
+      category_id: "",
       date: getDate(),
     });
 
-    const error = errorField(form?.errors, serverErrors?.fields);
+    const error = errorField(form?.errors, server_errors?.fields);
 
     useEffect(() => {
-      if (initialData) dispatch({ type: "PREFILL", payload: initialData });
+      if (initial_data) dispatch({ type: "PREFILL", payload: initial_data });
       else dispatch({ type: "RESET" });
-    }, [initialData]);
+    }, [initial_data]);
 
     const handleSubmit = (e) => {
       e.preventDefault();
+      dispatch({ type: "RESET_ERROR" });
+
       const { valid, errors } = validate(form);
       if (valid) {
         const { errors, ...formData } = form;
@@ -41,8 +43,10 @@ const ExpenseForm = forwardRef(
 
     return (
       <div className="flex flex-col justify-start items-start gap-3 w-full">
-        <h2 className="text-xl font-bold">{initialData ? "Edit" : "Add"} Expense Form</h2>
-        {serverErrors && <ErrorMessage message={serverErrors.message} />}
+        <h2 className="text-xl font-bold">
+          {initial_data ? "Edit" : "Add"} Expense Form
+        </h2>
+        {server_errors && <ErrorMessage message={server_errors.message} />}
         <form
           onSubmit={handleSubmit}
           className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full h-full">
@@ -77,13 +81,13 @@ const ExpenseForm = forwardRef(
           />
           <Select
             label="Category"
-            id="categoryId"
-            value={form.categoryId}
-            error={error("categoryId")}
+            id="category_id"
+            value={form.category_id}
+            error={error("category_id")}
             onChange={(e) =>
               dispatch({
                 type: "SET_FIELD",
-                field: "categoryId",
+                field: "category_id",
                 payload: e.target.value,
               })
             }
@@ -109,9 +113,9 @@ const ExpenseForm = forwardRef(
           />
           <Button
             type="submit"
-            label={`${initialData ? "Update" : "Add"} Expense`}
+            label={`${initial_data ? "Update" : "Add"} Expense`}
           />
-          {initialData && (
+          {initial_data && (
             <Button
               type="button"
               label="Cancel"

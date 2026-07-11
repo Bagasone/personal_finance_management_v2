@@ -14,28 +14,30 @@ import { getDate } from "../../../utils/date";
 import { validate } from "../utils/validation";
 import { errorField } from "../../../utils/error";
 
-const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
+const IncomeForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
   const [form, dispatch] = useForm({
     description: "",
     amount: "",
-    sourceId: "",
+    source_id: "",
     date: getDate(),
   });
 
-  const firstInputRef = useRef(null);
-  const error = errorField(form?.errors, serverErrors?.fields);
+  const first_input_ref = useRef(null);
+  const error = errorField(form?.errors, server_errors?.fields);
 
   useEffect(() => {
-    firstInputRef.current?.focus();
+    first_input_ref.current?.focus();
   }, []);
 
   useEffect(() => {
-    if (initialData) dispatch({ type: "PREFILL", payload: initialData });
+    if (initial_data) dispatch({ type: "PREFILL", payload: initial_data });
     else dispatch({ type: "RESET" });
-  }, [initialData]);
+  }, [initial_data]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch({ type: "RESET_ERROR" });
+
     const { valid, errors } = validate(form);
     if (valid) {
       const { errors, ...data } = form;
@@ -45,13 +47,13 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
 
   return (
     <div className="w-72 lex flex-col justify-start items-start gap-3 px-3 py-1">
-      <h2 className="text-xl font-bold">{initialData ? "Edit" : "Add"} Income Form</h2>
-      {serverErrors && <ErrorMessage message={serverErrors.message} />}
+      <h2 className="text-xl font-bold">{initial_data ? "Edit" : "Add"} Income Form</h2>
+      {server_errors && <ErrorMessage message={server_errors.message} />}
       <form
         onSubmit={handleSubmit}
         className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full h-full">
         <Input
-          ref={firstInputRef}
+          ref={first_input_ref}
           type="text"
           label="Description"
           id="description"
@@ -81,13 +83,13 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
         />
         <Select
           label="Source"
-          id="sourceId"
-          value={form.sourceId}
-          error={error("sourceId")}
+          id="source_id"
+          value={form.source_id}
+          error={error("source_id")}
           onChange={(e) =>
             dispatch({
               type: "SET_FIELD",
-              field: "sourceId",
+              field: "source_id",
               payload: e.target.value,
             })
           }
@@ -114,7 +116,7 @@ const IncomeForm = ({ initialData, onSubmit, onCancel, serverErrors }) => {
         <div className="flex gap-3">
           <Button
             type="submit"
-            label={`${initialData ? "Update" : "Add"} Income`}
+            label={`${initial_data ? "Update" : "Add"} Income`}
           />
           <Button
             type="button"

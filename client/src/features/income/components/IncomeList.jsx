@@ -2,11 +2,11 @@ import IncomeItem from "./IncomeItem";
 import EmptyState from "../../../components/EmptyState";
 
 const IncomeList = ({ data, onEdit, onDelete, onOpen }) => {
-  if (!data)
+  if (!data || data.length === 0)
     return (
       <EmptyState
         message="There is No Income For this Month"
-        actionLabel="Add Income"
+        action_label="Add New Income"
         onAction={onOpen}
       />
     );
@@ -24,10 +24,10 @@ const IncomeList = ({ data, onEdit, onDelete, onOpen }) => {
         <div className="col-span-3">Actions</div>
       </div>
       <ul className="flex flex-col gap-3 overflow-scroll max-h-full scrollbar-none">
-        {data.map((item) => (
+        {data.map((inc) => (
           <IncomeItem
-            key={item.id}
-            item={item}
+            key={inc.id}
+            data={inc}
             onEdit={onEdit}
             onDelete={onDelete}
           />

@@ -18,7 +18,7 @@ const IncomeFilters = ({ filters, dispatch }) => {
       />
       <Select
         id="filterSourceId"
-        value={filters.sourceId}
+        value={filters.source_id}
         options={INCOME_SOURCES}
         onChange={(e) => dispatch({ type: "SET_SOURCE", payload: e.target.value })}>
         <Option

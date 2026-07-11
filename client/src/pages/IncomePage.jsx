@@ -17,9 +17,9 @@ import Spinner from "../components/Spinner";
 import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 
-const initialState = {
+const initial_state = {
   month: getMonth(),
-  sourceId: "",
+  source_id: "",
 };
 
 const reducer = (state, action) => {
@@ -27,18 +27,18 @@ const reducer = (state, action) => {
     case "SET_MONTH":
       return { ...state, month: action.payload };
     case "SET_SOURCE":
-      return { ...state, sourceId: action.payload };
+      return { ...state, source_id: action.payload };
     case "RESET":
-      return initialState;
+      return initial_state;
     default:
       return state;
   }
 };
 
 const IncomePage = () => {
-  const [filters, dispatch] = useReducer(reducer, initialState);
+  const [filters, dispatch] = useReducer(reducer, initial_state);
   const [edited, setEdited] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [is_open, setIsOpen] = useState(false);
   const [errors, setErrors] = useState({ message: null, fields: {} });
 
   const { data, isLoading, isFetching, isError, error, refetch } = useIncomes(filters);
@@ -133,15 +133,15 @@ const IncomePage = () => {
           filters={filters}
         />
       </div>
-      {isOpen && (
+      {is_open && (
         <Modal
-          isOpen={isOpen}
+          is_open={is_open}
           onClose={handleCancel}>
           <IncomeForm
-            initialData={edited}
+            initial_data={edited}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
-            serverErrors={errors}
+            server_errors={errors}
           />
         </Modal>
       )}

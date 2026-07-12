@@ -23,3 +23,6 @@ export const typeIndicator = (remaining_amount, type) => {
     };
   }
 };
+
+export const isOverDue = (data) =>
+  data.status === "active" && data.due_date && new Date(data.due_date) > new Date();

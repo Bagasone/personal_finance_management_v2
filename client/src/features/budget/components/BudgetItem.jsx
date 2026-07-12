@@ -2,7 +2,7 @@ import { calculate, calculatePercent } from "../../../utils/calculate";
 import { formatCurrency } from "../../../utils/formatter";
 import { iconCategory } from "../../../utils/icon";
 import { labelCategory } from "../../../utils/label";
-import { statusIndicator } from "../utils/indicator";
+import { statusIndicator } from "../utils/";
 
 import Button from "../../../components/Button";
 import ProgressBar from "../../../components/ProgressBar";

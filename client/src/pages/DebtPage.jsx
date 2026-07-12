@@ -4,6 +4,10 @@ import useDebts from "../features/debt/hooks/useDebts";
 import useDebtMutations from "../features/debt/hooks/useDebtMutations";
 import useToast from "../hooks/useToast";
 
+import { isOverDue } from "../features/debt/utils";
+
+import { DEBT_TYPES, PAYMENT_STATUS } from "../constants";
+
 import DebtList from "../features/debt/components/DebtList";
 import DebtForm from "../features/debt/components/DebtForm";
 import DebtDetailPanel from "../features/debt/components/DebtDetailPanel";
@@ -14,9 +18,11 @@ import Button from "../components/Button";
 import Modal from "../components/Modal";
 import Toast from "../components/Toast";
 import DebtSummary from "../features/debt/components/DebtSummary";
+import DebtFilter from "../features/debt/components/DebtFilter";
 
 const DebtPage = () => {
   const [selected, setSelected] = useState(null);
+  const [filters, setFilters] = useState(PAYMENT_STATUS.ACTIVE);
   const [edited, setEdited] = useState(null);
   const [is_open, setIsOpen] = useState(false);
   const [errors, setErrors] = useState({ message: null, fields: {} });
@@ -24,6 +30,13 @@ const DebtPage = () => {
 
   const { data, isLoading, isFetching, isError, error, refetch } = useDebts();
   const { createDebt, updateDebt, deleteDebt, addPayment } = useDebtMutations();
+
+  const data_owe = data
+    ?.filter((dbt) => dbt.type === DEBT_TYPES.OWE)
+    .filter((dbt) => (filters === "over_due" ? isOverDue(dbt) : filters === dbt.status));
+  const data_owed = data
+    ?.filter((dbt) => dbt.type === DEBT_TYPES.OWED)
+    .filter((dbt) => (filters === "over_due" ? isOverDue(dbt) : filters === dbt.status));
 
   const { toast, showToast, closeToast } = useToast();
 
@@ -109,19 +122,33 @@ const DebtPage = () => {
       <div className="col-span-8 flex flex-col justify-start items-start gap-1">
         {isFetching && !isLoading && <Spinner />}
         <div className="w-full flex justify-between items-center">
-          <DebtSummary data={data} />
+          <DebtFilter
+            filters={filters}
+            onFilters={setFilters}
+          />
           <Button
             label="Add Debt"
             onClick={() => setIsOpen(true)}
           />
         </div>
-        <DebtList
-          data={data}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onDetail={setSelected}
-          onOpen={() => setIsOpen(true)}
-        />
+        <div className="flex flex-col gap-5">
+          <DebtList
+            data={data_owe}
+            title="Debt Owe"
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onDetail={setSelected}
+            onOpen={() => setIsOpen(true)}
+          />
+          <DebtList
+            data={data_owed}
+            title="Debt Owed"
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onDetail={setSelected}
+            onOpen={() => setIsOpen(true)}
+          />
+        </div>
       </div>
       <div className="col-span-4 flex flex-col justify-start items-start gap-1 ">
         <DebtDetailPanel

@@ -7,7 +7,7 @@ import { getDate } from "../../../utils/date";
 import { formatCurrency, formatDate } from "../../../utils/formatter";
 import { validatePayment } from "../utils/validation";
 import { errorField } from "../../../utils/error";
-import { typeIndicator } from "../utils/indicator";
+import { typeIndicator } from "../utils/";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";

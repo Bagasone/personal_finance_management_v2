@@ -1,6 +1,6 @@
 import { formatCurrency, formatDate } from "../../../utils/formatter";
 import { iconType } from "../../../utils/icon";
-import { typeIndicator } from "../utils/indicator";
+import { typeIndicator } from "../utils/";
 
 import Button from "../../../components/Button";
 

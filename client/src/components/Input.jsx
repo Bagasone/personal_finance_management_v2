@@ -1,6 +1,4 @@
-import { forwardRef } from "react";
-
-const Input = forwardRef(({ type = "text", label, id, value, onChange, error }, ref) => {
+const Input = ({ type = "text", label, id, value, onChange, error, ref }) => {
   return (
     <div className="flex flex-col text-sm">
       {label && <label htmlFor={id}>{label}</label>}
@@ -16,6 +14,6 @@ const Input = forwardRef(({ type = "text", label, id, value, onChange, error }, 
       {error && <p className="text-rose-500 first-letter:capitalize">{error}</p>}
     </div>
   );
-});
+};
 
 export default Input;

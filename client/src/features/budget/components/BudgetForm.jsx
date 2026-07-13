@@ -44,8 +44,8 @@ const BudgetForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
 
     const { valid, errors } = validate(form);
     if (valid) {
-      const { errors, ...formData } = form;
-      onSubmit(formData);
+      const { errors, ...data } = form;
+      onSubmit(data);
     } else dispatch({ type: "INVALID", payload: errors });
   };
 

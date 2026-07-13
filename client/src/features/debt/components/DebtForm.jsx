@@ -30,8 +30,8 @@ const DebtForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
 
     const { valid, errors } = validate(form);
     if (valid) {
-      const { errors, ...formData } = form;
-      onSubmit(formData);
+      const { errors, ...data } = form;
+      onSubmit(data);
     } else dispatch({ type: "INVALID", payload: errors });
   };
 
@@ -46,7 +46,7 @@ const DebtForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
         className="border px-3 py-1 rounded-sm flex flex-col gap-3 w-full h-full">
         <fieldset className="flex justify-between items-center">
           <div className="flex flex-col text-sm">
-            <label htmlFor="type-owe">I owe to someone</label>
+            <label htmlFor="type-owe">I Owe</label>
             <input
               type="radio"
               id="type-owe"
@@ -60,7 +60,7 @@ const DebtForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
             />
           </div>
           <div className="flex flex-col text-sm">
-            <label htmlFor="type-owed">I owed to someone</label>
+            <label htmlFor="type-owed">Owed to Me</label>
             <input
               type="radio"
               id="type-owed"

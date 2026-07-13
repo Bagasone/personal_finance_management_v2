@@ -38,8 +38,8 @@ const DebtDetailPanel = ({ data, onAddPayment, server_errors }) => {
 
     const { valid, errors } = validatePayment(form, data.remaining_amount);
     if (valid) {
-      const { errors, ...formData } = form;
-      onAddPayment(formData, () => dispatch({ type: "RESET" }));
+      const { errors, ...data } = form;
+      onAddPayment(data, () => dispatch({ type: "RESET" }));
     } else dispatch({ type: "INVALID", payload: errors });
   };
 

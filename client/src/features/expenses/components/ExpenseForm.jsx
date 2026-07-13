@@ -35,8 +35,8 @@ const ExpenseForm = ({ initial_data, onSubmit, onCancel, server_errors, ref }) =
 
     const { valid, errors } = validate(form);
     if (valid) {
-      const { errors, ...formData } = form;
-      onSubmit(formData, () => dispatch({ type: "RESET" }));
+      const { errors, ...data } = form;
+      onSubmit(data, () => dispatch({ type: "RESET" }));
     } else dispatch({ type: "INVALID", payload: errors });
   };
 

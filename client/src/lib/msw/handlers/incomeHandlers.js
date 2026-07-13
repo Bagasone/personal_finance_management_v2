@@ -9,7 +9,7 @@ import {
   filterIncome,
   findByIdIncome,
 } from "../../../repositories/incomeRepo";
-import { formatMonth } from "../../../utils/formatter";
+import { formatDate } from "../../../utils/formatter";
 
 const handlers = [
   http.get("/api/incomes", ({ request }) => {
@@ -18,7 +18,7 @@ const handlers = [
 
     if (queries.month) {
       const incomes = filterIncome(queries);
-      const month = formatMonth(queries.month);
+      const month = formatDate(`${queries.month}-01`, { month: "short" });
 
       if (incomes.length === 0)
         return responseError(

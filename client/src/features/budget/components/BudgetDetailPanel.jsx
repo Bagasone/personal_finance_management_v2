@@ -2,7 +2,6 @@ import {
   formatCurrencyCompact,
   formatCurrency,
   formatDate,
-  formatMonth,
 } from "../../../utils/formatter";
 import { labelCategory } from "../../../utils/label";
 import { calculate } from "../../../utils/calculate";

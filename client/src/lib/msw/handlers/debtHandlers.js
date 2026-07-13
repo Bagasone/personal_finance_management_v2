@@ -1,7 +1,6 @@
 import { http } from "msw";
 import { validateDebt, validatePayment } from "../../../utils/validation";
 import { responseSuccess, responseError } from "../../../utils/response";
-import { formatMonth } from "../../../utils/formatter";
 
 import {
   getDebts,

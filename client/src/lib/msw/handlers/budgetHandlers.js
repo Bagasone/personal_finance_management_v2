@@ -1,7 +1,7 @@
 import { http } from "msw";
 import { validateBudget } from "../../../utils/validation";
 import { responseSuccess, responseError } from "../../../utils/response";
-import { formatMonth } from "../../../utils/formatter";
+import { formatDate } from "../../../utils/formatter";
 
 import {
   addBudget,
@@ -19,7 +19,7 @@ const handlers = [
 
     if (queries.month) {
       const budgets = filterBudget(queries);
-      const month = formatMonth(queries.month);
+      const month = formatDate(`${queries.month}-01`, { month: "short" });
 
       if (budgets.length === 0)
         return responseError("NOT_FOUND", `Budget in ${month} doesn't exist`);

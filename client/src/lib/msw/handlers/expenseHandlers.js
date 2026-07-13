@@ -1,7 +1,7 @@
 import { http } from "msw";
 import { validateExpense } from "../../../utils/validation";
 import { responseSuccess, responseError } from "../../../utils/response";
-import { formatMonth } from "../../../utils/formatter";
+import { formatDate } from "../../../utils/formatter";
 
 import {
   addExpense,
@@ -18,7 +18,7 @@ const handlers = [
 
     if (queries.month) {
       const expenses = filterExpense(queries);
-      const month = formatMonth(queries.month);
+      const month = formatDate(`${queries.month}-01`, { month: "short" });
 
       if (expenses.length === 0)
         return responseError(

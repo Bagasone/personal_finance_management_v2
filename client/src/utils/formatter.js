@@ -33,11 +33,3 @@ export const formatDate = (value, option) => {
 
   return new Intl.DateTimeFormat("en-GB", options).format(date);
 };
-
-export const formatMonth = (data) => {
-  const date = new Date(`${data}-01`);
-  return new Intl.DateTimeFormat("en-GB", {
-    year: "numeric",
-    month: "short",
-  }).format(date);
-};

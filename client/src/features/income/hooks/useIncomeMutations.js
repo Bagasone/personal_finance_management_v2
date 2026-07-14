@@ -31,9 +31,9 @@ const useIncomeMutations = (filters) => {
       await queryClient.cancelQueries({ queryKey: INCOME_KEYS.all() });
 
       const previous = queryClient.getQueryData(INCOME_KEYS.filtered(filters));
-      queryClient.setQueryData(INCOME_KEYS.filtered(filters), (oldData) => ({
-        ...oldData,
-        data: oldData.data.filter((item) => item.id !== id),
+      queryClient.setQueryData(INCOME_KEYS.filtered(filters), (old_data) => ({
+        ...old_data,
+        data: old_data.data.filter((item) => item.id !== id),
       }));
 
       return { previous };

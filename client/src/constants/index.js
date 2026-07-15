@@ -29,6 +29,14 @@ export const DEBT_TYPES = Object.freeze({
   OWED: "owed",
 });
 
+export const SIDEBAR_MENU = [
+  { path: "/", icon: "dashboard", label: "Dashboard" },
+  { path: "/expenses", icon: "expenses", label: "Expenses" },
+  { path: "/incomes", icon: "incomes", label: "Incomes" },
+  { path: "/budgets", icon: "budgets", label: "Budgets" },
+  { path: "/debts", icon: "debts", label: "Debts" },
+];
+
 export const KEY_AUTH = "auth";
 
 export const PROFILE_IMAGE =

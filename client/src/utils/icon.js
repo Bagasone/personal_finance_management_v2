@@ -1,4 +1,9 @@
-import { CATEGORY_ICONS, SOURCE_ICONS, TYPE_ICONS } from "../constants/icons";
+import {
+  CATEGORY_ICONS,
+  SIDEBAR_ICONS,
+  SOURCE_ICONS,
+  TYPE_ICONS,
+} from "../constants/icons";
 import { IoBanOutline } from "react-icons/io5";
 
 export const iconCategory = (key) => {
@@ -11,4 +16,8 @@ export const iconSource = (key) => {
 
 export const iconType = (key) => {
   return TYPE_ICONS[key] ?? IoBanOutline;
+};
+
+export const iconSidebar = (key) => {
+  return SIDEBAR_ICONS[key] ?? IoBanOutline
 };

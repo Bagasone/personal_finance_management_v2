@@ -10,6 +10,7 @@ import {
 } from "react-icons/io5";
 
 import {
+  // Incomes
   TbCashBanknote,
   TbCashBanknotePlus,
   TbTax,
@@ -19,6 +20,12 @@ import {
   TbPigMoney,
   TbSeedling,
   TbCreditCard,
+  // Sidebar
+  TbChartPie,
+  TbCashBanknoteMove,
+  TbCashBanknoteMoveBack,
+  TbMoneybagEdit,
+  TbBuildingBank,
 } from "react-icons/tb";
 
 export const CATEGORY_ICONS = {
@@ -45,4 +52,12 @@ export const SOURCE_ICONS = {
 export const TYPE_ICONS = {
   owe: TbMoneybagMove,
   owed: TbMoneybagMoveBack,
+};
+
+export const SIDEBAR_ICONS = {
+  dashboard: TbChartPie,
+  expenses: TbCashBanknoteMove,
+  incomes: TbCashBanknoteMoveBack,
+  budgets: TbMoneybagEdit,
+  debts: TbMoneybagEdit,
 };

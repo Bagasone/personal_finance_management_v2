@@ -1,18 +1,19 @@
-import { useLocation } from "react-router";
-import Navbar from "./Navbar";
+import { cn } from "../../utils";
 
-const Header = () => {
-  const location = useLocation();
-  const pathname = location.pathname.replace(/^\/|\/$/g, "");
+import Profile from "./Profile";
+import MenuBar from "./MenuBar";
 
+const Header = ({ cls }) => {
   return (
-    <header className="flex items-center justify py-3">
-      <div className="flex items-center justify-between w-full gap-4">
-        <h1 className="text-2xl font-bold capitalize">
-          {pathname ? pathname : "dashboard"}
-        </h1>
-        <Navbar />
-      </div>
+    <header
+      className={cn(
+        "flex items-center justify-between gap-3",
+        "bg-black-900 text-black-100",
+        "w-full h-20 p-safe-area rounded-b-lg",
+        cls,
+      )}>
+      <Profile username="Bagas" />
+      <MenuBar />
     </header>
   );
 };

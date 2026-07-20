@@ -58,6 +58,6 @@ export const SIDEBAR_ICONS = {
   dashboard: TbChartPie,
   expenses: TbCashBanknoteMove,
   incomes: TbCashBanknoteMoveBack,
-  budgets: TbMoneybagEdit,
-  debts: TbMoneybagEdit,
+  budgets: TbMoneybagPlus,
+  debts: TbBuildingBank,
 };

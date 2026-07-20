@@ -1,5 +1,7 @@
 import { useRef, useEffect } from "react";
 
+import { cn } from "../utils";
+
 const Modal = ({ is_open, onClose, children }) => {
   const ref = useRef(null);
 
@@ -17,8 +19,12 @@ const Modal = ({ is_open, onClose, children }) => {
       ref={ref}
       onClose={handleClose}
       onClick={handleClose}
-      className="max-w-dvw max-h-dvh overflow-hidden min-w-full min-h-full bg-black-500/20">
-      <div className="box max-w-max ml-[50vw] mt-[50vh] translate-[-50%] bg-black-100">
+      className={cn("overflow-hidden", "w-full h-full", "bg-black-500/20")}>
+      <div
+        className={cn(
+          "fixed right-[50%] bottom-[50%] translate-[50%]",
+          "max-w-max w-2/3 bg-black-100",
+        )}>
         {children}
       </div>
     </dialog>

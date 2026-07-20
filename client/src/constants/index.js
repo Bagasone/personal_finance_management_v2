@@ -30,14 +30,11 @@ export const DEBT_TYPES = Object.freeze({
 });
 
 export const SIDEBAR_MENU = [
-  { path: "/", icon: "dashboard", label: "Dashboard" },
-  { path: "/expenses", icon: "expenses", label: "Expenses" },
-  { path: "/incomes", icon: "incomes", label: "Incomes" },
-  { path: "/budgets", icon: "budgets", label: "Budgets" },
-  { path: "/debts", icon: "debts", label: "Debts" },
+  { path: "/expenses", icon: "expenses", label: "Expenses", color: "expense" },
+  { path: "/incomes", icon: "incomes", label: "Incomes", color: "income" },
+  { path: "/", icon: "dashboard", label: "Dashboard", color: "dashboard" },
+  { path: "/budgets", icon: "budgets", label: "Budgets", color: "budget" },
+  { path: "/debts", icon: "debts", label: "Debts", color: "debt" },
 ];
 
 export const KEY_AUTH = "auth";
-
-export const PROFILE_IMAGE =
-  "https://cdn.jsdelivr.net/gh/alohe/avatars@master/png/toon_1.png";

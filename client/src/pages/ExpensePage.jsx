@@ -70,7 +70,7 @@ const ExpensePage = () => {
   const handleDelete = (id) => {
     deleteExpense.mutate(id, {
       onSuccess: () => {
-        if (edited.id === id) {
+        if (edited?.id === id) {
           setEdited(null);
           setErrors({ message: null, fields: {} });
         }

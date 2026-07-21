@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from "react-router";
 
-import { calculatePercent, cn, iconSidebar } from "../../utils";
+import { cn, iconSidebar } from "../../utils";
 
 import { SIDEBAR_MENU } from "../../constants";
 

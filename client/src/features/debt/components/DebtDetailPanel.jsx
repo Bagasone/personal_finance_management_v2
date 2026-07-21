@@ -66,11 +66,11 @@ const DebtDetailPanel = ({ data, onAddPayment, server_errors }) => {
       <div className="flex flex-col gap-1">
         <div className="flex justify-between items-center">
           <span className="text-black-600">Paid Off:</span>
-          <span className="text-black-600">{percent}</span>
+          <span className="text-black-600">{percent}%</span>
         </div>
         <div className="flex justify-start items-center rounded-sm bg-black-300 w-full h-3">
           <div
-            style={{ width: percent }}
+            style={{ width: `${percent}%` }}
             className="rounded-sm h-3 bg-debt-500"></div>
         </div>
       </div>

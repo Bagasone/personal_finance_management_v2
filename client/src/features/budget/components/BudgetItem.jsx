@@ -73,7 +73,7 @@ const BudgetItem = ({ data, onEdit, onDelete, onDetail, data_expenses }) => {
         />
         <div className="box flex justify-between items-center gap-3">
           <p>Spent: {formatCurrency(total)}</p>
-          <p>{percent}</p>
+          <p>{percent}%</p>
           <p>Limit: {formatCurrency(data.limit)}</p>
         </div>
       </div>

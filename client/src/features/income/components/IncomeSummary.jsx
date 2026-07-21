@@ -52,7 +52,7 @@ const IncomeSourceDetail = ({ data, total_income, label, id }) => {
           <span className="text-base font-bold text-income-500">
             {formatCurrency(total)}
           </span>
-          <span className="text-sm text-black-500">{percent}</span>
+          <span className="text-sm text-black-500">{percent}%</span>
         </p>
       </div>
       <ProgressBar

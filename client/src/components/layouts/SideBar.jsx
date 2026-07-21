@@ -13,7 +13,7 @@ const SideBar = ({ cls }) => {
       className={cn(
         "flex justify-between items-stretch",
         "w-full h-20 py-2 px-safe-area rounded-t-lg",
-        "bg-black-900 text-black-100",
+        "bg-black-900 text-black-200",
         "relative",
         cls,
       )}>
@@ -50,14 +50,14 @@ const SidebarItem = ({ path, label, icon, active_path }) => {
           "rounded-full size-16",
           "translate-y-0 transition-transform duration-300 ease-in",
           "focus:outline-background",
-          is_active ? "-translate-y-10" : "hover:bg-black-700 hover:text-black-300",
+          is_active ? "-translate-y-10" : "hover:bg-black-700 hover:text-black-400",
         )}>
-        <Icon className={cn("size-7", is_active ? "text-black-100" : "text-black-500")} />
+        <Icon className={cn("size-7", is_active ? "text-black-200" : "text-black-500")} />
       </NavLink>
       <span
         className={cn(
           "absolute translate-y-20 transition-transform duration-150 ease-in",
-          "font-medium text-xs text-black-300",
+          "font-medium text-xs text-black-400",
           is_active && "translate-y-4",
         )}>
         {label}

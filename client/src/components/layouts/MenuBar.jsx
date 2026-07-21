@@ -26,10 +26,10 @@ const MenuBar = () => {
         aria-controls="nav-menu"
         className={cn(
           "flex justify-center items-center",
-          "neo-shadow-sm shadow-black-100 border-black-100",
+          "neo-shadow-sm shadow-black-200 border-black-200",
           "px-1 py-1 neo-border-lg",
           "cursor-pointer transition-all",
-          "active:shadow-none active:translate-x-[3px] active:translate-y-[3px]",
+          "active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
         )}
         onClick={handleMenu}>
         <LuMenu className="size-7 stroke-2" />
@@ -43,7 +43,7 @@ const MenuBar = () => {
             "flex justify-start items-center gap-3 w-full",
             "px-3 py-3 border-b",
             "border-black-900 cursor-pointer transition-all",
-            "active:shadow-none active:translate-x-[3px] active:translate-y-[3px]",
+            "active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
           )}>
           <LuSun className="size-6 stroke-2" />
           <p className="text-sm font-semibold">Theme {is_dark ? "Dark" : "Light"}</p>
@@ -56,7 +56,7 @@ const MenuBar = () => {
             "flex justify-start items-center gap-3 w-full",
             "px-3 py-3 border-b",
             "border-black-900 cursor-pointer transition-all",
-            "active:shadow-none active:translate-x-[3px] active:translate-y-[3px]",
+            "active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
           )}>
           <LuGlobe className="size-6 stroke-2" />
           <p className="text-sm font-semibold">Language: EN</p>
@@ -70,7 +70,7 @@ const MenuBar = () => {
             "px-3 py-3 border-b",
             "border-black-900 cursor-pointer transition-all",
             "hover:text-expense-500",
-            "active:text-expense-500 active:shadow-none active:translate-x-[3px] active:translate-y-[3px]",
+            "active:text-expense-500 active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
           )}
           onClick={logout}>
           <LuLogOut className="size-6 stroke-2" />
@@ -81,8 +81,8 @@ const MenuBar = () => {
             "flex justify-center items-center gap-3 w-full",
             "px-3 py-1 border-b",
             "cursor-pointer transition-all",
-            "text-black-100 bg-black-900 border-black-900",
-            "active:shadow-none active:translate-x-[3px] active:translate-y-[3px]",
+            "text-black-200 bg-black-900 border-black-900",
+            "active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
           )}>
           <p className="text-xs font-light">© 2026 Bagas Saputra</p>
         </div>
@@ -99,7 +99,7 @@ const MenuBarList = ({ is_open, children }) => {
       className={cn(
         "fixed top-24 right-4 w-3/7",
         "flex flex-col justify-center items-center",
-        "text-black-900 bg-black-100 shadow-black-900 border-black-900",
+        "text-black-900 bg-black-200 shadow-black-900 border-black-900",
         "neo-shadow-lg neo-border-lg",
         "transition-transform overflow-hidden opacity-0",
         is_open ? "animate-scale-up opacity-100" : "animate-scale-down opacity-100",

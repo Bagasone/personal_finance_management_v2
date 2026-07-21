@@ -7,10 +7,10 @@ const Profile = ({ username }) => {
     <div className="flex justify-center items-center gap-3">
       <div
         className={cn(
-          "neo-shadow-sm shadow-black-100 neo-border-lg border-black-100",
+          "neo-shadow-sm shadow-black-200 neo-border-lg border-black-200",
           "size-12 overflow-hidden",
           "cursor-pointer transition-all",
-          "active:shadow-none active:translate-x-[3px] active:translate-y-[3px]",
+          "active:shadow-none active:translate-x-.75 active:translate-y-.75",
         )}>
         <img
           src={PROFILE_IMAGE}
@@ -20,7 +20,7 @@ const Profile = ({ username }) => {
       </div>
       <div className="flex flex-col justify-center items-start">
         <p className="text-xs text-black-400 font-light">Welcome,</p>
-        <p className="text-xl text-black-100 font-bold uppercase space-x-0">{username}</p>
+        <p className="text-xl text-black-200 font-bold uppercase space-x-0">{username}</p>
       </div>
     </div>
   );

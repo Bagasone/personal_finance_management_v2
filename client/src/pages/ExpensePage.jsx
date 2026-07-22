@@ -1,10 +1,10 @@
-import { useReducer, useState, useRef, useEffect } from "react";
+import { useReducer, useState } from "react";
 
-import useToast from "../hooks/useToast";
 import useExpenses from "../features/expenses/hooks/useExpenses";
 import useExpenseMutations from "../features/expenses/hooks/useExpenseMutations";
+import useToast from "../hooks/useToast";
 
-import { getMonth } from "../utils/date";
+import { cn, getMonth, prevMonth } from "../utils";
 
 import ExpenseFilters from "../features/expenses/components/ExpenseFilters";
 import ExpenseList from "../features/expenses/components/ExpenseList";
@@ -14,6 +14,7 @@ import ExpenseSkeleton from "../features/expenses/components/ExpenseSkeleton";
 import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
 import Toast from "../components/Toast";
+import Modal from "../components/Modal";
 
 const initial_state = {
   month: getMonth(),
@@ -37,16 +38,15 @@ const ExpensePage = () => {
   const [filters, dispatch] = useReducer(reducer, initial_state);
   const [edited, setEdited] = useState(null);
   const [errors, setErrors] = useState({ message: null, fields: {} });
+  const [is_open, setIsOpen] = useState(false);
 
-  const first_input_ref = useRef(null);
+  const prev_month = prevMonth(filters.month);
 
   const { data, isLoading, isFetching, isError, error, refetch } = useExpenses(filters);
+  const { data: prev_data } = useExpenses({ ...filters, month: prev_month });
   const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
-  const { toast, showToast, closeToast } = useToast();
 
-  useEffect(() => {
-    setEdited(null);
-  }, [filters.month]);
+  const { toast, showToast, closeToast } = useToast();
 
   if (isLoading) return <ExpenseSkeleton />;
   if (isError && error.status >= 500)
@@ -57,23 +57,20 @@ const ExpensePage = () => {
       />
     );
 
-  const handleEdit = (data) => {
+  const handleCancel = () => {
     setErrors({ message: null, fields: {} });
-    setEdited(data);
+    setEdited(null);
+    setIsOpen(false);
   };
 
-  const handleCancel = () => {
-    setEdited(null);
-    setErrors({ message: null, fields: {} });
+  const handleEdit = (data) => {
+    setEdited(data);
+    setIsOpen(true);
   };
 
   const handleDelete = (id) => {
     deleteExpense.mutate(id, {
       onSuccess: () => {
-        if (edited?.id === id) {
-          setEdited(null);
-          setErrors({ message: null, fields: {} });
-        }
         showToast("Expense deleted", "success");
       },
       onError: () => {
@@ -82,7 +79,7 @@ const ExpensePage = () => {
     });
   };
 
-  const handleSubmit = (data, resetForm) => {
+  const handleSubmit = (data) => {
     setErrors({ message: null, fields: {} });
     if (edited)
       updateExpense.mutate(
@@ -90,8 +87,7 @@ const ExpensePage = () => {
         {
           onSuccess: () => {
             showToast("Expense updated", "success");
-            setEdited(null);
-            resetForm();
+            handleCancel();
           },
           onError: (err) => {
             setErrors({ message: err.message, fields: err.errors });
@@ -102,7 +98,7 @@ const ExpensePage = () => {
       createExpense.mutate(data, {
         onSuccess: () => {
           showToast("Expense added", "success");
-          resetForm();
+          handleCancel();
         },
         onError: (err) => {
           setErrors({ message: err.message, fields: err.errors });
@@ -111,33 +107,37 @@ const ExpensePage = () => {
   };
 
   return (
-    <div className="grid grid-cols-12 justify-center gap-5">
-      {isFetching && !isLoading && <Spinner />}
-      <div className="col-span-8 flex flex-col justify-start items-start gap-1 max-h-[80%]">
-        <ExpenseFilters
-          filters={filters}
-          dispatch={dispatch}
-        />
-        <ExpenseList
-          data={data}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onFocus={() => first_input_ref.current?.focus()}
-        />
+    <div className="flex flex-col justify-center gap-10">
+      <h1 className="sr-only">Expenses</h1>
+      <div className="relative">
+        {isFetching && !isLoading && <Spinner cls="text-black-200 size-5" />}
         <ExpenseSummary
           data={data}
+          prev_data={prev_data}
           category_id={filters.category_id}
+          month={filters.month}
         />
       </div>
-      <div className="col-span-4 flex flex-col items-start gap-1">
+      <ExpenseFilters
+        filters={filters}
+        dispatch={dispatch}
+      />
+      <ExpenseList
+        data={data}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        onOpen={() => setIsOpen(true)}
+      />
+      <Modal
+        is_open={is_open}
+        onClose={handleCancel}>
         <ExpenseForm
           initial_data={edited}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
           server_errors={errors}
-          ref={first_input_ref}
         />
-      </div>
+      </Modal>
       {toast && (
         <Toast
           type={toast.type}

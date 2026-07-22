@@ -21,8 +21,8 @@ import DebtSummary from "../features/debt/components/DebtSummary";
 import DebtFilter from "../features/debt/components/DebtFilter";
 
 const DebtPage = () => {
-  const [selected, setSelected] = useState(null);
   const [filters, setFilters] = useState(PAYMENT_STATUS.ACTIVE);
+  const [selected, setSelected] = useState(null);
   const [edited, setEdited] = useState(null);
   const [is_open, setIsOpen] = useState(false);
   const [errors, setErrors] = useState({ message: null, fields: {} });
@@ -50,14 +50,14 @@ const DebtPage = () => {
     );
 
   const handleCancel = () => {
-    setIsOpen(false);
-    setEdited(null);
     setErrors({ message: null, fields: {} });
+    setEdited(null);
+    setIsOpen(false);
   };
 
   const handleEdit = (data) => {
-    setIsOpen(true);
     setEdited(data);
+    setIsOpen(true);
   };
 
   const handleDelete = (id) => {
@@ -79,9 +79,9 @@ const DebtPage = () => {
         { id: edited.id, data },
         {
           onSuccess: ({ data }) => {
+            if (selected.id === data.id) setSelected(data);
             showToast("Debt updated", "success");
             handleCancel();
-            if (selected.id === data.id) setSelected(data);
           },
           onError: (err) => {
             setErrors({ message: err.message, fields: err.errors });

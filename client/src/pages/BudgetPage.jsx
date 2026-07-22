@@ -5,9 +5,7 @@ import useBudgets from "../features/budget/hooks/useBudgets";
 import useBudgetMutations from "../features/budget/hooks/useBudgetMutations";
 import useExpenses from "../features/expenses/hooks/useExpenses";
 
-import { getMonth } from "../utils/date";
-import { calculate } from "../utils/calculate";
-import { labelCategory } from "../utils/label";
+import { getMonth, calculate, labelCategory } from "../utils";
 
 import BudgetFilters from "../features/budget/components/BudgetFilters";
 import BudgetList from "../features/budget/components/BudgetList";
@@ -89,9 +87,14 @@ const BudgetPage = () => {
   };
 
   const handleCancel = () => {
-    setIsOpen(false);
-    setEdited(null);
     setErrors({ message: null, fields: {} });
+    setEdited(null);
+    setIsOpen(false);
+  };
+
+  const handleEdit = (data) => {
+    setEdited(data);
+    setIsOpen(true);
   };
 
   const handleDelete = (id) => {
@@ -104,11 +107,6 @@ const BudgetPage = () => {
         showToast("Failed to delete budget", "error");
       },
     });
-  };
-
-  const handleEdit = (data) => {
-    setIsOpen(true);
-    setEdited(data);
   };
 
   const handleSubmit = (data) => {

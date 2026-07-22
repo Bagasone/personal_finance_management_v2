@@ -4,7 +4,7 @@ import useIncomes from "../features/income/hooks/useIncomes";
 import useIncomeMutation from "../features/income/hooks/useIncomeMutations";
 import useToast from "../hooks/useToast";
 
-import { getMonth } from "../utils/date";
+import { getMonth } from "../utils";
 
 import IncomeFilters from "../features/income/components/IncomeFilters";
 import IncomeList from "../features/income/components/IncomeList";
@@ -56,21 +56,20 @@ const IncomePage = () => {
     );
 
   const handleCancel = () => {
-    setIsOpen(false);
-    setEdited(null);
     setErrors({ message: null, fields: {} });
+    setEdited(null);
+    setIsOpen(false);
   };
 
   const handleEdit = (data) => {
-    setIsOpen(true);
     setEdited(data);
+    setIsOpen(true);
   };
 
   const handleDelete = (id) => {
     deleteIncome.mutate(id, {
       onSuccess: () => {
         showToast("Income deleted", "success");
-        setEdited(null);
       },
       onError: () => {
         showToast("Failed to delete income", "error");

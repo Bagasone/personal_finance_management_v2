@@ -1,10 +1,11 @@
 import { calculate, calculatePercent } from "./calculate";
 import { cn } from "./cn";
-import { getDate, getFullDate, getMonth } from "./date";
+import { getDate, getFullDate, getMonth, prevMonth } from "./date";
 import { errorField } from "./error";
 import { formatCurrency } from "./formatter";
 import { iconCategory, iconSource, iconType, iconSidebar } from "./icon";
 import { labelCategory, labelSource } from "./label";
+import { summaryIndicator } from "./indicator";
 
 export {
   calculate,
@@ -13,6 +14,7 @@ export {
   getFullDate,
   getDate,
   getMonth,
+  prevMonth,
   errorField,
   formatCurrency,
   iconCategory,
@@ -21,4 +23,5 @@ export {
   iconSidebar,
   labelCategory,
   labelSource,
+  summaryIndicator,
 };

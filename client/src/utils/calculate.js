@@ -7,6 +7,6 @@ export const calculate = (data, key = "amount", filter = null) => {
 };
 
 export const calculatePercent = (dividen, divisor) => {
-  if (divisor === 0 || isNaN(divisor)) return "invalid divisor";
+  if (divisor === 0 || isNaN(divisor)) return null;
   return Math.round((dividen / divisor) * 100);
 };

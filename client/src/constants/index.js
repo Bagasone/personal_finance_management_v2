@@ -37,4 +37,29 @@ export const SIDEBAR_MENU = [
   { path: "/debts", icon: "debts", label: "Debts", color: "debt" },
 ];
 
+export const BG_COLORS = {
+  expense: "bg-expense-500",
+  income: "bg-income-500",
+  budget: "bg-budget-500",
+  debt: "bg-debt-500",
+  dashboard: "bg-dashboard-500",
+  fallback: "bg-black-500",
+};
+
+export const TEXT_COLORS = {
+  expense: "text-expense-400",
+  income: "text-income-400",
+  budget: "text-budget-400",
+  debt: "text-debt-400",
+  dashboard: "text-dashboard-400",
+  fallback: "text-black-400",
+};
+
+// constants — semantic
+export const TREND_COLORS = {
+  growth: "text-emerald-400", // pakai scale hijau emerald sebagai representasi "baik" atau keuangan growth
+  decline: "text-rose-400", // pakai scale merah rose sebagai representasi "buruk" atau keuangan decline
+  flat: "text-black-400", // pakai scale hitam sebagai representasi "stabil" atau keuangan flat
+};
+
 export const KEY_AUTH = "auth";

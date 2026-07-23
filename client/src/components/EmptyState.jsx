@@ -1,15 +1,23 @@
-const EmptyState = ({ message, action_label, onAction, children }) => {
+import { cn } from "../utils";
+import { GoInbox } from "react-icons/go";
+import { LuInbox } from "react-icons/lu";
+
+const EmptyState = ({ title, description, icon_cls, Icon = GoInbox, children }) => {
   return (
-    <div className="flex flex-col justify-center items-center gap-1 w-full h-full">
+    <div
+      className={cn(
+        "flex flex-col justify-center items-center gap-5",
+        "rounded-lg border-2 border-dotted p-9",
+        "neo-shadow-2xl shadow-black-800 border-black-900",
+      )}>
+      <Icon className={cn("size-12", icon_cls)} />
+      <div className="flex flex-col">
+        <h2 className="text-center text-lg font-bold text-black-900">
+          {title}
+        </h2>
+        <p className="text-center text-xs font-normal text-black-500">{description}</p>
+      </div>
       {children}
-      <p className="text-center text-xl font-semibold">{message}</p>
-      {action_label && (
-        <button
-          className="border px-3 py-1 rounded-sm text-sm"
-          onClick={onAction}>
-          {action_label}
-        </button>
-      )}
     </div>
   );
 };

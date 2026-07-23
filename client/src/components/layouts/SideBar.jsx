@@ -2,7 +2,7 @@ import { NavLink, useLocation } from "react-router";
 
 import { cn, iconSidebar } from "../../utils";
 
-import { SIDEBAR_MENU } from "../../constants";
+import { BG_COLORS, SIDEBAR_MENU } from "../../constants";
 
 const SideBar = ({ cls }) => {
   const location = useLocation();
@@ -52,7 +52,7 @@ const SidebarItem = ({ path, label, icon, active_path }) => {
           "focus:outline-background",
           is_active ? "-translate-y-10" : "hover:bg-black-700 hover:text-black-400",
         )}>
-        <Icon className={cn("size-7", is_active ? "text-black-200" : "text-black-500")} />
+        <Icon className={cn("size-7", is_active ? "text-black-50" : "text-black-400")} />
       </NavLink>
       <span
         className={cn(
@@ -70,7 +70,7 @@ const SidebarIndicator = ({ active_path }) => {
   const active_index = SIDEBAR_MENU.findIndex((item) => item.path === active_path);
   const active_percent = (active_index + 0.5) * (100 / SIDEBAR_MENU.length);
   const active_class =
-    SIDEBAR_MENU.find((item) => item.path === active_path)?.color ?? "black";
+    SIDEBAR_MENU.find((item) => item.path === active_path)?.color ?? "fallback";
 
   return (
     <div className="absolute bottom-0 top-0 left-safe-area right-safe-area">
@@ -91,8 +91,12 @@ const SidebarIndicator = ({ active_path }) => {
         )}
         style={{ left: `${active_percent}%` }}>
         <div
-          className="z-1 size-14 transition-all rounded-4xl neo-shadow-lg outline-2 shadow-black-900 outline-black-900"
-          style={{ backgroundColor: `var(--color-${active_class}-500)` }}></div>
+          className={cn(
+            "size-14 rounded-4xl",
+            "neo-shadow-lg outline-2 shadow-black-900 outline-black-900",
+            "transition-all z-1",
+            BG_COLORS[active_class],
+          )}></div>
       </div>
     </div>
   );

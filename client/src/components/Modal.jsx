@@ -19,7 +19,7 @@ const Modal = ({ is_open, onClose, children }) => {
       ref={ref}
       onClose={handleClose}
       onClick={handleClose}
-      className={cn("overflow-hidden", "w-full h-full", "bg-black-500/20")}>
+      className={cn("overflow-hidden", "min-w-full min-h-full", "bg-black-500/20")}>
       <div
         className={cn(
           "fixed right-[50%] bottom-[50%] translate-[50%]",

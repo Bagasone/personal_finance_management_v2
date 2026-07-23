@@ -80,10 +80,6 @@
   --color-black-900: #1a1a1a;
   --color-black-950: #000000;
 
-  /* Main Color */
-  --color-background: var(--color-black-200);
-  --color-foreground: var(--color-black-950);
-
   /* Fonts */
   --font-head: "Plus Jakarta Sans", sans-serif;
   --font-display: "Geist", sans-serif;
@@ -94,6 +90,9 @@
 
   /* Spacing */
   --spacing-safe-area: 1.5rem;
+
+  /* Sizing */
+  --text-xxs: 0.625rem;
 }
 
 body {
@@ -107,6 +106,14 @@ h3 {
 }
 
 @layer utilities {
+  .neo-shadow-2xl {
+    @apply shadow-[6px_6px_0px_0px];
+  }
+
+  .neo-shadow-xl {
+    @apply shadow-[5px_5px_0px_0px];
+  }
+
   .neo-shadow-lg {
     @apply shadow-[4px_4px_0px_0px];
   }

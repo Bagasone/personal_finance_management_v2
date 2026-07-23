@@ -8,7 +8,7 @@ const Header = ({ cls }) => {
     <header
       className={cn(
         "flex items-center justify-between gap-3",
-        "bg-black-900 text-black-300",
+        "bg-black-900 text-black-200",
         "w-full h-20 p-safe-area rounded-b-lg",
         cls,
       )}>

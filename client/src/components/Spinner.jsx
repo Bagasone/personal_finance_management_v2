@@ -1,9 +1,13 @@
-import { FaSpinner } from "react-icons/fa6";
+import { cn } from "../utils";
+import { CgSpinner } from "react-icons/cg";
 
-const Spinner = () => {
+const Spinner = ({ cls }) => {
   return (
-    <div className="absolute">
-      <FaSpinner />
+    <div
+      role="status"
+      aria-label="Loading"
+      className={cn("size-5 animate-spin", cls)}>
+      <CgSpinner className="w-full h-full" />
     </div>
   );
 };

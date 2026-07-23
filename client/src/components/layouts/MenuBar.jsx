@@ -15,7 +15,7 @@ const MenuBar = () => {
 
   return (
     <div
-      className="flex items-center justify-center"
+      className="flex items-center justify-center z-10"
       role="menubar"
       aria-label="User settings and actions">
       <button

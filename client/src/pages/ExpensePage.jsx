@@ -6,6 +6,8 @@ import useToast from "../hooks/useToast";
 
 import { cn, getMonth, prevMonth } from "../utils";
 
+import { TbPlus } from "react-icons/tb";
+
 import ExpenseFilters from "../features/expenses/components/ExpenseFilters";
 import ExpenseList from "../features/expenses/components/ExpenseList";
 import ExpenseSummary from "../features/expenses/components/ExpenseSummary";
@@ -15,6 +17,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
 import Toast from "../components/Toast";
 import Modal from "../components/Modal";
+import FAB from "../components/FAB";
 
 const initial_state = {
   month: getMonth(),
@@ -42,17 +45,34 @@ const ExpensePage = () => {
 
   const prev_month = prevMonth(filters.month);
 
-  const { data, isLoading, isFetching, isError, error, refetch } = useExpenses(filters);
-  const { data: prev_data } = useExpenses({ ...filters, month: prev_month });
-  const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
+  const {
+    data,
+    isLoading: is_current_loading,
+    isFetching,
+    isError: is_current_error,
+    error: current_error,
+    refetch,
+  } = useExpenses(filters);
 
+  const {
+    data: prev_data,
+    isLoading: is_prev_loading,
+    isError: is_prev_error,
+    error: prev_error,
+  } = useExpenses({ ...filters, month: prev_month });
+
+  const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
   const { toast, showToast, closeToast } = useToast();
+
+  const isLoading = is_current_loading || is_prev_loading;
+  const isError = is_current_error || is_prev_error;
+  const error = current_error ?? prev_error;
 
   if (isLoading) return <ExpenseSkeleton />;
   if (isError && error.status >= 500)
     return (
       <ErrorMessage
-        message={error.message}
+        message={error?.message}
         onRetry={refetch}
       />
     );
@@ -107,10 +127,12 @@ const ExpensePage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center gap-10">
+    <div className="flex flex-col justify-center gap-5">
       <h1 className="sr-only">Expenses</h1>
       <div className="relative">
-        {isFetching && !isLoading && <Spinner cls="text-black-200 size-5" />}
+        {isFetching && !isLoading && (
+          <Spinner cls="absolute bottom-2 right-2 text-black-200" />
+        )}
         <ExpenseSummary
           data={data}
           prev_data={prev_data}
@@ -138,6 +160,11 @@ const ExpensePage = () => {
           server_errors={errors}
         />
       </Modal>
+      <FAB
+        cls="bg-expense-500"
+        onClick={() => setIsOpen(true)}>
+        <TbPlus className="size-10 text-black-200" />
+      </FAB>
       {toast && (
         <Toast
           type={toast.type}

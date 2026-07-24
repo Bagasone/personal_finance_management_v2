@@ -2,6 +2,9 @@ import { useEffect } from "react";
 
 import useForm from "../../../hooks/useForm";
 
+import { cn, getDate, errorField } from "../../../utils";
+import { validate } from "../utils/validation";
+
 import { EXPENSE_CATEGORIES } from "../../../constants";
 import { MdClose } from "react-icons/md";
 
@@ -11,10 +14,6 @@ import Option from "../../../components/Option";
 import Button from "../../../components/Button";
 import FormField from "../../../components/FormField";
 import FormError from "../../../components/FormError";
-
-import { validate } from "../utils/validation";
-import { getDate } from "../../../utils/date";
-import { errorField } from "../../../utils/error";
 
 const ExpenseForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
   const [form, dispatch] = useForm({
@@ -48,9 +47,14 @@ const ExpenseForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
   };
 
   return (
-    <div className="flex flex-col justify-start items-start gap-3 w-full">
-      <div className="w-full flex justify-between items-center p-5 border-b-2">
-        <h2 className="text-xl font-bold">{initial_data ? "Edit" : "Add"} Expense</h2>
+    <div
+      className={cn(
+        "flex flex-col justify-start items-start gap-3",
+        "w-11/12 rounded-lg border",
+        "bg-black-100 shadow-neo-xl shadow-black-900 border-black-900",
+      )}>
+      <div className="w-full flex justify-between items-center p-5 border-b-2 border-black-900">
+        <h2 className="font-bold text-xl">{initial_data ? "Edit" : "Add"} Expense</h2>
         <Button
           type="button"
           aria-label="Cancel form"
@@ -62,7 +66,11 @@ const ExpenseForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
       <FormError message={server_errors?.message} />
       <form
         onSubmit={handleSubmit}
-        className="px-5 pb-10 pt-5 rounded-sm flex flex-col gap-3 w-full h-full">
+        className={cn(
+          "w-full h-full",
+          "rounded-sm px-5 pb-10 pt-5",
+          "flex flex-col gap-3",
+        )}>
         <FormField
           label="Description"
           id="description"

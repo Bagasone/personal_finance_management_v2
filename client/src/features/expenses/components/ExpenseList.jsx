@@ -1,29 +1,41 @@
+import { cn } from "../../../utils";
+
+import { TbReceiptOff, TbPlus } from "react-icons/tb";
+
 import ExpenseItem from "./ExpenseItem";
+import Button from "../../../components/Button";
 import EmptyState from "../../../components/EmptyState";
 
-const ExpenseList = ({ data, onEdit, onDelete, onFocus }) => {
+const ExpenseList = ({ data, onEdit, onDelete, onOpen }) => {
   if (!data || data.length === 0)
     return (
       <EmptyState
-        message="There is No Expense For this Month"
-        action_label="Add New Expense"
-        onAction={onFocus}
-      />
+        title="There is no expenses"
+        description="Try to change filter or add new expense for this month"
+        Icon={TbReceiptOff}
+        icon_cls="text-expense-200">
+        <Button
+          label="Add Expense"
+          onClick={onOpen}
+          cls="text-black-50 bg-expense-500">
+          <TbPlus className="size-5 stroke-3" />
+        </Button>
+      </EmptyState>
     );
 
   return (
-    <div className="flex flex-col gap-3">
-      <h2 className="text-xl font-bold">Expense List</h2>
-      <div
-        aria-label="list header"
-        className="grid grid-cols-12 w-full">
-        <div className="col-span-3">Description</div>
-        <div className="col-span-2">Amount</div>
-        <div className="col-span-2">Category</div>
-        <div className="col-span-2">Date</div>
-        <div className="col-span-3">Actions</div>
+    <div className={cn("flex flex-col gap-3", "w-full h-full")}>
+      <div className="flex justify-between items-center px-1">
+        <h2 className="text-lg font-bold">Transaction History</h2>
+        <p className="font-normal text-sm text-black-500">{data.length} transaction</p>
       </div>
-      <ul className="flex flex-1 flex-col gap-3">
+      <ul
+        className={cn(
+          "flex flex-col gap-0",
+          "w-full max-h-100 overflow-y-auto scrollbar-none",
+          "divide-y rounded-lg border-2",
+          "divide-black-500 bg-black-50 shadow-neo-lg shadow-black-900 border-black-900",
+        )}>
         {data.map((exp) => (
           <ExpenseItem
             key={exp.id}

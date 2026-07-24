@@ -7,17 +7,6 @@ export const formatCurrency = (amount, option) => {
   }).format(amount);
 };
 
-export const formatCurrencyCompact = (amount, option) => {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-    notation: "compact",
-    compactDisplay: "short",
-    ...option,
-  }).format(amount);
-};
-
 export const formatDate = (value, option) => {
   const date = new Date(value);
   const default_option = {

@@ -5,7 +5,8 @@ const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
       "font-size": ["text-xxs"],
-      shadow: ["shadow-neo-sm", "shadow-neo-md", "shadow-neo-lg", "shadow-neo-xl"],    },
+      shadow: ["shadow-neo-sm", "shadow-neo-md", "shadow-neo-lg", "shadow-neo-xl"],
+    },
   },
 });
 

@@ -93,7 +93,7 @@ const SidebarIndicator = ({ active_path }) => {
         <div
           className={cn(
             "size-14 rounded-4xl",
-            "shadow-neo-lg outline-2 shadow-black-900 outline-black-900",
+            "shadow-neo-md border-2 shadow-black-900 border-black-900",
             "transition-all z-1",
             BG_COLORS[active_class],
           )}></div>

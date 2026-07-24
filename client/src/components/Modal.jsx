@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 
 import { cn } from "../utils";
 
-const Modal = ({ is_open, onClose, children }) => {
+const Modal = ({ is_open, onClose, cls, children }) => {
   const ref = useRef(null);
 
   const handleClose = (e) => {
@@ -19,13 +19,13 @@ const Modal = ({ is_open, onClose, children }) => {
       ref={ref}
       onClose={handleClose}
       onClick={handleClose}
-      className={cn("overflow-hidden", "min-w-full min-h-full", "bg-black-500/20")}>
+      className={cn(
+        "fixed inset-0 m-0 p-0 border-none",
+        "w-screen h-screen max-w-none max-h-none",
+        "bg-black-500/20",
+      )}>
       <div
-        className={cn(
-          "fixed right-[50%] bottom-[50%] translate-[50%]",
-          "max-w-max w-full rounded-lg border",
-          "shadow-neo-xl border-black-900 shadow-black-900 bg-black-100",
-        )}>
+        className={cn("modal-panel", "w-full h-full flex items-center justify-center")}>
         {children}
       </div>
     </dialog>

@@ -140,3 +140,73 @@ h3 {
     display: none;
   }
 }
+
+@keyframes show-up {
+  0% {
+    display: block;
+    translate-x: -100%;
+  }
+
+  5% {
+    translate-x: -100%;
+  }
+
+  100% {
+    translate-x: 0%;
+  }
+}
+
+@keyframes show-down {
+  0% {
+    translate-x: 0%;
+  }
+
+  95% {
+    translate-x: -100%;
+  }
+
+  100% {
+    translate-x: -100%;
+    display: none;
+  }
+}
+
+/* Dialog animation transition open and close */
+dialog {
+  opacity: 0;
+  transition:
+    opacity 0.35s ease-in,
+    transform 0.35s ease-in,
+    overlay 0.35s ease-in allow-discrete,
+    display 0.35s ease-in allow-discrete;
+}
+
+dialog[open] {
+  opacity: 1;
+}
+
+dialog .modal-panel {
+  opacity: 0;
+  transform: scale(0) translateY(100%);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    overlay 0.3s ease allow-discrete,
+    display 0.3s ease allow-discrete;
+}
+
+dialog[open] .modal-panel {
+  opacity: 1;
+  transform: scale(1) translateY(0%);
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+  }
+
+  dialog[open] .modal-panel {
+    opacity: 0;
+    transform: scale(0) translateY(100%);
+  }
+}

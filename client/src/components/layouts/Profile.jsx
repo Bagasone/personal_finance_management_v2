@@ -7,7 +7,7 @@ const Profile = ({ username }) => {
     <div className="flex justify-center items-center gap-3">
       <div
         className={cn(
-          "neo-shadow-sm shadow-black-200 neo-border-lg border-black-200",
+          "shadow-neo-sm shadow-black-200 rounded-lg border border-black-200",
           "size-12 overflow-hidden",
           "cursor-pointer transition-all",
           "active:shadow-none active:translate-x-.75 active:translate-y-.75",

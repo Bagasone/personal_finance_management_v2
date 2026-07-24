@@ -1,18 +1,16 @@
-const Input = ({ type = "text", label, id, value, onChange, error, ref }) => {
+import { cn } from "../utils";
+
+const Input = ({ type = "text", id, value, onChange, cls, ...props }) => {
   return (
-    <div className="flex flex-col text-sm">
-      {label && <label htmlFor={id}>{label}</label>}
-      <input
-        ref={ref}
-        type={type}
-        name={id}
-        id={id}
-        value={value}
-        onChange={onChange}
-        className="box w-full text-sm cursor-pointer"
-      />
-      {error && <p className="text-rose-500 first-letter:capitalize">{error}</p>}
-    </div>
+    <input
+      type={type}
+      name={id}
+      id={id}
+      value={value}
+      onChange={onChange}
+      className={cn("w-full", cls)}
+      {...props}
+    />
   );
 };
 

@@ -26,8 +26,8 @@ const MenuBar = () => {
         aria-controls="nav-menu"
         className={cn(
           "flex justify-center items-center",
-          "neo-shadow-sm shadow-black-200 border-black-200",
-          "px-1 py-1 neo-border-lg",
+          "shadow-neo-sm shadow-black-200 border border-black-200",
+          "px-1 py-1 rounded-lg",
           "cursor-pointer transition-all",
           "active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
         )}
@@ -100,7 +100,7 @@ const MenuBarList = ({ is_open, children }) => {
         "fixed top-24 right-4 w-3/7",
         "flex flex-col justify-center items-center",
         "text-black-900 bg-black-200 shadow-black-900 border-black-900",
-        "neo-shadow-lg neo-border-lg",
+        "shadow-neo-lg rounded-lg border",
         "transition-transform overflow-hidden opacity-0",
         is_open ? "animate-scale-up opacity-100" : "animate-scale-down opacity-100",
       )}>

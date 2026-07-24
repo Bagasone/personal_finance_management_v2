@@ -1,26 +1,24 @@
+import { cn } from "../utils";
+
 import Option from "./Option";
 
-const Select = ({ label, id, value, onChange, options, error, children }) => {
+const Select = ({ id, value, onChange, options, cls, children }) => {
   return (
-    <div className="flex flex-col text-sm">
-      {label && <label htmlFor={id}>{label}</label>}
-      <select
-        name={id}
-        id={id}
-        value={value}
-        onChange={onChange}
-        className="box w-full ">
-        {children}
-        {options.map((opt) => (
-          <Option
-            key={opt.id}
-            value={opt.id}
-            label={opt.label}
-          />
-        ))}
-      </select>
-      {error && <p className="text-rose-500 first-letter:capitalize">{error}</p>}
-    </div>
+    <select
+      name={id}
+      id={id}
+      value={value}
+      onChange={onChange}
+      className={cn("w-full", cls)}>
+      {children}
+      {options.map((opt) => (
+        <Option
+          key={opt.id}
+          value={opt.id}
+          label={opt.label}
+        />
+      ))}
+    </select>
   );
 };
 

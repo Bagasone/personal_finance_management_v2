@@ -23,7 +23,8 @@ const Modal = ({ is_open, onClose, children }) => {
       <div
         className={cn(
           "fixed right-[50%] bottom-[50%] translate-[50%]",
-          "max-w-max w-2/3 bg-black-100",
+          "max-w-max w-full rounded-lg border",
+          "shadow-neo-xl border-black-900 shadow-black-900 bg-black-100",
         )}>
         {children}
       </div>

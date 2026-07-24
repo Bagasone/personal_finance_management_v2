@@ -8,7 +8,7 @@ const ErrorMessage = ({ message, onRetry }) => {
         className={cn(
           "flex flex-col justify-center items-center gap-5",
           "rounded-xl border-2 px-5 py-5",
-          "neo-shadow-xl shadow-black-900",
+          "shadow-neo-xl shadow-black-900",
         )}>
         <MdErrorOutline className="size-16 text-rose-500" />
         <div className="flex flex-col justify-center items-center">
@@ -19,8 +19,8 @@ const ErrorMessage = ({ message, onRetry }) => {
           <button
             onClick={onRetry}
             className={cn(
-              "px-6 py-2 neo-border-lg",
-              "text-black-200 bg-black-900 neo-shadow-md shadow-rose-500 border-shadow-900",
+              "px-6 py-2 rounded-lg border",
+              "text-black-200 bg-black-900 shadow-neo-md shadow-rose-500 border-shadow-900",
               "text-base font-bold",
             )}>
             Retry

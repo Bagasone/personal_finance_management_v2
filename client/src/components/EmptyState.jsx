@@ -8,7 +8,7 @@ const EmptyState = ({ title, description, icon_cls, Icon = GoInbox, children }) 
       className={cn(
         "flex flex-col justify-center items-center gap-5",
         "rounded-lg border-2 border-dotted p-9",
-        "neo-shadow-2xl shadow-black-800 border-black-900",
+        "shadow-neo-xl shadow-black-800 border-black-900",
       )}>
       <Icon className={cn("size-12", icon_cls)} />
       <div className="flex flex-col">

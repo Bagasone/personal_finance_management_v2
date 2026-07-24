@@ -80,6 +80,12 @@
   --color-black-900: #1a1a1a;
   --color-black-950: #000000;
 
+  /* Shadow */
+  --shadow-neo-sm: 3px 3px 0px 0px;
+  --shadow-neo-md: 4px 4px 0px 0px;
+  --shadow-neo-lg: 5px 5px 0px 0px;
+  --shadow-neo-xl: 6px 6px 0px 0px;
+
   /* Fonts */
   --font-head: "Plus Jakarta Sans", sans-serif;
   --font-display: "Geist", sans-serif;
@@ -103,40 +109,6 @@ h1,
 h2,
 h3 {
   font-family: var(--font-head);
-}
-
-@layer utilities {
-  .neo-shadow-2xl {
-    @apply shadow-[6px_6px_0px_0px];
-  }
-
-  .neo-shadow-xl {
-    @apply shadow-[5px_5px_0px_0px];
-  }
-
-  .neo-shadow-lg {
-    @apply shadow-[4px_4px_0px_0px];
-  }
-
-  .neo-shadow-md {
-    @apply shadow-[3px_3px_0px_0px];
-  }
-
-  .neo-shadow-sm {
-    @apply shadow-[2px_2px_0px_0px];
-  }
-
-  .neo-border-lg {
-    @apply rounded-lg border;
-  }
-
-  .neo-border-md {
-    @apply rounded-md border;
-  }
-
-  .neo-border-sm {
-    @apply rounded-sm border;
-  }
 }
 
 @keyframes scale-up {

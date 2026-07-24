@@ -1,10 +1,15 @@
 import useForm from "../../../hooks/useForm";
 
-import { calculatePercent, calculate } from "../../../utils/calculate";
-import { getDate } from "../../../utils/date";
-import { formatCurrency, formatDate } from "../../../utils/formatter";
+import {
+  cn,
+  calculate,
+  calculatePercent,
+  getDate,
+  formatCurrency,
+  formatDate,
+  errorField,
+} from "../../../utils";
 import { validatePayment } from "../utils/validation";
-import { errorField } from "../../../utils/error";
 import { typeIndicator } from "../utils/";
 
 import Input from "../../../components/Input";

@@ -2,6 +2,9 @@ import { useEffect } from "react";
 
 import useForm from "../../../hooks/useForm";
 
+import { validate } from "../utils/validation";
+import { cn, getMonth, errorField } from "../../../utils";
+
 import { EXPENSE_CATEGORIES } from "../../../constants";
 import { MdClose } from "react-icons/md";
 
@@ -11,10 +14,6 @@ import Option from "../../../components/Option";
 import Button from "../../../components/Button";
 import FormField from "../../../components/FormField";
 import FormError from "../../../components/FormError";
-
-import { validate } from "../utils/validation";
-import { getMonth } from "../../../utils/date";
-import { errorField } from "../../../utils/error";
 
 const BudgetForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
   const [form, dispatch] = useForm({
@@ -57,7 +56,13 @@ const BudgetForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
   };
 
   return (
-    <div className="flex flex-col justify-start items-start gap-3 w-full">
+    <div
+      className={cn(
+        "flex flex-col justify-start items-start gap-3",
+        "fixed right-[50%] bottom-[50%] translate-[50%]",
+        "w-11/12 rounded-lg border",
+        "shadow-neo-xl border-black-900 shadow-black-900 bg-black-100",
+      )}>
       <div className="w-full flex justify-between items-center p-5 border-b-2">
         <h2 className="text-xl font-bold">{initial_data ? "Edit" : "Add"} Budget</h2>
         <Button

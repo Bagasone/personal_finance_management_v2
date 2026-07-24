@@ -1,5 +1,3 @@
-import { useReducer } from "react";
-
 import useForm from "../../../hooks/useForm";
 
 import { calculatePercent, calculate } from "../../../utils/calculate";
@@ -11,6 +9,8 @@ import { typeIndicator } from "../utils/";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
+import FormField from "../../../components/FormField";
+import FormError from "../../../components/FormError";
 import EmptyState from "../../../components/EmptyState";
 
 const DebtDetailPanel = ({ data, onAddPayment, server_errors }) => {
@@ -30,7 +30,7 @@ const DebtDetailPanel = ({ data, onAddPayment, server_errors }) => {
     data.type,
   );
 
-  const error = errorField(form.errors, server_errors.fields);
+  const error = errorField(form?.errors, server_errors?.fields);
 
   const handleAddPayment = (e) => {
     e.preventDefault();
@@ -76,9 +76,6 @@ const DebtDetailPanel = ({ data, onAddPayment, server_errors }) => {
       </div>
       <div className="flex flex-col gap-3">
         <h3 className="text-black-600 font-semibold">Payment History</h3>
-        {server_errors && (
-          <p className="text-lg text-expense-500">{server_errors.message}</p>
-        )}
         <div className="flex flex-col gap-3">
           {data.payments.map((pay) => (
             <DetailItem
@@ -93,42 +90,74 @@ const DebtDetailPanel = ({ data, onAddPayment, server_errors }) => {
         {data.remaining_amount === 0 ? (
           <p>This debt has been fully paid</p>
         ) : (
-          <div className="flex flex-col gap-3">
-            <Input
-              type="number"
-              label="Amount"
-              id="amount"
-              value={form.amount}
-              onChange={(e) =>
-                dispatch({ type: "SET_FIELD", field: "amount", payload: e.target.value })
-              }
-              error={error("amount")}
-            />
-            <Input
-              type="date"
-              label="Date"
-              id="date"
-              value={form.date}
-              onChange={(e) =>
-                dispatch({ type: "SET_FIELD", field: "date", payload: e.target.value })
-              }
-              error={error("date")}
-            />
-            <Input
-              type="text"
-              label="Note"
-              id="note"
-              value={form.note}
-              onChange={(e) =>
-                dispatch({ type: "SET_FIELD", field: "note", payload: e.target.value })
-              }
-              error={error("note")}
-            />
-            <Button
-              label="Add Payment"
-              onClick={handleAddPayment}
-            />
-          </div>
+          <>
+            <FormError message={server_errors?.message} />
+            <form
+              onSubmit={handleAddPayment}
+              className="flex flex-col gap-3">
+              <FormField
+                label="Amount"
+                id="amount"
+                error={error("amount")}>
+                <Input
+                  type="number"
+                  id="amount"
+                  value={form.amount}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FIELD",
+                      field: "amount",
+                      payload: e.target.value,
+                    })
+                  }
+                  cls="px-3 py-1 neo-border-md neo-shadow-md border-black-900 shadow-black-900"
+                />
+              </FormField>
+
+              <FormField
+                label="Date"
+                id="date"
+                error={error("date")}>
+                <Input
+                  type="date"
+                  id="date"
+                  value={form.date}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FIELD",
+                      field: "date",
+                      payload: e.target.value,
+                    })
+                  }
+                  cls="px-3 py-1 neo-border-md neo-shadow-md border-black-900 shadow-black-900"
+                />
+              </FormField>
+
+              <FormField
+                label="Note"
+                id="note"
+                error={error("note")}>
+                <Input
+                  id="note"
+                  value={form.note}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FIELD",
+                      field: "note",
+                      payload: e.target.value,
+                    })
+                  }
+                  cls="px-3 py-1 neo-border-md neo-shadow-md border-black-900 shadow-black-900"
+                />
+              </FormField>
+
+              <Button
+                type="submit"
+                cls="text-base bg-debt-500 text-black-200"
+                label="Add Payment"
+              />
+            </form>
+          </>
         )}
       </div>
     </div>

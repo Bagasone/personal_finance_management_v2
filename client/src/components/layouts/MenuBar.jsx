@@ -47,7 +47,6 @@ const MenuBar = () => {
             "flex justify-start items-center gap-3 w-full",
             "px-3 py-3 border-b",
             "border-black-900 cursor-pointer transition-all",
-            "active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
           )}>
           <LuSun className="size-6 stroke-2" />
           <p className="text-sm font-semibold">Theme {is_dark ? "Dark" : "Light"}</p>
@@ -60,7 +59,6 @@ const MenuBar = () => {
             "flex justify-start items-center gap-3 w-full",
             "px-3 py-3 border-b",
             "border-black-900 cursor-pointer transition-all",
-            "active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
           )}>
           <LuGlobe className="size-6 stroke-2" />
           <p className="text-sm font-semibold">Language: EN</p>
@@ -74,7 +72,6 @@ const MenuBar = () => {
             "px-3 py-3 border-b",
             "border-black-900 cursor-pointer transition-all",
             "hover:text-expense-500",
-            "active:text-expense-500 active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
           )}
           onClick={logout}>
           <LuLogOut className="size-6 stroke-2" />

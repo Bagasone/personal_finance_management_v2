@@ -7,9 +7,11 @@ import { cn } from "../../utils";
 const MenuBar = () => {
   const { logout } = useAuth();
   const [is_open, setIsOpen] = useState(false);
+  const [has_open, setHasOpen] = useState(false);
   const [is_dark, setIsDark] = useState(false);
 
   const handleMenu = () => {
+    setHasOpen(true);
     setIsOpen((prev) => !prev);
   };
 
@@ -34,7 +36,9 @@ const MenuBar = () => {
         onClick={handleMenu}>
         <LuMenu className="size-7 stroke-2" />
       </button>
-      <MenuBarList is_open={is_open}>
+      <MenuBarList
+        has_open={has_open}
+        is_open={is_open}>
         <button
           type="button"
           role="menuitem"
@@ -91,7 +95,9 @@ const MenuBar = () => {
   );
 };
 
-const MenuBarList = ({ is_open, children }) => {
+const MenuBarList = ({ has_open, is_open, children }) => {
+  if (!has_open) return null;
+
   return (
     <div
       role="menu"
@@ -99,7 +105,7 @@ const MenuBarList = ({ is_open, children }) => {
       className={cn(
         "fixed top-24 right-4 w-3/7",
         "flex flex-col justify-center items-center",
-        "text-black-900 bg-black-200 shadow-black-900 border-black-900",
+        "text-black-900 bg-black-100 shadow-black-900 border-black-900",
         "shadow-neo-lg rounded-lg border",
         "transition-transform overflow-hidden",
         is_open ? "animate-scale-up opacity-100" : "animate-scale-down opacity-100",

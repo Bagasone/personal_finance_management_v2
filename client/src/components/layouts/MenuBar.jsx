@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 
-import { LuMenu, LuSun, LuMoon, LuGlobe, LuLogOut } from "react-icons/lu";
 import { cn } from "../../utils";
+import { LuMenu, LuSun, LuMoon, LuGlobe, LuLogOut } from "react-icons/lu";
 
 const MenuBar = () => {
   const { logout } = useAuth();
   const [is_open, setIsOpen] = useState(false);
   const [has_open, setHasOpen] = useState(false);
   const [is_dark, setIsDark] = useState(false);
+
+  const ham_ref = useRef(null);
 
   const handleMenu = () => {
     setHasOpen(true);
@@ -21,6 +23,7 @@ const MenuBar = () => {
       role="menubar"
       aria-label="User settings and actions">
       <button
+        ref={ham_ref}
         type="button"
         aria-label="Toggle menu"
         aria-expanded={is_open}
@@ -38,7 +41,9 @@ const MenuBar = () => {
       </button>
       <MenuBarList
         has_open={has_open}
-        is_open={is_open}>
+        is_open={is_open}
+        trigger_ref={ham_ref}
+        onClose={() => setIsOpen(false)}>
         <button
           type="button"
           role="menuitem"
@@ -92,11 +97,28 @@ const MenuBar = () => {
   );
 };
 
-const MenuBarList = ({ has_open, is_open, children }) => {
+const MenuBarList = ({ has_open, is_open, trigger_ref, onClose, children }) => {
+  const menu_ref = useRef(null);
+
+  useEffect(() => {
+    if (!is_open) return;
+
+    const handleClickOutside = (e) => {
+      const clicked_inside_menu = menu_ref.current?.contains(e.target);
+      const clicked_trigger = trigger_ref.current?.contains(e.target);
+
+      if (!clicked_inside_menu && !clicked_trigger) onClose();
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [is_open, onClose, trigger_ref]);
+
   if (!has_open) return null;
 
   return (
     <div
+      ref={menu_ref}
       role="menu"
       id="nav-menu"
       className={cn(

@@ -102,7 +102,6 @@ const MenuBarList = ({ is_open, children }) => {
         "text-black-900 bg-black-200 shadow-black-900 border-black-900",
         "shadow-neo-lg rounded-lg border",
         "transition-transform overflow-hidden",
-        "opacity-0",
         is_open ? "animate-scale-up opacity-100" : "animate-scale-down opacity-100",
       )}>
       {children}

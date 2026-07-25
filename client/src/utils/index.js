@@ -17,7 +17,7 @@ export {
   prevMonth,
   errorField,
   formatCurrency,
-  formatDate, 
+  formatDate,
   iconCategory,
   iconSource,
   iconType,

@@ -17,7 +17,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 import Modal from "../components/Modal";
-import Toast from "../components/Toast";
+import ToastContainer from "../components/ToastContainer";
 
 const initial_state = {
   month: getMonth(),
@@ -41,7 +41,7 @@ const BudgetPage = () => {
   const [is_open, setIsOpen] = useState(false);
   const [errors, setErrors] = useState({ message: null, fields: {} });
 
-  const { toast, showToast, closeToast } = useToast();
+  const { toasts, showToast, closeToast } = useToast();
 
   const {
     data: budgets,
@@ -178,13 +178,10 @@ const BudgetPage = () => {
           />
         </Modal>
       )}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={closeToast}
-        />
-      )}
+      <ToastContainer
+        toasts={toasts}
+        onClose={closeToast}
+      />
     </div>
   );
 };

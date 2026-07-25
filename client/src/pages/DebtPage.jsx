@@ -16,7 +16,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
 import Button from "../components/Button";
 import Modal from "../components/Modal";
-import Toast from "../components/Toast";
+import ToastContainer from "../components/ToastContainer";
 import DebtSummary from "../features/debt/components/DebtSummary";
 import DebtFilter from "../features/debt/components/DebtFilter";
 
@@ -38,7 +38,7 @@ const DebtPage = () => {
     ?.filter((dbt) => dbt.type === DEBT_TYPES.OWED)
     .filter((dbt) => (filters === "over_due" ? isOverDue(dbt) : filters === dbt.status));
 
-  const { toast, showToast, closeToast } = useToast();
+  const { toasts, showToast, closeToast } = useToast();
 
   if (isLoading) return <DebtSkeleton />;
   if (isError && error.status >= 500)
@@ -169,13 +169,10 @@ const DebtPage = () => {
           />
         </Modal>
       )}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={closeToast}
-        />
-      )}
+      <ToastContainer
+        toasts={toasts}
+        onClose={closeToast}
+      />
     </div>
   );
 };

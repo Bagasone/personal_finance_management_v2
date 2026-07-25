@@ -15,7 +15,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 import Modal from "../components/Modal";
-import Toast from "../components/Toast";
+import ToastContainer from "../components/ToastContainer";
 
 const initial_state = {
   month: getMonth(),
@@ -44,7 +44,7 @@ const IncomePage = () => {
   const { data, isLoading, isFetching, isError, error, refetch } = useIncomes(filters);
   const { createIncome, updateIncome, deleteIncome } = useIncomeMutation(filters);
 
-  const { toast, showToast, closeToast } = useToast();
+  const { toasts, showToast, closeToast } = useToast();
 
   if (isLoading) return <IncomeSkeleton />;
   if (isError && error.status >= 500)
@@ -144,13 +144,10 @@ const IncomePage = () => {
           />
         </Modal>
       )}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={closeToast}
-        />
-      )}
+      <ToastContainer
+        toasts={toasts}
+        onClose={closeToast}
+      />
     </div>
   );
 };

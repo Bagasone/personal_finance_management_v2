@@ -15,7 +15,7 @@ import ExpenseForm from "../features/expenses/components/ExpenseForm";
 import ExpenseSkeleton from "../features/expenses/components/ExpenseSkeleton";
 import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
-import Toast from "../components/Toast";
+import ToastContainer from "../components/ToastContainer";
 import Modal from "../components/Modal";
 import FAB from "../components/FAB";
 
@@ -62,7 +62,7 @@ const ExpensePage = () => {
   } = useExpenses({ ...filters, month: prev_month });
 
   const { createExpense, updateExpense, deleteExpense } = useExpenseMutations(filters);
-  const { toast, showToast, closeToast } = useToast();
+  const { toasts, showToast, closeToast } = useToast();
 
   const isLoading = is_current_loading || is_prev_loading;
   const isError = is_current_error || is_prev_error;
@@ -165,13 +165,10 @@ const ExpensePage = () => {
         onClick={() => setIsOpen(true)}>
         <TbPlus className="size-10 text-black-200" />
       </FAB>
-      {toast && (
-        <Toast
-          type={toast.type}
-          message={toast.message}
-          onClose={closeToast}
-        />
-      )}
+      <ToastContainer
+        toasts={toasts}
+        onClose={closeToast}
+      />
     </div>
   );
 };

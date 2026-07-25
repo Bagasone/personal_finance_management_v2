@@ -1,24 +1,50 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useRef, useCallback } from "react";
+
+let id_counter = 0;
 
 const useToast = () => {
-  const [toast, setToast] = useState(null);
-  const timer_ref = useRef(null);
+  const [toasts, setToasts] = useState([]);
+  const timers_ref = useRef({});
 
-  const showToast = (message, type = "success") => {
-    if (timer_ref.current) clearTimeout(timer_ref.current);
+  const removeToast = useCallback((id) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+    clearTimeout(timers_ref.current[id]);
+    delete timers_ref.current[id];
+  }, []);
 
-    setToast({ message, type });
-    timer_ref.current = setTimeout(() => setToast(null), 3500);
-  };
+  const showToast = useCallback(
+    (message, type = "success") => {
+      const id = ++id_counter;
 
-  const closeToast = () => {
-    if (timer_ref.current) clearTimeout(timer_ref.current);
-    setToast(null);
-  };
+      setToasts((prev) => [...prev, { id, message, type, is_visible: false }]);
 
-  useEffect(() => () => clearTimeout(timer_ref.current), []);
+      // 1 paint browser with waiting time of 16ms
+      requestAnimationFrame(() => {
+        setToasts((prev) =>
+          prev.map((t) => (t.id === id ? { ...t, is_visible: true } : t)),
+        );
+      });
 
-  return { toast, showToast, closeToast };
+      setTimeout(() => {
+        setToasts((prev) =>
+          prev.map((t) => (t.id === id ? { ...t, is_visible: false } : t)),
+        );
+        setTimeout(() => removeToast(id), 300);
+      }, 3500);
+    },
+    [removeToast],
+  );
+
+  const closeToast = useCallback(
+    (id) => {
+      clearTimeout(timers_ref.current[id]);
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+      setTimeout(() => removeToast(id), 300);
+    },
+    [removeToast],
+  );
+
+  return { toasts, showToast, closeToast };
 };
 
 export default useToast;

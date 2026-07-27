@@ -8,13 +8,13 @@ import {
   summaryIndicator,
 } from "../../../utils";
 
-import { TEXT_COLORS, TREND_COLORS } from "../../../constants";
-import { IoReceiptOutline, IoArrowUp } from "react-icons/io5";
+import { TREND_COLORS } from "../../../constants";
+import { IoCashOutline } from "react-icons/io5";
 
 const IncomeSummary = ({ data, prev_data, filters }) => {
   const { month, source_id } = filters;
 
-  const Icon = iconSource(source_id, IoReceiptOutline);
+  const Icon = iconSource(source_id, IoCashOutline);
 
   const curr_total = calculate(data, "amount");
   const prev_total = calculate(prev_data, "amount");

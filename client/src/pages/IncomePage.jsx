@@ -14,7 +14,6 @@ import IncomeSummary from "../features/income/components/IncomeSummary";
 import IncomeForm from "../features/income/components/IncomeForm";
 import IncomeSkeleton from "../features/income/components/IncomeSkeleton";
 import ErrorMessage from "../components/ErrorMessage";
-import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 import ToastContainer from "../components/ToastContainer";
 import Modal from "../components/Modal";

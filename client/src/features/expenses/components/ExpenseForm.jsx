@@ -50,7 +50,7 @@ const ExpenseForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
     <div
       className={cn(
         "flex flex-col justify-start items-start gap-3",
-        "w-11/12 rounded-lg border",
+        "w-11/12 rounded-lg border-2",
         "bg-black-100 shadow-neo-xl shadow-black-900 border-black-900",
       )}>
       <div className="w-full flex justify-between items-center p-5 border-b-2 border-black-900">

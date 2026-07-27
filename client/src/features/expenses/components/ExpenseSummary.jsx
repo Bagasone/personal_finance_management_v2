@@ -8,8 +8,8 @@ import {
   formatDate,
 } from "../../../utils";
 
-import { TEXT_COLORS, TREND_COLORS } from "../../../constants";
-import { IoReceiptOutline, IoArrowUp } from "react-icons/io5";
+import { TREND_COLORS } from "../../../constants";
+import { IoReceiptOutline } from "react-icons/io5";
 
 const ExpenseSummary = ({ data, prev_data, filters }) => {
   const { month, category_id } = filters;

@@ -6,10 +6,13 @@ import ProgressBar from "../../../components/ProgressBar";
 
 const IncomeSourceBreakdown = ({ data }) => {
   const total = calculate(data, "amount");
+  const active_source = INCOME_SOURCES.filter((source) =>
+    data.some((d) => d.source_id === source.id),
+  );
 
   return (
     <div className="flex flex-col gap-1">
-      <h3 className="text-lg font-bold px-3">Breakdown by Source</h3>
+      <h3 className="text-lg font-semibold px-3">Breakdown by Source</h3>
       <div
         className={cn(
           "flex flex-col gap-3",
@@ -17,7 +20,7 @@ const IncomeSourceBreakdown = ({ data }) => {
           "rounded-lg border-2",
           "bg-black-50 shadow-neo-lg shadow-black-900 border-black-900",
         )}>
-        {INCOME_SOURCES.map((i) => (
+        {active_source.map((i) => (
           <IncomeSourceDetail
             key={i.id}
             data={data}
@@ -38,10 +41,10 @@ const IncomeSourceDetail = ({ data, total_income, label, id }) => {
   return (
     <div className="w-full px-3 py-1">
       <div className="flex justify-between items-center gap-3">
-        <p className="text-base font-medium">{label}</p>
+        <p className="text-base font-semibold text-black-800">{label}</p>
         <p className="flex items-center gap-5">
-          <span className="truncate text-base font-bold text-black-900">
-            {formatCurrency(total, { notation: "compact" })}
+          <span className="truncate text-base font-semibold text-black-900">
+            {formatCurrency(total)}
           </span>
           <span className="text-sm text-black-500">({percent}%)</span>
         </p>

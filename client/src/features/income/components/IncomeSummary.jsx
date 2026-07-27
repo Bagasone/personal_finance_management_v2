@@ -1,66 +1,63 @@
-import { calculate, calculatePercent } from "../../../utils/calculate";
-import { labelSource } from "../../../utils/label";
-import { formatDate, formatCurrency } from "../../../utils/formatter";
+import {
+  calculate,
+  calculatePercent,
+  formatCurrency,
+  formatDate,
+  iconSource,
+  cn,
+  summaryIndicator,
+} from "../../../utils";
 
-import { INCOME_SOURCES } from "../../../constants";
+import { TEXT_COLORS, TREND_COLORS } from "../../../constants";
+import { IoReceiptOutline, IoArrowUp } from "react-icons/io5";
 
-import ProgressBar from "../../../components/ProgressBar";
+const IncomeSummary = ({ data, prev_data, filters }) => {
+  const { month, source_id } = filters;
 
-const IncomeSummary = ({ data, filters }) => {
-  const filter_month = new Date(`${filters.month}-01`);
-  const total = calculate(data, "amount");
-  const label = labelSource(filters.source_id, "All Source");
+  const Icon = iconSource(source_id, IoReceiptOutline);
 
-  return (
-    <div className="box flex flex-col gap-3 text-xl w-full">
-      <h2 className="text-xl font-bold">Income Summary</h2>
-      <div className="box flex flex-col justify-center gap-3 px-3 py-1">
-        <h3 className="text-lg font-bold">Total Income in {label}</h3>
-        <p className="text-xl font-bold">{formatCurrency(total)}</p>
-        <span className="text-sm text-black-700">
-          {formatDate(filter_month, { month: "long" })}
-        </span>
-      </div>
-      <div className="box text-lg font-bold">Comparasion Month</div>
-      <div className="box flex flex-col gap-3">
-        <h3 className="text-lg font-bold">Breakdown by Source</h3>
-        <div className="h-full overflow-scroll scrollbar-none">
-          {INCOME_SOURCES.map((i) => (
-            <IncomeSourceDetail
-              key={i.id}
-              data={data}
-              total_income={total}
-              label={i.label}
-              id={i.id}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+  const curr_total = calculate(data, "amount");
+  const prev_total = calculate(prev_data, "amount");
 
-const IncomeSourceDetail = ({ data, total_income, label, id }) => {
-  const total = calculate(data, "amount", { key: "source_id", value: id });
-  const percent = calculatePercent(total, total_income);
+  const total_diff = curr_total - prev_total;
+  const percent = calculatePercent(total_diff, prev_total);
+
+  const { label, Icon: IconSummary } = summaryIndicator(percent);
+  const color = percent > 0 ? "positive" : percent < 0 ? "negative" : "flat";
 
   return (
-    <div>
-      <div className="flex justify-between items-center gap-3">
-        <p className="text-base font-bold">{label}</p>
-        <p className="flex items-center gap-3">
-          <span className="text-base font-bold text-income-500">
-            {formatCurrency(total)}
-          </span>
-          <span className="text-sm text-black-500">{percent}%</span>
+    <div
+      className={cn(
+        "flex flex-col justify-center gap-1",
+        "rounded-lg border px-5 py-3",
+        "bg-black-900 shadow-neo-lg shadow-black-800 border-black-800",
+      )}>
+      <div className="flex justify-between items-center w-full">
+        <p className="font-medium text-sm text-black-400">Total Incomes</p>
+        <p
+          className={cn(
+            "flex justify-center items-center gap-1",
+            "border rounded-full px-1.5 py-0.5",
+            "text-income-300 bg-income-400/10 border-income-400",
+            "font-medium text-xxs",
+          )}>
+          <Icon />
+          {formatDate(`${month}-01`, { month: "short", day: null })}
         </p>
       </div>
-      <ProgressBar
-        fill={percent}
-        color="bg-income-500"
-      />
+      <div className="flex items-center w-full overflow-hidden">
+        <p className="font-bold text-3xl text-income-400 truncate">
+          {formatCurrency(curr_total)}
+        </p>
+      </div>
+      <div className="flex items-center gap-1 w-full text-xxs">
+        <span className={cn("inline-flex items-center gap-1", TREND_COLORS[color])}>
+          <IconSummary />
+          <p>{percent !== null ? `${percent}%` : ""}</p>
+        </span>
+        <p className="text-black-400">{label}</p>
+      </div>
     </div>
   );
 };
-
 export default IncomeSummary;

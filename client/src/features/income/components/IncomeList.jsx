@@ -1,29 +1,41 @@
+import { cn } from "../../../utils";
+
+import { TbCashBanknoteOff, TbPlus } from "react-icons/tb";
+
 import IncomeItem from "./IncomeItem";
+import Button from "../../../components/Button";
 import EmptyState from "../../../components/EmptyState";
 
 const IncomeList = ({ data, onEdit, onDelete, onOpen }) => {
   if (!data || data.length === 0)
     return (
       <EmptyState
-        message="There is No Income For this Month"
-        action_label="Add New Income"
-        onAction={onOpen}
-      />
+        title="There is no incomes"
+        description="Try to change filter or add new income for this month"
+        Icon={TbCashBanknoteOff}
+        icon_cls="text-income-200">
+        <Button
+          label="Add income"
+          onClick={onOpen}
+          cls="text-black-50 bg-income-500">
+          <TbPlus className="size-5 stroke-3" />
+        </Button>
+      </EmptyState>
     );
 
   return (
-    <div className="flex flex-col gap-3">
-      <h2 className="text-xl font-bold">Income List</h2>
-      <div
-        aria-label="list header"
-        className="grid grid-cols-12 w-full">
-        <div className="col-span-3">Description</div>
-        <div className="col-span-2">Amount</div>
-        <div className="col-span-2">Source</div>
-        <div className="col-span-2">Date</div>
-        <div className="col-span-3">Actions</div>
+    <div className={cn("flex flex-col gap-3", "w-full h-full")}>
+      <div className="flex justify-between items-center px-1">
+        <h2 className="text-lg font-bold">Transaction History</h2>
+        <p className="font-normal text-sm text-black-500">{data.length} transaction</p>
       </div>
-      <ul className="flex flex-col gap-3 overflow-scroll max-h-full scrollbar-none">
+      <ul
+        className={cn(
+          "flex flex-col gap-0",
+          "w-full max-h-100 overflow-y-auto scrollbar-none",
+          "divide-y rounded-lg border-2",
+          "divide-black-500 bg-black-50 shadow-neo-lg shadow-black-900 border-black-900",
+        )}>
         {data.map((inc) => (
           <IncomeItem
             key={inc.id}

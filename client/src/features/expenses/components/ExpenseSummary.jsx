@@ -5,12 +5,15 @@ import {
   iconCategory,
   cn,
   summaryIndicator,
+  formatDate,
 } from "../../../utils";
 
 import { TEXT_COLORS, TREND_COLORS } from "../../../constants";
 import { IoReceiptOutline, IoArrowUp } from "react-icons/io5";
 
-const ExpenseSummary = ({ data, prev_data, category_id, month }) => {
+const ExpenseSummary = ({ data, prev_data, filters }) => {
+  const { month, category_id } = filters;
+
   const Icon = iconCategory(category_id, IoReceiptOutline);
 
   const curr_total = calculate(data, "amount");
@@ -34,16 +37,16 @@ const ExpenseSummary = ({ data, prev_data, category_id, month }) => {
         <p
           className={cn(
             "flex justify-center items-center gap-1",
-            "border rounded-full px-1.5 px-py",
+            "border rounded-full px-1.5 py-0.5",
             "text-expense-300 bg-expense-400/10 border-expense-400",
             "font-medium text-xxs",
           )}>
           <Icon />
-          {month}
+          {formatDate(`${month}-01`, { month: "short", day: null })}
         </p>
       </div>
-      <div className="flex items-center w-full">
-        <p className="font-bold text-3xl text-expense-400">
+      <div className="flex items-center w-full overflow-hidden">
+        <p className="font-bold text-3xl text-expense-400 truncate">
           {formatCurrency(curr_total)}
         </p>
       </div>

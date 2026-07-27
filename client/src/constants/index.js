@@ -57,8 +57,8 @@ export const TEXT_COLORS = {
 
 // constants — semantic
 export const TREND_COLORS = {
-  growth: "text-emerald-400", // pakai scale hijau emerald sebagai representasi "baik" atau keuangan growth
-  decline: "text-rose-400", // pakai scale merah rose sebagai representasi "buruk" atau keuangan decline
+  positive: "text-emerald-400", // pakai scale hijau emerald sebagai representasi "baik" atau keuangan growth
+  negative: "text-rose-400", // pakai scale merah rose sebagai representasi "buruk" atau keuangan decline
   flat: "text-black-400", // pakai scale hitam sebagai representasi "stabil" atau keuangan flat
 };
 

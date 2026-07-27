@@ -20,7 +20,7 @@ const ExpenseSummary = ({ data, prev_data, category_id, month }) => {
   const percent = calculatePercent(total_diff, prev_total);
 
   const { label, Icon: IconSummary } = summaryIndicator(percent);
-  const color = percent > 0 ? "decline" : percent < 0 ? "growth" : "flat";
+  const color = percent > 0 ? "negative" : percent < 0 ? "positive" : "flat";
 
   return (
     <div

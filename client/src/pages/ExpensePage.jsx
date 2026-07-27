@@ -4,7 +4,7 @@ import useExpenses from "../features/expenses/hooks/useExpenses";
 import useExpenseMutations from "../features/expenses/hooks/useExpenseMutations";
 import useToast from "../hooks/useToast";
 
-import { cn, getMonth, prevMonth } from "../utils";
+import { getMonth, prevMonth } from "../utils";
 
 import { TbPlus } from "react-icons/tb";
 
@@ -72,7 +72,7 @@ const ExpensePage = () => {
   if (isError && error.status >= 500)
     return (
       <ErrorMessage
-        message={error?.message}
+        message={error.message}
         onRetry={refetch}
       />
     );
@@ -136,8 +136,7 @@ const ExpensePage = () => {
         <ExpenseSummary
           data={data}
           prev_data={prev_data}
-          category_id={filters.category_id}
-          month={filters.month}
+          filters={filters}
         />
       </div>
       <ExpenseFilters

@@ -13,12 +13,12 @@ import IncomeList from "../features/income/components/IncomeList";
 import IncomeSummary from "../features/income/components/IncomeSummary";
 import IncomeForm from "../features/income/components/IncomeForm";
 import IncomeSkeleton from "../features/income/components/IncomeSkeleton";
+import IncomeSourceBreakdown from "../features/income/components/IncomeSourceBreakdown";
 import ErrorMessage from "../components/ErrorMessage";
 import Spinner from "../components/Spinner";
 import ToastContainer from "../components/ToastContainer";
 import Modal from "../components/Modal";
 import FAB from "../components/FAB";
-import IncomeSourceBreakdown from "../features/income/components/IncomeSourceBreakdown";
 
 const initial_state = {
   month: getMonth(),

@@ -26,7 +26,7 @@ const IncomeList = ({ data, onEdit, onDelete, onOpen }) => {
   return (
     <div className={cn("flex flex-col gap-3", "w-full h-full")}>
       <div className="flex justify-between items-center px-1">
-        <h2 className="text-lg font-bold">Transaction History</h2>
+        <h2 className="text-lg font-bold">Income History</h2>
         <p className="font-normal text-sm text-black-500">{data.length} transaction</p>
       </div>
       <ul

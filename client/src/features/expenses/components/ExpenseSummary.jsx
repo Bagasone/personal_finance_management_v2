@@ -9,12 +9,12 @@ import {
 } from "../../../utils";
 
 import { TREND_COLORS } from "../../../constants";
-import { IoReceiptOutline } from "react-icons/io5";
+import { TbReceipt } from "react-icons/tb";
 
 const ExpenseSummary = ({ data, prev_data, filters }) => {
   const { month, category_id } = filters;
 
-  const Icon = iconCategory(category_id, IoReceiptOutline);
+  const Icon = iconCategory(category_id, TbReceipt);
 
   const curr_total = calculate(data, "amount");
   const prev_total = calculate(prev_data, "amount");
@@ -41,8 +41,8 @@ const ExpenseSummary = ({ data, prev_data, filters }) => {
             "text-expense-300 bg-expense-400/10 border-expense-400",
             "font-medium text-xxs",
           )}>
-          <Icon />
           {formatDate(`${month}-01`, { month: "short", day: null })}
+          <Icon className="size-3" />
         </p>
       </div>
       <div className="flex items-center w-full overflow-hidden">

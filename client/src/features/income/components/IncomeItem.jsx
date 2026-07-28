@@ -25,19 +25,19 @@ const IncomeItem = ({ data, onEdit, onDelete }) => {
         <Icon className={cn("size-10 rounded-lg p-1.5", "bg-black-200")} />
       </div>
       <div className="flex flex-col overflow-hidden">
-        <span className="font-medium text-lg truncate">{data.description}</span>
-        <span
+        <p className="font-medium text-lg truncate">{data.description}</p>
+        <p
           className={cn(
             "flex flex-nowrap",
             "text-sm font-light text-black-500 truncate",
           )}>
           {formatDate(data.date, { year: null, month: "short" })} • {label}
-        </span>
+        </p>
       </div>
       <div className="flex flex-col overflow-hidden">
-        <span className="font-medium text-lg text-income-500 truncate">
+        <p className="font-medium text-lg text-income-500 truncate">
           +{formatCurrency(data.amount, { notation: "compact", compactDisplay: "short" })}
-        </span>
+        </p>
         <span className="flex">
           <Button
             aria-label="Edit button"

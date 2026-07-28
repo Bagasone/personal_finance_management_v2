@@ -7,17 +7,18 @@ import useExpenses from "../features/expenses/hooks/useExpenses";
 
 import { getMonth, calculate, labelCategory } from "../utils";
 
+import { TbPlus } from "react-icons/tb";
+
 import BudgetFilters from "../features/budget/components/BudgetFilters";
 import BudgetList from "../features/budget/components/BudgetList";
 import BudgetSummary from "../features/budget/components/BudgetSummary";
 import BudgetForm from "../features/budget/components/BudgetForm";
-import BudgetDetailPanel from "../features/budget/components/BudgetDetailPanel";
 import BudgetSkeleton from "../features/budget/components/BudgetSkeleton";
 import ErrorMessage from "../components/ErrorMessage";
-import Button from "../components/Button";
 import Spinner from "../components/Spinner";
-import Modal from "../components/Modal";
 import ToastContainer from "../components/ToastContainer";
+import Modal from "../components/Modal";
+import FAB from "../components/FAB";
 
 const initial_state = {
   month: getMonth(),
@@ -137,47 +138,43 @@ const BudgetPage = () => {
   };
 
   return (
-    <div className="grid grid-cols-12 justify-center gap-5 overflow-hidden">
-      <div className="col-span-8 flex flex-col justify-start items-start gap-1">
+    <div className="flex flex-col justify-center gap-5 pb-20">
+      <h1 className="sr-only">Budgets</h1>
+      <div className="relative">
         {isFetching && !isLoading && <Spinner />}
-        <div className="flex justify-between items-center w-full">
-          <BudgetFilters
-            filters={filters}
-            dispatch={dispatch}
-          />
-          <Button
-            label="Add Budget"
-            onClick={() => setIsOpen(true)}
-          />
-        </div>
-        <BudgetList
+        <BudgetSummary
           data={budgets}
           data_expenses={expenses}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onDetail={handleSelected}
-          onOpen={() => setIsOpen(true)}
-        />
-        <BudgetSummary data={budgets} />
-      </div>
-      <div className="col-span-4 flex flex-col justify-start items-start gap-1 ">
-        <BudgetDetailPanel
-          data={selected}
-          data_expenses={expenses}
+          month={filters.month}
         />
       </div>
-      {is_open && (
-        <Modal
-          is_open={is_open}
-          onClose={handleCancel}>
-          <BudgetForm
-            initial_data={edited}
-            onSubmit={handleSubmit}
-            onCancel={handleCancel}
-            server_errors={errors}
-          />
-        </Modal>
-      )}
+      <BudgetFilters
+        filters={filters}
+        dispatch={dispatch}
+      />
+      <BudgetList
+        data={budgets}
+        data_expenses={expenses}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        onDetail={handleSelected}
+        onOpen={() => setIsOpen(true)}
+      />
+      <Modal
+        is_open={is_open}
+        onClose={handleCancel}>
+        <BudgetForm
+          initial_data={edited}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          server_errors={errors}
+        />
+      </Modal>
+      <FAB
+        cls="bg-budget-500"
+        onClick={() => setIsOpen(true)}>
+        <TbPlus className="size-10 text-black-200" />
+      </FAB>
       <ToastContainer
         toasts={toasts}
         onClose={closeToast}

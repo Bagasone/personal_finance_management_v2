@@ -1,9 +1,16 @@
+import { cn } from "../utils";
+
 const ProgressBar = ({ fill, color }) => {
   return (
-    <div className="flex justify-start items-center rounded-sm bg-black-300 w-full h-3">
+    <div
+      className={cn(
+        "flex justify-start items-center",
+        "rounded-full w-full h-3 overflow-hidden",
+        "bg-black-300/30",
+      )}>
       <div
         style={{ width: `${fill ?? 0}%` }}
-        className={`rounded-sm h-2.5 ${color}`}></div>
+        className={`rounded-lg h-2.5 ${color}`}></div>
     </div>
   );
 };

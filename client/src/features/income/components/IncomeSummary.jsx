@@ -9,12 +9,12 @@ import {
 } from "../../../utils";
 
 import { TREND_COLORS } from "../../../constants";
-import { IoCashOutline } from "react-icons/io5";
+import { TbCashBanknote } from "react-icons/tb";
 
 const IncomeSummary = ({ data, prev_data, filters }) => {
   const { month, source_id } = filters;
 
-  const Icon = iconSource(source_id, IoCashOutline);
+  const Icon = iconSource(source_id, TbCashBanknote);
 
   const curr_total = calculate(data, "amount");
   const prev_total = calculate(prev_data, "amount");
@@ -41,8 +41,8 @@ const IncomeSummary = ({ data, prev_data, filters }) => {
             "text-income-300 bg-income-400/10 border-income-400",
             "font-medium text-xxs",
           )}>
-          <Icon />
           {formatDate(`${month}-01`, { month: "short", day: null })}
+          <Icon className="size-3" />
         </p>
       </div>
       <div className="flex items-center w-full overflow-hidden">

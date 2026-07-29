@@ -11,8 +11,8 @@ export const statusIndicator = (value) => {
   if (status_value <= 100)
     return {
       status_label: "Warning",
-      status_cls: "bg-amber-400/20 text-amber-700",
-      bar_cls: "bg-amber-400",
+      status_cls: "bg-yellow-400/20 text-yellow-700",
+      bar_cls: "bg-yellow-400",
     };
 
   return {

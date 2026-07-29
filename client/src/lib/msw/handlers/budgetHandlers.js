@@ -30,7 +30,7 @@ const handlers = [
     return responseError("BAD_REQUEST", "Required month for get budgets");
   }),
   http.post("/api/budgets", async ({ request }) => {
-    const budget = await request.json();
+    const { prev_category_id, prev_month, ...budget } = await request.json();
 
     const { valid, errors } = validateBudget(budget);
     if (!valid) return responseError("BAD_REQUEST", "Invalid budget data", errors);

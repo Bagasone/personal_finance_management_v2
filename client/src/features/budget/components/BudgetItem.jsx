@@ -1,13 +1,19 @@
-import { calculate, calculatePercent } from "../../../utils/calculate";
-import { formatCurrency } from "../../../utils/formatter";
-import { iconCategory } from "../../../utils/icon";
-import { labelCategory } from "../../../utils/label";
+import {
+  cn,
+  calculate,
+  calculatePercent,
+  formatCurrency,
+  iconCategory,
+  labelCategory,
+} from "../../../utils";
 import { statusIndicator } from "../utils/";
+
+import { TbEdit, TbTrash } from "react-icons/tb";
 
 import Button from "../../../components/Button";
 import ProgressBar from "../../../components/ProgressBar";
 
-const BudgetItem = ({ data, onEdit, onDelete, onDetail, data_expenses }) => {
+const BudgetItem = ({ data, onEdit, onDelete, data_expenses }) => {
   const Icon = iconCategory(data.category_id);
 
   const label = labelCategory(data.category_id);
@@ -29,53 +35,54 @@ const BudgetItem = ({ data, onEdit, onDelete, onDetail, data_expenses }) => {
     onDelete(data.id);
   };
 
-  const handleDetail = () => {
-    onDetail(data);
-  };
-
   return (
     <li
-      className="box flex flex-col gap-3"
-      onClick={handleDetail}>
-      <div
-        aria-label="card-head"
-        className="flex justify-between items-center">
-        <div className="flex gap-3">
-          <p className="box flex justify-center items-center gap-3">
-            <span className="stroke-2">
-              <Icon className="size-6" />
-            </span>
-            <span
-              title={data.description}
-              className="truncate">
-              {label}
-            </span>
-          </p>
-          <p className={`box font-bold ${status_cls}`}>{status_label}</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button
-            label="Edit"
-            onClick={handleEdit}
-          />
-          <Button
-            label="Delete"
-            onClick={handleDelete}
-          />
-        </div>
+      role="button"
+      aria-label={`Lihat detail budget ${label}`}
+      tabIndex={0}
+      className={cn(
+        "flex flex-col gap-3",
+        "rounded-lg border-2 px-5 py-3",
+        "bg-black-50 shadow-neo-lg shadow-black-900 border-black-900",
+      )}>
+      <div className="flex justify-between items-center gap-3">
+        <p className="flex justify-center items-center gap-3">
+          <Icon className={cn("size-7 rounded-lg p-1", "bg-black-200 text-black-800")} />
+          <span
+            title={data.description}
+            className="text-base font-medium truncate">
+            {label}
+          </span>
+        </p>
+        <p className={cn("text-xs font-medium", "rounded-lg px-3 py-0.5", status_cls)}>
+          {status_label}
+        </p>
       </div>
-      <div
-        aria-label="card-body"
-        className="flex flex-col gap-3">
+      <div className="flex flex-col gap-1">
         <ProgressBar
           fill={percent}
           color={bar_cls}
         />
-        <div className="box flex justify-between items-center gap-3">
-          <p>Spent: {formatCurrency(total)}</p>
-          <p>{percent}%</p>
-          <p>Limit: {formatCurrency(data.limit)}</p>
+        <div className="flex justify-between items-center gap-3">
+          <p className="text-sm text-black-700">
+            {formatCurrency(total)}/{formatCurrency(data.limit)}
+          </p>
+          <p className="text-base text-black-800">{percent}%</p>
         </div>
+      </div>
+      <div className="flex justify-end items-center gap-3">
+        <Button
+          aria-label="Edit button"
+          onClick={handleEdit}
+          cls={cn("p-1 border-none shadow-none")}>
+          <TbEdit className="size-4.5 stroke-1" />
+        </Button>
+        <Button
+          aria-label="Delete button"
+          onClick={handleDelete}
+          cls={cn("p-1 border-none shadow-none")}>
+          <TbTrash className="size-4.5 stroke-1" />
+        </Button>
       </div>
     </li>
   );

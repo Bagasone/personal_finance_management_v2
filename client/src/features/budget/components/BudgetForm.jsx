@@ -2,8 +2,8 @@ import { useEffect } from "react";
 
 import useForm from "../../../hooks/useForm";
 
-import { validate } from "../utils/validation";
 import { cn, getMonth, errorField } from "../../../utils";
+import { validate } from "../utils/validation";
 
 import { EXPENSE_CATEGORIES } from "../../../constants";
 import { MdClose } from "react-icons/md";
@@ -59,11 +59,10 @@ const BudgetForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
     <div
       className={cn(
         "flex flex-col justify-start items-start gap-3",
-        "fixed right-[50%] bottom-[50%] translate-[50%]",
         "w-11/12 rounded-lg border",
         "shadow-neo-xl border-black-900 shadow-black-900 bg-black-100",
       )}>
-      <div className="w-full flex justify-between items-center p-5 border-b-2">
+      <div className="w-full flex justify-between items-center p-5 border-b-2 border-black-900">
         <h2 className="text-xl font-bold">{initial_data ? "Edit" : "Add"} Budget</h2>
         <Button
           type="button"

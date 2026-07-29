@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useReducer, useState } from "react";
 
 import useToast from "../hooks/useToast";
 import useBudgets from "../features/budget/hooks/useBudgets";
@@ -37,7 +37,6 @@ const reducer = (state, action) => {
 
 const BudgetPage = () => {
   const [filters, dispatch] = useReducer(reducer, initial_state);
-  const [selected, setSelected] = useState(null);
   const [edited, setEdited] = useState(null);
   const [is_open, setIsOpen] = useState(false);
   const [errors, setErrors] = useState({ message: null, fields: {} });
@@ -66,13 +65,12 @@ const BudgetPage = () => {
   const isFetching = isBudgetFetching || isExpenseFetching;
   const isError = isBudgetError || isExpenseError;
   const error = budgetError || expenseError;
-  const refetch = budgetRefetch || expenseRefetch;
+  const refetch = () => {
+    budgetRefetch();
+    expenseRefetch();
+  };
 
   const { createBudget, updateBudget, deleteBudget } = useBudgetMutations(filters);
-
-  useEffect(() => {
-    setSelected(null);
-  }, [filters.month]);
 
   if (isLoading) return <BudgetSkeleton />;
   if (isError && error.status >= 500)
@@ -82,10 +80,6 @@ const BudgetPage = () => {
         onRetry={refetch}
       />
     );
-
-  const handleSelected = (data) => {
-    setSelected(data);
-  };
 
   const handleCancel = () => {
     setErrors({ message: null, fields: {} });
@@ -101,7 +95,6 @@ const BudgetPage = () => {
   const handleDelete = (id) => {
     deleteBudget.mutate(id, {
       onSuccess: () => {
-        if (selected.id === id) setSelected(null);
         showToast("Budget deleted", "success");
       },
       onError: () => {
@@ -157,7 +150,6 @@ const BudgetPage = () => {
         data_expenses={expenses}
         onEdit={handleEdit}
         onDelete={handleDelete}
-        onDetail={handleSelected}
         onOpen={() => setIsOpen(true)}
       />
       <Modal

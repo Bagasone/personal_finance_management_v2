@@ -5,7 +5,6 @@ const BudgetSkeleton = () => {
     <div className="flex flex-col justify-center gap-5 pb-20 animate-pulse">
       <h1 className="sr-only">Budgets</h1>
 
-      {/* Summary card skeleton */}
       <div
         className={cn(
           "flex flex-col gap-3 px-5 py-3",
@@ -20,19 +19,16 @@ const BudgetSkeleton = () => {
         <div className="h-3 w-56 rounded bg-black-700" />
       </div>
 
-      {/* Filters skeleton — 1 field + reset only */}
       <div className="grid grid-cols-[minmax(50px,1fr)_auto] gap-3 w-full">
         <div className="h-10 rounded-md border-2 border-black-900 shadow-neo-md shadow-black-900 bg-black-200" />
         <div className="h-10 w-10 rounded-md border-2 border-black-900 shadow-neo-md shadow-black-900 bg-black-200" />
       </div>
 
-      {/* Section label skeleton */}
       <div className="flex justify-between items-center px-1">
         <div className="h-4 w-32 rounded bg-black-200" />
         <div className="h-3 w-16 rounded bg-black-200" />
       </div>
 
-      {/* List skeleton — each budget item card */}
       <div className="flex flex-col gap-5">
         {Array.from({ length: 4 }).map((_, i) => (
           <div

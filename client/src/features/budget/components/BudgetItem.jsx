@@ -13,7 +13,7 @@ import { TbEdit, TbTrash } from "react-icons/tb";
 import Button from "../../../components/Button";
 import ProgressBar from "../../../components/ProgressBar";
 
-const BudgetItem = ({ data, onEdit, onDelete, data_expenses }) => {
+const BudgetItem = ({ data, onEdit, onDelete, onDetail, data_expenses }) => {
   const Icon = iconCategory(data.category_id);
 
   const label = labelCategory(data.category_id);
@@ -35,11 +35,19 @@ const BudgetItem = ({ data, onEdit, onDelete, data_expenses }) => {
     onDelete(data.id);
   };
 
+  const handleDetail = () => {
+    onDetail(data);
+  };
+
   return (
     <li
       role="button"
       aria-label={`Lihat detail budget ${label}`}
       tabIndex={0}
+      onClick={handleDetail}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") handleDetail();
+      }}
       className={cn(
         "flex flex-col gap-3",
         "rounded-lg border-2 px-5 py-3",
@@ -61,7 +69,7 @@ const BudgetItem = ({ data, onEdit, onDelete, data_expenses }) => {
       <div className="flex flex-col gap-1">
         <ProgressBar
           fill={percent}
-          color={bar_cls}
+          cls={cn("h-3", bar_cls)}
         />
         <div className="flex justify-between items-center gap-3">
           <p className="text-sm text-black-700">

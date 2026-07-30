@@ -51,7 +51,7 @@ const IncomeSourceDetail = ({ data, total_income, label, id }) => {
       </div>
       <ProgressBar
         fill={percent}
-        color="bg-income-400"
+        cls="h-3 bg-income-400"
       />
     </div>
   );

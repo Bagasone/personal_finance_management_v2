@@ -15,7 +15,7 @@ const IncomeSkeleton = () => {
           <div className="h-3 w-24 rounded bg-black-700" />
           <div className="h-5 w-16 rounded-full bg-black-700" />
         </div>
-        <div className="h-6 w-40 rounded bg-black-700" />
+        <div className="h-8 w-40 rounded bg-black-700" />
         <div className="h-3 w-48 rounded bg-black-700" />
       </div>
 

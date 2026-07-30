@@ -2,10 +2,10 @@ import {
   calculate,
   calculatePercent,
   formatCurrency,
-  iconCategory,
-  cn,
-  summaryIndicator,
   formatDate,
+  iconCategory,
+  summaryIndicator,
+  cn,
 } from "../../../utils";
 
 import { TREND_COLORS } from "../../../constants";
@@ -28,34 +28,34 @@ const ExpenseSummary = ({ data, prev_data, filters }) => {
   return (
     <div
       className={cn(
-        "flex flex-col justify-center gap-1",
+        "flex flex-col justify-center gap-2",
         "rounded-lg border px-5 py-3",
         "bg-black-900 shadow-neo-lg shadow-black-800 border-black-800",
       )}>
       <div className="flex justify-between items-center w-full">
-        <p className="font-medium text-sm text-black-400">Total Expenses</p>
+        <p className="text-base font-medium text-black-200">Total Expenses</p>
         <p
           className={cn(
             "flex justify-center items-center gap-1",
             "border rounded-full px-1.5 py-0.5",
-            "text-expense-300 bg-expense-400/10 border-expense-400",
-            "font-medium text-xxs",
+            "border-expense-400 text-expense-300 bg-expense-400/10",
+            "text-xxs font-medium ",
           )}>
           {formatDate(`${month}-01`, { month: "short", day: null })}
           <Icon className="size-3" />
         </p>
       </div>
-      <div className="flex items-center w-full overflow-hidden">
-        <p className="font-bold text-3xl text-expense-400 truncate">
+      <div className={cn("flex flex-col justify-center gap-1", "w-full overflow-hidden")}>
+        <p className="font-bold text-4xl text-expense-400 truncate">
           {formatCurrency(curr_total)}
         </p>
-      </div>
-      <div className="flex items-center gap-1 w-full text-xxs">
-        <span className={cn("inline-flex items-center gap-1", TREND_COLORS[color])}>
-          <IconSummary />
-          <p>{percent !== null ? `${percent}%` : ""}</p>
-        </span>
-        <p className="text-black-400">{label}</p>
+        <p className={cn("flex items-center gap-1", "text-xs text-black-400")}>
+          <span className={cn("inline-flex items-center", TREND_COLORS[color])}>
+            <IconSummary />
+            {percent !== null ? `${percent}%` : ""}
+          </span>
+          {label}
+        </p>
       </div>
     </div>
   );

@@ -17,17 +17,16 @@ const addExpense = ({ amount, description, category_id, date }) => {
 };
 
 const updateExpense = (id, { amount, description, category_id, date }) => {
-  const data = {
+  const index = expenses.findIndex((exp) => exp.id === id);
+  expenses[index] = {
+    ...expenses[index],
     amount: Number(amount),
     description,
     category_id,
     date,
   };
 
-  const index = expenses.findIndex((exp) => exp.id === id);
-  expenses[index] = { ...expenses[index], ...data };
-
-  return { ok: true, data };
+  return { ok: true, data: expenses[index] };
 };
 
 const deleteExpense = (id) => {

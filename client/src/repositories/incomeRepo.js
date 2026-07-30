@@ -17,17 +17,16 @@ const addIncome = ({ amount, source_id, description, date }) => {
 };
 
 const updateIncome = (id, { amount, description, source_id, date }) => {
-  const data = {
+  const index = incomes.findIndex((inc) => inc.id === id);
+  incomes[index] = {
+    ...incomes[index],
     amount: Number(amount),
     description,
     source_id,
     date,
   };
 
-  const index = incomes.findIndex((inc) => inc.id === id);
-  incomes[index] = { ...incomes[index], ...data };
-
-  return { ok: true, data };
+  return { ok: true, data: incomes[index] };
 };
 
 const deleteIncome = (id) => {

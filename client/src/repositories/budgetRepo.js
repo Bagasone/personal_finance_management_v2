@@ -16,16 +16,10 @@ const addBudget = ({ limit, category_id, month }) => {
 };
 
 const updateBudget = (id, { limit, category_id, month }) => {
-  const data = {
-    limit: Number(limit),
-    category_id,
-    month,
-  };
-
   const index = budgets.findIndex((bud) => bud.id === id);
-  budgets[index] = { ...budgets[index], ...data };
+  budgets[index] = { ...budgets[index], limit: Number(limit), category_id, month };
 
-  return { ok: true, data };
+  return { ok: true, data: budgets[index] };
 };
 
 const deleteBudget = (id) => {

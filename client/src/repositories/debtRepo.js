@@ -24,18 +24,17 @@ const addDebt = ({ total_amount, description, type, due_date }) => {
 };
 
 const updateDebt = (id, { total_amount, description, type, due_date }) => {
-  const data = {
+  const index = debts.findIndex((dbt) => dbt.id === id);
+  const total_paid = debts[index].payments.reduce((acc, curr) => acc + curr.amount, 0);
+
+  debts[index].remaining_amount = Number(total_amount) - total_paid;
+  debts[index] = {
+    ...debts[index],
     total_amount: Number(total_amount),
     description,
     type,
     due_date,
   };
-
-  const index = debts.findIndex((dbt) => dbt.id === id);
-  const total_paid = debts[index].payments.reduce((acc, curr) => acc + curr.amount, 0);
-
-  debts[index].remaining_amount = Number(total_amount) - total_paid;
-  debts[index] = { ...debts[index], ...data };
 
   return { ok: true, data: debts[index] };
 };

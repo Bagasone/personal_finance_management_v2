@@ -9,6 +9,7 @@ import {
 import { statusIndicator } from "../utils/";
 
 import { TbEdit, TbTrash } from "react-icons/tb";
+import { STATUS_COLORS_LIGHT } from "../constants/color";
 
 import Button from "../../../components/Button";
 import ProgressBar from "../../../components/ProgressBar";
@@ -23,7 +24,7 @@ const BudgetItem = ({ data, onEdit, onDelete, onDetail, data_expenses }) => {
   });
   const percent = calculatePercent(total, data.limit);
 
-  const { status_label, status_cls, bar_cls } = statusIndicator(percent);
+  const { status_label, status_key } = statusIndicator(percent);
 
   const handleEdit = (e) => {
     e.stopPropagation();
@@ -49,33 +50,41 @@ const BudgetItem = ({ data, onEdit, onDelete, onDetail, data_expenses }) => {
         if (e.key === "Enter" || e.key === " ") handleDetail();
       }}
       className={cn(
-        "flex flex-col gap-3",
+        "flex flex-col gap-1",
         "rounded-lg border-2 px-5 py-3",
-        "bg-black-50 shadow-neo-lg shadow-black-900 border-black-900",
+        "shadow-neo-lg shadow-black-900 border-black-900",
       )}>
       <div className="flex justify-between items-center gap-3">
         <p className="flex justify-center items-center gap-3">
-          <Icon className={cn("size-7 rounded-lg p-1", "bg-black-200 text-black-800")} />
+          <Icon className={cn("size-7 rounded-lg p-1", "bg-black-200 text-black-900")} />
           <span
             title={data.description}
             className="text-base font-medium truncate">
             {label}
           </span>
         </p>
-        <p className={cn("text-xs font-medium", "rounded-lg px-3 py-0.5", status_cls)}>
+        <p
+          className={cn(
+            "text-xs font-medium",
+            "rounded-lg px-3 py-0.5",
+            STATUS_COLORS_LIGHT[status_key].badge,
+          )}>
           {status_label}
         </p>
       </div>
       <div className="flex flex-col gap-1">
         <ProgressBar
           fill={percent}
-          cls={cn("h-3", bar_cls)}
+          cls={cn("h-3", STATUS_COLORS_LIGHT[status_key].bar)}
         />
         <div className="flex justify-between items-center gap-3">
-          <p className="text-sm text-black-700">
-            {formatCurrency(total)}/{formatCurrency(data.limit)}
+          <p className="text-xs text-black-800 font-semibold">
+            <span className={cn(STATUS_COLORS_LIGHT[status_key].text)}>
+              {formatCurrency(total)}
+            </span>
+            /{formatCurrency(data.limit)}
           </p>
-          <p className="text-base text-black-800">{percent}%</p>
+          <p className="text-xs text-black-800 font-semibold">{percent}%</p>
         </div>
       </div>
       <div className="flex justify-end items-center gap-3">

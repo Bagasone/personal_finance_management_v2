@@ -24,7 +24,6 @@ import {
   TbChartPie,
   TbCashBanknoteMove,
   TbCashBanknoteMoveBack,
-  TbMoneybagEdit,
   TbBuildingBank,
 } from "react-icons/tb";
 

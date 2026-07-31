@@ -5,9 +5,9 @@ import useBudgets from "../features/budget/hooks/useBudgets";
 import useBudgetMutations from "../features/budget/hooks/useBudgetMutations";
 import useExpenses from "../features/expenses/hooks/useExpenses";
 
-import { getMonth, calculate, labelCategory } from "../utils";
+import { getMonth } from "../utils";
 
-import { TbPlus } from "react-icons/tb";
+import { TbPlus, TbEdit, TbArrowLeft } from "react-icons/tb";
 
 import BudgetFilters from "../features/budget/components/BudgetFilters";
 import BudgetList from "../features/budget/components/BudgetList";
@@ -19,6 +19,10 @@ import Spinner from "../components/Spinner";
 import ToastContainer from "../components/ToastContainer";
 import Modal from "../components/Modal";
 import FAB from "../components/FAB";
+import Button from "../components/Button";
+import BudgetDetailPanel from "../features/budget/components/BudgetDetailPanel";
+import BudgetDetailStats from "../features/budget/components/BudgetDetailStats";
+import BudgetTransactionList from "../features/budget/components/BudgetTransactionList";
 
 const initial_state = {
   month: getMonth(),
@@ -40,6 +44,7 @@ const BudgetPage = () => {
   const [edited, setEdited] = useState(null);
   const [is_open, setIsOpen] = useState(false);
   const [errors, setErrors] = useState({ message: null, fields: {} });
+  const [selected, setSelected] = useState(null);
 
   const { toasts, showToast, closeToast } = useToast();
 
@@ -109,8 +114,9 @@ const BudgetPage = () => {
       updateBudget.mutate(
         { id: edited.id, data },
         {
-          onSuccess: () => {
+          onSuccess: (response) => {
             showToast("Budget updated", "success");
+            if (selected) setSelected(response.data);
             handleCancel();
           },
           onError: (err) => {
@@ -133,25 +139,54 @@ const BudgetPage = () => {
   return (
     <div className="flex flex-col justify-center gap-5 pb-20">
       <h1 className="sr-only">Budgets</h1>
-      <div className="relative">
-        {isFetching && !isLoading && <Spinner />}
-        <BudgetSummary
-          data={budgets}
-          data_expenses={expenses}
-          month={filters.month}
-        />
-      </div>
-      <BudgetFilters
-        filters={filters}
-        dispatch={dispatch}
-      />
-      <BudgetList
-        data={budgets}
-        data_expenses={expenses}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onOpen={() => setIsOpen(true)}
-      />
+      {selected === null ? (
+        <>
+          <div className="relative">
+            {isFetching && !isLoading && <Spinner />}
+            <BudgetSummary
+              data={budgets}
+              data_expenses={expenses}
+              month={filters.month}
+            />
+          </div>
+          <BudgetFilters
+            filters={filters}
+            dispatch={dispatch}
+          />
+          <BudgetList
+            data={budgets}
+            data_expenses={expenses}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onOpen={() => setIsOpen(true)}
+            onDetail={setSelected}
+          />
+        </>
+      ) : (
+        <>
+          <div className="flex items-center gap-3">
+            <Button
+              aria-label="Button back"
+              cls="size-9 p-1"
+              onClick={() => setSelected(null)}>
+              <TbArrowLeft className="size-8" />
+            </Button>
+            <p className="text-base font-medium">Back to Budget Page</p>
+          </div>
+          <BudgetDetailPanel
+            data={selected}
+            data_expenses={expenses}
+          />
+          <BudgetDetailStats
+            data={selected}
+            data_expenses={expenses}
+          />
+          <BudgetTransactionList
+            data={selected}
+            data_expenses={expenses}
+          />
+        </>
+      )}
       <Modal
         is_open={is_open}
         onClose={handleCancel}>
@@ -164,8 +199,12 @@ const BudgetPage = () => {
       </Modal>
       <FAB
         cls="bg-budget-500"
-        onClick={() => setIsOpen(true)}>
-        <TbPlus className="size-10 text-black-200" />
+        onClick={selected ? () => handleEdit(selected) : () => setIsOpen(true)}>
+        {selected ? (
+          <TbEdit className="size-10 text-black-200" />
+        ) : (
+          <TbPlus className="size-10 text-black-200" />
+        )}
       </FAB>
       <ToastContainer
         toasts={toasts}

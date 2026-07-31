@@ -35,7 +35,7 @@ const BudgetSummary = ({ data, data_expenses, month }) => {
           {formatCurrency(total_limit)}
         </p>
         <p className={cn("flex items-center gap-1", "text-xs text-black-400")}>
-          Terpakai <span className="text-black-200">{formatCurrency(total_spent)}</span>{" "}
+          Terpakai <span className="text-black-200">{formatCurrency(total_spent)}</span>
           dari total limit
         </p>
       </div>

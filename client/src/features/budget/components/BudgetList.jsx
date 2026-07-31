@@ -6,7 +6,7 @@ import BudgetItem from "./BudgetItem";
 import Button from "../../../components/Button";
 import EmptyState from "../../../components/EmptyState";
 
-const BudgetList = ({ data, data_expenses, onEdit, onDelete, onOpen }) => {
+const BudgetList = ({ data, data_expenses, onEdit, onDelete, onDetail, onOpen }) => {
   if (!data || data.length === 0)
     return (
       <EmptyState
@@ -36,6 +36,7 @@ const BudgetList = ({ data, data_expenses, onEdit, onDelete, onOpen }) => {
             data={bud}
             onEdit={onEdit}
             onDelete={onDelete}
+            onDetail={onDetail}
             data_expenses={data_expenses}
           />
         ))}

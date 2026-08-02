@@ -1,20 +1,19 @@
 import {
+  cn,
   calculate,
   calculatePercent,
   formatCurrency,
   formatDate,
-  iconSource,
-  cn,
   summaryIndicator,
 } from "../../../utils";
+import { iconSource } from "../../../shared/source";
 
 import { TREND_COLORS } from "../../../constants";
-import { TbCashBanknote } from "react-icons/tb";
 
 const IncomeSummary = ({ data, prev_data, filters }) => {
   const { month, source_id } = filters;
 
-  const Icon = iconSource(source_id, TbCashBanknote);
+  const Icon = iconSource(source_id);
 
   const curr_total = calculate(data, "amount");
   const prev_total = calculate(prev_data, "amount");

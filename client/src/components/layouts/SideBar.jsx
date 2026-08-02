@@ -1,8 +1,9 @@
 import { NavLink, useLocation } from "react-router";
 
-import { cn, iconSidebar } from "../../utils";
+import { cn } from "../../utils";
 
 import { BG_COLORS, SIDEBAR_MENU } from "../../constants";
+import { SIDEBAR_ICONS } from "../../constants/icons";
 
 const SideBar = ({ cls }) => {
   const location = useLocation();
@@ -30,7 +31,7 @@ const SideBar = ({ cls }) => {
 };
 
 const SidebarItem = ({ path, label, icon, active_path }) => {
-  const Icon = iconSidebar(icon);
+  const Icon = SIDEBAR_ICONS[icon];
 
   const is_active = active_path === path;
 

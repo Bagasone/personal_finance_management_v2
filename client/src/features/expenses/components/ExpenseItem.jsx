@@ -1,10 +1,5 @@
-import {
-  cn,
-  iconCategory,
-  labelCategory,
-  formatCurrency,
-  formatDate,
-} from "../../../utils";
+import { cn, formatCurrency, formatDate } from "../../../utils";
+import { iconCategory, labelCategory } from "../../../shared/category";
 
 import { TbEdit, TbTrash } from "react-icons/tb";
 
@@ -12,7 +7,6 @@ import Button from "../../../components/Button";
 
 const ExpenseItem = ({ data, onEdit, onDelete }) => {
   const Icon = iconCategory(data.category_id);
-
   const label = labelCategory(data.category_id);
 
   const handleDelete = (e) => {

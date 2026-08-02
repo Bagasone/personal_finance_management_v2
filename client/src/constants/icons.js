@@ -1,62 +1,63 @@
 import {
-  IoFastFoodOutline,
-  IoCarOutline,
-  IoHomeOutline,
-  IoFitnessOutline,
-  IoGameControllerOutline,
-  IoBagHandleOutline,
-  IoSchoolOutline,
-  IoReceiptOutline,
-} from "react-icons/io5";
-
-import {
-  // Incomes
-  TbCashBanknote,
-  TbCashBanknotePlus,
-  TbTax,
-  TbMoneybagPlus,
-  TbMoneybagMove,
-  TbMoneybagMoveBack,
-  TbPigMoney,
-  TbSeedling,
-  TbCreditCard,
+  // Categories
+  IconToolsKitchen3,
+  IconCar,
+  IconHome,
+  IconHeartHandshake,
+  IconDeviceGamepad2,
+  IconShoppingBag,
+  IconSchool,
+  IconReceipt,
+  // Sources
+  IconCashBanknote,
+  IconCashBanknotePlus,
+  IconTax,
+  IconMoneybagPlus,
+  IconCashMove,
+  IconCashMoveBack,
+  IconPigMoney,
+  IconSeedling,
+  IconCreditCard,
+  // Types
+  IconMoneybagMove,
+  IconMoneybagMoveBack,
   // Sidebar
-  TbChartPie,
-  TbCashBanknoteMove,
-  TbCashBanknoteMoveBack,
-  TbBuildingBank,
-} from "react-icons/tb";
+  IconChartPie,
+  IconCashBanknoteMove,
+  IconCashBanknoteMoveBack,
+  IconBuildingBank,
+} from "@tabler/icons-react";
 
 export const CATEGORY_ICONS = {
-  food: IoFastFoodOutline,
-  transport: IoCarOutline,
-  housing: IoHomeOutline,
-  health: IoFitnessOutline,
-  entertainment: IoGameControllerOutline,
-  shopping: IoBagHandleOutline,
-  education: IoSchoolOutline,
-  other: IoReceiptOutline,
+  food: IconToolsKitchen3,
+  transport: IconCar,
+  housing: IconHome,
+  health: IconHeartHandshake,
+  entertainment: IconDeviceGamepad2,
+  shopping: IconShoppingBag,
+  education: IconSchool,
+  other: IconReceipt,
 };
 
 export const SOURCE_ICONS = {
-  salary: TbCashBanknote,
-  freelance: TbCashBanknotePlus,
-  revenue: TbTax,
-  bonus: TbMoneybagPlus,
-  dividend: TbPigMoney,
-  interest: TbSeedling,
-  other: TbCreditCard,
+  salary: IconCashBanknote,
+  freelance: IconCashBanknotePlus,
+  revenue: IconTax,
+  bonus: IconMoneybagPlus,
+  dividend: IconPigMoney,
+  interest: IconSeedling,
+  other: IconCreditCard,
 };
 
 export const TYPE_ICONS = {
-  owe: TbMoneybagMove,
-  owed: TbMoneybagMoveBack,
+  owe: IconMoneybagMove,
+  owed: IconMoneybagMoveBack,
 };
 
 export const SIDEBAR_ICONS = {
-  dashboard: TbChartPie,
-  expenses: TbCashBanknoteMove,
-  incomes: TbCashBanknoteMoveBack,
-  budgets: TbMoneybagPlus,
-  debts: TbBuildingBank,
+  dashboard: IconChartPie,
+  expenses: IconCashBanknoteMove,
+  incomes: IconCashBanknoteMoveBack,
+  budgets: IconMoneybagPlus,
+  debts: IconBuildingBank,
 };

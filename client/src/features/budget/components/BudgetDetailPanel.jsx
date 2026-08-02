@@ -3,11 +3,10 @@ import {
   calculate,
   formatCurrency,
   formatDate,
-  iconCategory,
-  labelCategory,
   calculatePercent,
 } from "../../../utils";
 import { statusIndicator } from "../utils";
+import { iconCategory, labelCategory } from "../../../shared/category";
 
 import { STATUS_COLORS_DARK } from "../constants/color";
 

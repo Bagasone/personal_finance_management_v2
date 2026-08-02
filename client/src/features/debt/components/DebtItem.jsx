@@ -1,11 +1,12 @@
 import { formatCurrency, formatDate } from "../../../utils/formatter";
-import { iconType } from "../../../utils/icon";
 import { typeIndicator } from "../utils/";
+
+import { TYPE_ICONS } from "../../../constants/icons";
 
 import Button from "../../../components/Button";
 
 const DebtItem = ({ data, onEdit, onDelete, onDetail }) => {
-  const Icon = iconType(data.type);
+  const Icon = TYPE_ICONS[data.type];
 
   const due_date = new Date(data.due_date);
   const { type_label, type_cls, remaining_cls } = typeIndicator(

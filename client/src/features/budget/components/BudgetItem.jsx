@@ -1,12 +1,6 @@
-import {
-  cn,
-  calculate,
-  calculatePercent,
-  formatCurrency,
-  iconCategory,
-  labelCategory,
-} from "../../../utils";
+import { cn, calculate, calculatePercent, formatCurrency } from "../../../utils";
 import { statusIndicator } from "../utils/";
+import { iconCategory, labelCategory } from "../../../shared/category";
 
 import { TbEdit, TbTrash } from "react-icons/tb";
 import { STATUS_COLORS_LIGHT } from "../constants/color";

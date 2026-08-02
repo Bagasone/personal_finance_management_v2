@@ -1,20 +1,19 @@
 import {
+  cn,
   calculate,
   calculatePercent,
   formatCurrency,
   formatDate,
-  iconCategory,
   summaryIndicator,
-  cn,
 } from "../../../utils";
+import { iconCategory } from "../../../shared/category";
 
 import { TREND_COLORS } from "../../../constants";
-import { TbReceipt } from "react-icons/tb";
 
 const ExpenseSummary = ({ data, prev_data, filters }) => {
   const { month, category_id } = filters;
 
-  const Icon = iconCategory(category_id, TbReceipt);
+  const Icon = iconCategory(category_id);
 
   const curr_total = calculate(data, "amount");
   const prev_total = calculate(prev_data, "amount");

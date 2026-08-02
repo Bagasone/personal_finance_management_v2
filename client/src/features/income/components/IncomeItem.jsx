@@ -1,4 +1,5 @@
-import { cn, iconSource, labelSource, formatCurrency, formatDate } from "../../../utils";
+import { cn, formatCurrency, formatDate } from "../../../utils";
+import { iconSource, labelSource } from "../../../shared/source";
 
 import { TbEdit, TbTrash } from "react-icons/tb";
 
@@ -6,7 +7,6 @@ import Button from "../../../components/Button";
 
 const IncomeItem = ({ data, onEdit, onDelete }) => {
   const Icon = iconSource(data.source_id);
-
   const label = labelSource(data.source_id);
 
   const handleDelete = (e) => {

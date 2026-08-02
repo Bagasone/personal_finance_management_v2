@@ -1,4 +1,5 @@
-import { cn, labelCategory, formatCurrency, formatDate } from "../../../utils";
+import { cn, formatCurrency, formatDate } from "../../../utils";
+import { labelCategory } from "../../../shared/category";
 
 import { TbArticleOff } from "react-icons/tb";
 

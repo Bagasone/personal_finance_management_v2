@@ -6,7 +6,7 @@ import useToast from "../hooks/useToast";
 
 import { getMonth, prevMonth } from "../utils";
 
-import { TbPlus } from "react-icons/tb";
+import { IconPlus } from "@tabler/icons-react";
 
 import ExpenseFilters from "../features/expenses/components/ExpenseFilters";
 import ExpenseList from "../features/expenses/components/ExpenseList";
@@ -162,7 +162,7 @@ const ExpensePage = () => {
       <FAB
         cls="bg-expense-500"
         onClick={() => setIsOpen(true)}>
-        <TbPlus className="size-10 text-black-200" />
+        <IconPlus className="size-10 text-black-200" />
       </FAB>
       <ToastContainer
         toasts={toasts}

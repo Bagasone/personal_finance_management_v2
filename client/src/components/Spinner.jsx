@@ -1,5 +1,5 @@
 import { cn } from "../utils";
-import { CgSpinner } from "react-icons/cg";
+import { IconLoader3 } from "@tabler/icons-react";
 
 const Spinner = ({ cls }) => {
   return (
@@ -7,7 +7,7 @@ const Spinner = ({ cls }) => {
       role="status"
       aria-label="Loading"
       className={cn("size-5 animate-spin", cls)}>
-      <CgSpinner className="w-full h-full" />
+      <IconLoader3 className="w-full h-full" />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { cn } from "../utils";
-import { MdCheck, MdError, MdClose } from "react-icons/md";
+import { IconX } from "@tabler/icons-react";
 
 const Toast = ({ message, type = "success", is_visible, onClose }) => {
   return (
@@ -17,7 +17,7 @@ const Toast = ({ message, type = "success", is_visible, onClose }) => {
       <button
         onClick={onClose}
         className="shrink-0 opacity-80 hover:opacity-100">
-        <MdClose className="size-4" />
+        <IconX className="size-4" />
       </button>
     </div>
   );

@@ -6,7 +6,7 @@ import useToast from "../hooks/useToast";
 
 import { getMonth, prevMonth } from "../utils";
 
-import { TbPlus } from "react-icons/tb";
+import { IconPlus } from "@tabler/icons-react";
 
 import IncomeFilters from "../features/income/components/IncomeFilters";
 import IncomeList from "../features/income/components/IncomeList";
@@ -164,7 +164,7 @@ const IncomePage = () => {
       <FAB
         cls="bg-income-500"
         onClick={() => setIsOpen(true)}>
-        <TbPlus className="size-10 text-black-200" />
+        <IconPlus className="size-10 text-black-200" />
       </FAB>
       <ToastContainer
         toasts={toasts}

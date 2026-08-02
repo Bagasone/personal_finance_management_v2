@@ -1,12 +1,10 @@
 import { cn, calculate, formatCurrency, formatDate } from "../../../utils";
 
-import { TbMoneybag } from "react-icons/tb";
-
 const BudgetSummary = ({ data, data_expenses, month }) => {
-  const active_budgets = data.map((d) => d.category_id);
-  const active_expenses = data_expenses.filter((d) =>
-    active_budgets.includes(d.category_id),
-  );
+  const budgets = data ?? [];
+  const expenses = data_expenses ?? [];
+  const active_budgets = budgets.map((d) => d.category_id);
+  const active_expenses = expenses.filter((d) => active_budgets.includes(d.category_id));
 
   const total_limit = calculate(data, "limit");
   const total_spent = calculate(active_expenses, "amount");

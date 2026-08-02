@@ -1,7 +1,7 @@
 import { cn } from "../../../utils";
 
 import { EXPENSE_CATEGORIES } from "../../../constants";
-import { TbReload } from "react-icons/tb";
+import { IconReload } from "@tabler/icons-react";
 
 import Input from "../../../components/Input";
 import Select from "../../../components/Select";
@@ -47,7 +47,7 @@ const ExpenseFilters = ({ filters, dispatch }) => {
       <Button
         aria-label="Reset filter"
         onClick={() => dispatch({ type: "RESET" })}>
-        <TbReload className="stroke-2 size-4.5" />
+        <IconReload className="stroke-2 size-4.5" />
       </Button>
     </div>
   );

@@ -6,7 +6,7 @@ import { validate } from "../utils/validation";
 import { cn, errorField } from "../../../utils";
 
 import { DEBT_TYPES } from "../../../constants/";
-import { MdClose } from "react-icons/md";
+import { IconX } from "@tabler/icons-react";
 
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
@@ -59,7 +59,7 @@ const DebtForm = ({ initial_data, onSubmit, onCancel, server_errors }) => {
           aria-label="Cancel form"
           cls="p-1 rounded-lg"
           onClick={handleCancel}>
-          <MdClose className="size-5" />
+          <IconX className="size-5" />
         </Button>
       </div>
       <FormError message={server_errors?.message} />

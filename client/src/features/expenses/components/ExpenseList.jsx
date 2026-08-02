@@ -1,6 +1,6 @@
 import { cn } from "../../../utils";
 
-import { TbReceiptOff, TbPlus } from "react-icons/tb";
+import { IconReceiptOff, IconPlus } from "@tabler/icons-react";
 
 import ExpenseItem from "./ExpenseItem";
 import Button from "../../../components/Button";
@@ -12,13 +12,13 @@ const ExpenseList = ({ data, onEdit, onDelete, onOpen }) => {
       <EmptyState
         title="There is no expenses"
         description="Try to change filter or add new expense for this month"
-        Icon={TbReceiptOff}
+        Icon={IconReceiptOff}
         icon_cls="text-expense-200">
         <Button
           label="Add Expense"
           onClick={onOpen}
           cls="text-black-50 bg-expense-500">
-          <TbPlus className="size-5 stroke-3" />
+          <IconPlus className="size-5 stroke-3" />
         </Button>
       </EmptyState>
     );

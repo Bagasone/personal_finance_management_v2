@@ -7,7 +7,7 @@ import useExpenses from "../features/expenses/hooks/useExpenses";
 
 import { getMonth } from "../utils";
 
-import { TbPlus, TbEdit, TbArrowLeft } from "react-icons/tb";
+import { IconPlus, IconEdit, IconArrowLeft } from "@tabler/icons-react";
 
 import BudgetFilters from "../features/budget/components/BudgetFilters";
 import BudgetList from "../features/budget/components/BudgetList";
@@ -169,7 +169,7 @@ const BudgetPage = () => {
               aria-label="Button back"
               cls="size-9 p-1"
               onClick={() => setSelected(null)}>
-              <TbArrowLeft className="size-8" />
+              <IconArrowLeft className="size-8" />
             </Button>
             <p className="text-base font-medium">Back to Budget Page</p>
           </div>
@@ -201,9 +201,9 @@ const BudgetPage = () => {
         cls="bg-budget-500"
         onClick={selected ? () => handleEdit(selected) : () => setIsOpen(true)}>
         {selected ? (
-          <TbEdit className="size-10 text-black-200" />
+          <IconEdit className="size-10 text-black-200" />
         ) : (
-          <TbPlus className="size-10 text-black-200" />
+          <IconPlus className="size-10 text-black-200" />
         )}
       </FAB>
       <ToastContainer

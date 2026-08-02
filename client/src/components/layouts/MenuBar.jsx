@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 
 import { cn } from "../../utils";
-import { LuMenu, LuSun, LuMoon, LuGlobe, LuLogOut } from "react-icons/lu";
+import { IconMenu2, IconSun, IconMoon, IconGlobe, IconLogout } from "@tabler/icons-react";
 
 const MenuBar = () => {
   const { logout } = useAuth();
@@ -37,7 +37,7 @@ const MenuBar = () => {
           "active:shadow-none active:translate-x-0.75 active:translate-y-0.75",
         )}
         onClick={handleMenu}>
-        <LuMenu className="size-7 stroke-2" />
+        <IconMenu2 className="size-7 stroke-2" />
       </button>
       <MenuBarList
         has_open={has_open}
@@ -53,7 +53,7 @@ const MenuBar = () => {
             "px-3 py-3 border-b",
             "border-black-900 cursor-pointer transition-all",
           )}>
-          <LuSun className="size-6 stroke-2" />
+          <IconSun className="size-6 stroke-2" />
           <p className="text-sm font-semibold">Theme {is_dark ? "Dark" : "Light"}</p>
         </button>
         <button
@@ -65,7 +65,7 @@ const MenuBar = () => {
             "px-3 py-3 border-b",
             "border-black-900 cursor-pointer transition-all",
           )}>
-          <LuGlobe className="size-6 stroke-2" />
+          <IconGlobe className="size-6 stroke-2" />
           <p className="text-sm font-semibold">Language: EN</p>
         </button>
         <button
@@ -79,7 +79,7 @@ const MenuBar = () => {
             "hover:text-expense-500",
           )}
           onClick={logout}>
-          <LuLogOut className="size-6 stroke-2" />
+          <IconLogout className="size-6 stroke-2" />
           <p className="text-sm font-semibold">Logout</p>
         </button>
         <div

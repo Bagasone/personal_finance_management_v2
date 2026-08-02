@@ -1,11 +1,11 @@
 import { cn } from "../utils";
-import { MdErrorOutline } from "react-icons/md";
+import { IconAlertCircle } from "@tabler/icons-react";
 
 const ErrorMessage = ({ message, onRetry }) => {
   return (
     <div className="flex flex-col justify-center items-centerw-full h-full">
       <div className={cn("flex flex-col justify-center items-center gap-5")}>
-        <MdErrorOutline className="size-16 text-rose-500" />
+        <IconAlertCircle className="size-16 text-rose-500" />
         <div className="flex flex-col justify-center items-center">
           <h1 className="text-2xl font-bold text-black-900">{message}</h1>
           <p className="text-base font-medium text-black-500">Please try again later</p>

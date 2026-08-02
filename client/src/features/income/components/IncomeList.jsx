@@ -1,6 +1,6 @@
 import { cn } from "../../../utils";
 
-import { TbCashBanknoteOff, TbPlus } from "react-icons/tb";
+import { IconPlus, IconCashBanknoteOff } from "@tabler/icons-react";
 
 import IncomeItem from "./IncomeItem";
 import Button from "../../../components/Button";
@@ -12,13 +12,13 @@ const IncomeList = ({ data, onEdit, onDelete, onOpen }) => {
       <EmptyState
         title="There is no incomes"
         description="Try to change filter or add new income for this month"
-        Icon={TbCashBanknoteOff}
+        Icon={IconCashBanknoteOff}
         icon_cls="text-income-200">
         <Button
           label="Add income"
           onClick={onOpen}
           cls="text-black-50 bg-income-500">
-          <TbPlus className="size-5 stroke-3" />
+          <IconPlus className="size-5 stroke-3" />
         </Button>
       </EmptyState>
     );

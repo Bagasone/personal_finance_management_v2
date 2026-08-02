@@ -1,7 +1,7 @@
 import { cn, formatCurrency, formatDate } from "../../../utils";
 import { iconCategory, labelCategory } from "../../../shared/category";
 
-import { TbEdit, TbTrash } from "react-icons/tb";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 
 import Button from "../../../components/Button";
 
@@ -43,13 +43,13 @@ const ExpenseItem = ({ data, onEdit, onDelete }) => {
             aria-label="Edit button"
             onClick={handleEdit}
             cls={cn("p-1 border-none shadow-none")}>
-            <TbEdit className="size-4.5 stroke-1" />
+            <IconEdit className="size-4.5 stroke-1" />
           </Button>
           <Button
             aria-label="Delete button"
             onClick={handleDelete}
             cls={cn("p-1 border-none shadow-none")}>
-            <TbTrash className="size-4.5 stroke-1" />
+            <IconTrash className="size-4.5 stroke-1" />
           </Button>
         </span>
       </div>

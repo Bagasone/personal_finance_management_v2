@@ -1,8 +1,6 @@
 import { cn, formatCurrency, formatDate } from "../../../utils";
 import { labelCategory } from "../../../shared/category";
 
-import { TbArticleOff } from "react-icons/tb";
-
 import EmptyState from "../../../components/EmptyState";
 
 const BudgetTransactionList = ({ data, data_expenses }) => {
@@ -14,7 +12,6 @@ const BudgetTransactionList = ({ data, data_expenses }) => {
       <EmptyState
         title="There is no transaction"
         description="Try to add transaction in Expsense page"
-        Icon={TbArticleOff}
         icon_cls="text-budget-200"></EmptyState>
     );
 

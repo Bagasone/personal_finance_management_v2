@@ -1,6 +1,6 @@
 import { cn } from "../../../utils";
 
-import { TbCashOff, TbPlus } from "react-icons/tb";
+import { IconPlus, IconPigOff } from "@tabler/icons-react";
 
 import BudgetItem from "./BudgetItem";
 import Button from "../../../components/Button";
@@ -12,13 +12,13 @@ const BudgetList = ({ data, data_expenses, onEdit, onDelete, onDetail, onOpen })
       <EmptyState
         title="There is no budgets"
         description="Try to change filter or add new budget for this month"
-        Icon={TbCashOff}
+        Icon={IconPigOff}
         icon_cls="text-budget-200">
         <Button
           label="Add budget"
           onClick={onOpen}
           cls="text-black-50 bg-budget-500">
-          <TbPlus className="size-5 stroke-3" />
+          <IconPlus className="size-5 stroke-3" />
         </Button>
       </EmptyState>
     );

@@ -5,9 +5,10 @@ import { INCOME_SOURCES } from "../../../constants";
 import ProgressBar from "../../../components/ProgressBar";
 
 const IncomeSourceBreakdown = ({ data }) => {
-  const total = calculate(data, "amount");
+  const income = data ?? [];
+  const total = calculate(income, "amount");
   const active_source = INCOME_SOURCES.filter((source) =>
-    data.some((d) => d.source_id === source.id),
+    income.some((d) => d.source_id === source.id),
   );
 
   return (

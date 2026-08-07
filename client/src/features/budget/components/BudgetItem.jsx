@@ -1,5 +1,5 @@
 import { cn, calculate, calculatePercent, formatCurrency } from "../../../utils";
-import { statusIndicator } from "../utils/";
+import { status } from "../utils/";
 import { iconCategory, labelCategory } from "../../../shared/category";
 
 import { IconEdit, IconTrash } from "@tabler/icons-react";
@@ -18,7 +18,7 @@ const BudgetItem = ({ data, onEdit, onDelete, onDetail, data_expenses }) => {
   });
   const percent = calculatePercent(total, data.limit);
 
-  const { status_label, status_key } = statusIndicator(percent);
+  const { status_label, status_key } = status(percent);
 
   const handleEdit = (e) => {
     e.stopPropagation();

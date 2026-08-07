@@ -6,6 +6,7 @@ import useBudgetMutations from "../features/budget/hooks/useBudgetMutations";
 import useExpenses from "../features/expenses/hooks/useExpenses";
 
 import { getMonth } from "../utils";
+import { deriveBudgetDetail } from "../features/budget/utils/deriveBudgetDetail";
 
 import { IconPlus, IconEdit, IconArrowLeft } from "@tabler/icons-react";
 
@@ -76,6 +77,8 @@ const BudgetPage = () => {
   };
 
   const { createBudget, updateBudget, deleteBudget } = useBudgetMutations(filters);
+
+  const detail = selected ? deriveBudgetDetail(selected, expenses) : null;
 
   if (isLoading) return <BudgetSkeleton />;
   if (isError && error.status >= 500)
@@ -174,17 +177,17 @@ const BudgetPage = () => {
             <p className="text-base font-medium">Back to Budget Page</p>
           </div>
           <BudgetDetailPanel
-            data={selected}
-            data_expenses={expenses}
+            budget={selected}
+            expenses={detail.active_expenses}
+            spent={detail.spent}
+            percent={detail.percent}
           />
           <BudgetDetailStats
-            data={selected}
-            data_expenses={expenses}
+            budget={selected}
+            expenses={detail.active_expenses}
+            spent={detail.spent}
           />
-          <BudgetTransactionList
-            data={selected}
-            data_expenses={expenses}
-          />
+          <BudgetTransactionList expenses={detail.active_expenses} />
         </>
       )}
       <Modal

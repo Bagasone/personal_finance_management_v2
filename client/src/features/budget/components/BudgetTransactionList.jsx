@@ -3,11 +3,8 @@ import { labelCategory } from "../../../shared/category";
 
 import EmptyState from "../../../components/EmptyState";
 
-const BudgetTransactionList = ({ data, data_expenses }) => {
-  const { category_id } = data;
-  const active_expenses = data_expenses.filter((d) => d.category_id === category_id);
-
-  if (!active_expenses || active_expenses.length === 0)
+const BudgetTransactionList = ({ expenses }) => {
+  if (!expenses || expenses.length === 0)
     return (
       <EmptyState
         title="There is no transaction"
@@ -20,11 +17,11 @@ const BudgetTransactionList = ({ data, data_expenses }) => {
       <div className="flex justify-between items-center px-1">
         <h2 className="text-lg font-bold">Transaction History</h2>
         <p className="font-normal text-sm text-black-500">
-          {active_expenses.length} transaction
+          {expenses.length} transaction
         </p>
       </div>
       <ul className="flex flex-col gap-5">
-        {active_expenses.map((exp) => (
+        {expenses.map((exp) => (
           <BudgetTransactionItem
             key={exp.id}
             data={exp}

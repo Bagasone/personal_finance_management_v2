@@ -5,23 +5,18 @@ import {
   formatDate,
   calculatePercent,
 } from "../../../utils";
-import { statusIndicator } from "../utils";
+import { status } from "../utils";
 import { iconCategory, labelCategory } from "../../../shared/category";
 
 import { STATUS_COLORS_DARK } from "../constants/color";
 
 import ProgressBar from "../../../components/ProgressBar";
 
-const BudgetDetailPanel = ({ data, data_expenses }) => {
-  const { limit, month, category_id } = data;
+const BudgetDetailPanel = ({ budget, expenses, spent, percent }) => {
+  const label = labelCategory(budget.category_id);
+  const Icon = iconCategory(budget.category_id);
 
-  const active_expenses = data_expenses.filter((d) => d.category_id === category_id);
-  const total_spent = calculate(active_expenses, "amount");
-  const percent = calculatePercent(total_spent, limit);
-
-  const { status_label, status_key } = statusIndicator(percent);
-  const label = labelCategory(category_id);
-  const Icon = iconCategory(category_id);
+  const { status_key, status_label } = status(percent);
 
   return (
     <div
@@ -61,11 +56,13 @@ const BudgetDetailPanel = ({ data, data_expenses }) => {
             "font-bold text-3xl truncate",
             STATUS_COLORS_DARK[status_key].text,
           )}>
-          {formatCurrency(total_spent)}
+          {formatCurrency(spent)}
         </p>
         <p className={cn("flex items-center gap-1", "text-xs text-black-400")}>
           Dari
-          <span className="text-black-200 font-medium">{formatCurrency(limit)}</span>
+          <span className="text-black-200 font-medium">
+            {formatCurrency(budget.limit)}
+          </span>
           limit
         </p>
       </div>

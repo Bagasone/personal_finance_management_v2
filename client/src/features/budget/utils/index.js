@@ -1,4 +1,4 @@
-export const statusIndicator = (percent) => {
+export const status = (percent) => {
   switch (true) {
     case percent < 80:
       return { status_label: "On Track", status_key: "on_track" };
